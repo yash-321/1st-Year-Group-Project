@@ -19,7 +19,36 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-	<!-- navbar and shared html elements to be inserted here -->
+	  <!-- navbar and shared html elements to be inserted here -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">My Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Suggest Me Movies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Search Movies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Write Reviews</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">See Reviews</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </nav>
     {% block content %}{% endblock %}
 
 
