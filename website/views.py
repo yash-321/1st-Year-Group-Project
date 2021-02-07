@@ -2,8 +2,9 @@ import secrets
 import os
 from flask import render_template, url_for, flash, redirect, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
-from website.account_forms import RegistrationForm
+from website.account_forms import RegistrationForm, LoginForm
 from website import app
+from website.models import User
 
 
 @app.route("/")
@@ -13,9 +14,19 @@ from website import app
 def home():
 	return render_template('base.html', title='Home')
 
-@app.route("/login_register")
-def login_register():
-	return render_template('login_register.html', title='Login')
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	form= LoginForm()
+	return render_template('login.html', title='Login', form=form)
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	form = RegistrationForm()
+	return render_template('register.html', title='Register', form=form)
 
 @app.route("/index")
 def index():
