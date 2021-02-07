@@ -13,13 +13,9 @@ from website import app
 def home():
 	return render_template('base.html', title='Home')
 
-@app.route("/register")
-def register():
-	return render_template('register.html', title='Register')
-
-@app.route("/login")
-def login():
-	return render_template('login.html', title='Login')
+@app.route("/login_register")
+def login_register():
+	return render_template('login_register.html', title='Login')
 
 @app.route("/index")
 def index():
