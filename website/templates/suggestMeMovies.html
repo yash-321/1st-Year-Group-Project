@@ -1,11 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>This is the Suggest Me Movies Page</h1>
+	<h1>{{title}}</h1>
 	<div class="row no-gutters">
 		<div class="col no-gutters" id="filterSection">
+			<form action="suggestMeMovies" method="POST" id="form">
+		    <h3><b>Genres:</b></h3>
+		    {% for i in range(number_of_different_genres) %}
+		        <label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
+		        <input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}}><br/>
+		    {% endfor %}
+
+		    <h3><label for="Ratings">Ratings: </label></h3>
+		    <select name="Ratings" id="Ratings">
+		        {% for i in range(7) %}
+		        {% if ratings[i] == chosen_rating %}
+		        <option value="{{ratings[i]}}" selected>{{ratings_texts[i]}} </option>
+		        {% else %}
+		        <option value="{{ratings[i]}}">{{ratings_texts[i]}}</option>
+		        {% endif %}
+		        {% endfor %}
+		    </select><br>
+
+		    <h3><b>Ranges of Years:</b></h3>
+		    {% for i in range(number_of_different_ranges_of_years) %}
+		    <label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
+		        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}}><br/>
+		    {% endfor %}
+		</form>
 		</div>
 
 		<div class="col no-gutters" id="suggestedMovie">
+			<!-- You can actually have this button anywhere! -->
+			<button form="form" type="submit">Generate a movie!</button>
+			<br>
+
+			<h3>{{data}}</h3>
 		</div>
 	<div>
 {% endblock content %}
