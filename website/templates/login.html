@@ -1,88 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+
+
 <!DOCTYPE html>
-<html>  
-    <head>
-        <html lang="en">
-	    <meta charset="utf-8">
-        <!-- I am so sorry that styles got messed up a lot-->
-	    <title>FILMFLICK</title>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	        <meta name="description" content="The movie suggestion website">
-            <meta name="author" content="Group W2">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-        <title>Login and Registration</title>
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='style.css')}}">
-        <<!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">-->
-    </head>
-    <body>
-        <div class="hero">
-            <div class="form-box">
-                <div class="button-box">
-                    <div id="btn"></div>
-                        <button type="button" class="toggle-btn" onclick="login()">Log In</button>
+<!-- below is just some styling i added to help me visualise the page, they can be removed/put into a stylesheet, also the flask stuff is commented out because i cant run flask at the moment, so i dont know if it works or not. you are welcome to test it/change it -->
+
+     <style>
+      *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body{
+        background: rgb(221,228,228);
+
+      }
+      .row{
+        background: white;
+        border-radius: 30px;
+        box-shadow: 12px 12px 22px grey;
+      }
+      img{
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+      }
+      .submit-btn{
+        border: none;
+        outline: none;
+        height: 50px;
+        width: 100%;
+        background-color: black;
+        color: white;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+      .submit-btn:hover{
+        background:white;
+        border:1px solid;
+        color: black;
+      }
+      .check-box{
+        margin-left: 20px;
+      }
+    </style> 
+  </head>
+  <body>
+    <section class="Form mx-5 my-4">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="neo.jpg" class="img-fluid" alt="someimage">          
+          </div>
+          <div class="col-lg-7 px-5 pt-5">
+            <h1 class="font-weight-bold py-3">FilmFlick</h1>
+            <h4>Log in</h4>
+            <form class="form-signin" method="POST" action="/login">
+              <div class="form-row"> 
+                <div class="col-lg-7">
+            <!--<fieldset> class="form-group">
+                  {{ form.username.label }}
+                  {{ if form.username.errors%) }} 
+                      {{ form.username(class="input-field")}} 
+                      <div class="invalid-feedback"> 
+                       {% for error in form.username.errors %}
+                        <span>{{ error }} </span> 
+                        {% endfor %} 
+                      </div>
+                    {% else %}
+                      {{ form.username }}
+                    {% endif %} -->
+                  <input type="text" placeholder="Username" class="form-control my-3 p-3"> 
                 </div>
-                <form id="login" class="input-group" method='POST'>
-                    <fieldset class="form-group">
-                        <div class="input-field">
-                        {{ form.username.label}}
-                        {% if form.username.errors%}
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+              <!-- <div class="input-field">
+                      {{ form.password.label}}
+                      {% if form.password.errors %}
+                          {{ form.password }}
+                          <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span> {{ error}} </span>
+                            {% endfor %} 
+                          </div>
+                          {% else %}
+                            {{ form.password}} 
+                            {% endif %}-->
+                  <input type="password" placeholder="Password" class="form-control my-3 p-3">
+                  
+                </div> 
+            <!-- <div class="check-box">
+                      {{ form.remember }}
+                      {{ form.remember.label}}
+                  </div> -->
+                 <input type="checkbox" class="check-box"><span>   Remember Password</span> 
 
-                            {{ form.username(class="input-field")}}
-                            <div class="invalid-feedback">
-                                {% for error in form.username.errors %}
-                                    <span>{{ error }}</span>
-                                {%endfor%}
-                            </div>
-                        {% else %}
-                            {{ form.username}}
-                        {%endif%}
-                        </div>
-                        <div class="input-field">
-                            {{ form.password.label}}
-                            {% if form.password.errors%}
-
-                                {{ form.password}}
-                                <div class="invalid-feedback">
-                                    {% for error in form.password.errors %}
-                                        <span>{{ error }}</span>
-                                    {%endfor%}
-                                </div>
-                            {% else %}
-                                {{ form.password}}
-                            {%endif%}
-                        </div>
-                        <div class="check-box">
-                            {{form.remember}}
-                            {{form.remember.label}}
-                        </div>
-                        
-                    </fieldset>
-                    <div class="submit-btn">
-                            {{form.submit_login}}
-                    </div>
-                    <!--input type="text" class="input-field" placeholder="Username" required>
-                    <input type="text" class="input-field" placeholder="Password" required>
-                    <input type="checkbox" class="check-box"><span>Remember Password</span>
-                        <button type="submit" class="submit-btn">Continue</button-->
-                </form>
-               
+            <!--</fieldset>
+                <div class="submit-btn">
+                    {{ form.submit_login}} -->
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <button type="button" class="submit-btn mt-3 mb-5">Login</button>
+                    <a href="#">Forgotten password?</a>
+                   <p>Don't have an account? <a href="register.html">Register here</a></p>
+                </div>
+              </div>
+            </form>
         </div>
-        <script>
-            var x= document.getElementById("login");
-            var y= document.getElementById("register");
-            var z= document.getElementById("btn");
+      </div>
 
-            function register(){
-                x.style.left = "-400px";
-                y.style.left = "50px";
-                z.style.left = "110px";
-            }
-            function login(){
-                x.style.left = "50px";
-                y.style.left = "450px";
-                z.style.left = "0px";
-            }
 
-        </script>
-    </body>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
 </html>
+{% endblock content %}
