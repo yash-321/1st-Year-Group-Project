@@ -1,4 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>This page is to see Detailed Movie Reviews</h1>
+	<!-- FILM INFORMATION SECTION-->
+	<div class="container-fluid padding">
+		<div class="row">
+			<div class="col-md-4">
+				<h3>Movie Title (Year released)</h3>
+				<p>Movie poster to be inserted here</p>
+			</div>
+			<div class="col-md-6">
+				<p>Ratings: 10/10</p>
+				<h4>Movie Information:</h4>
+				<p>Age rating: rating here<br>Duration: 2 hours<br>Genre: Action</p>
+				<br>
+				<p>Director: Director's name<br>Writer: Writer's name</p>
+				<p>Cast</p>
+				<h4>Movie Plot:</h4>
+				<p>Insert movie plot here</p>
+				<p>Production company credits here</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- REVIEWS SECTION -->
+	<div class="container-fluid padding">
+		<h3>Reviews</h3>
+		<!-- loop criteria to be replaced with for review in review 
+		where the reviews are returned from the DB -->
+		{% for i in [0,1,2] %}
+			<div>
+				<div class="row">
+					<div class="col-md-4">
+						<h4>Review name</h4>
+						<p>by display name</p>
+					</div>
+					<div class="col-md-8">
+						<h4>Rating: 5/5</h4>
+						<p>Date:01/01/2021</p>
+					</div>
+				</div>
+				<p>Review text here</p>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock content %}
