@@ -59,34 +59,78 @@ it is missing flask because i cannot run it right now -->
       <div class="container">
         <div class="row no-gutters">
           <div class="col-lg-5">
-            <img src="neo.jpg" class="img-fluid" alt="someimage">          
+            <img src="{{url_for('static', filename='neo.jpg')}}" class="img-fluid" alt="someimage">          
           </div>
           <div class="col-lg-7 px-5 pt-5">
             <h1 class="font-weight-bold py-3">FilmFlick</h1>
             <h4>Sign up for a new account</h4>
-            <form>
+            <form class="form-signin" method="POST" action="/register">
               <div class="form-row"> 
                 <div class="col-lg-7">
-                  <input type="text" placeholder="Username" class="form-control my-3 p-3">
+                  <fieldset class="form-group">
+                  {{ form.username.label }}
+                  {% if form.username.errors %}
+                      {{ form.username(class="input-field")}} 
+                      <div class="invalid-feedback"> 
+                       {% for error in form.username.errors %}
+                        <span>{{ error }} </span> 
+                        {% endfor %} 
+                      </div>
+                    {% else %}
+                      {{ form.username }}
+                    {% endif %} 
                 </div>
               </div>
               <div class="form-row"> 
                 <div class="col-lg-7">
-                  <input type="text" placeholder="Display name" class="form-control my-3 p-3">
+                  <fieldset class="form-group">
+                  {{ form.display_name.label }}
+                  {% if form.display_name.errors %}
+                      {{ form.display_name(class="input-field")}} 
+                      <div class="invalid-feedback"> 
+                       {% for error in form.display_name.errors %}
+                        <span>{{ error }} </span> 
+                        {% endfor %} 
+                      </div>
+                    {% else %}
+                      {{ form.display_name }}
+                    {% endif %} 
+               
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <input type="password" placeholder="Password" class="form-control my-3 p-3">
-                  <input type="checkbox" class="check-box"><span> I agree to the terms & conditions</span>
+                  <fieldset class="form-group">
+                  <div class="input-field">
+                      {{ form.password.label}}
+                      {% if form.password.errors %}
+                          {{ form.password }}
+                          <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                                <span> {{ error}} </span>
+                            {% endfor %} 
+                          </div>
+                          {% else %}
+                            {{ form.password}} 
+                            {% endif %}
+                  
+                </div> 
+             <div class="check-box">
+                      {{ form.agree }}
+                      {{ form.agree.label}}
+                  </div> 
+             </fieldset>
+                  
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <button type="button" class="submit-btn mt-3 mb-5">Register</button>
+                  <div >
+                    {{ form.submit_register (class="submit-btn mt-3 mb-5")}} 
+                  </div>
                 </div>
               </div>
-              <p>Have an account? <a href="login.html">Log in here</a></p>
+              <p>Have an account? <a href="{{ url_for('login')}}">Log in here</a></p>
             </form>
         </div>
       </div>
@@ -98,3 +142,17 @@ it is missing flask because i cannot run it right now -->
   </body>
 </html>
 {% endblock content %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

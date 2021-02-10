@@ -58,7 +58,7 @@
       <div class="container">
         <div class="row no-gutters">
           <div class="col-lg-5">
-            <img src="neo.jpg" class="img-fluid" alt="someimage">          
+            <img src="{{url_for('static', filename='neo.jpg')}}" class="img-fluid" alt="someimage">          
           </div>
           <div class="col-lg-7 px-5 pt-5">
             <h1 class="font-weight-bold py-3">FilmFlick</h1>
@@ -66,9 +66,9 @@
             <form class="form-signin" method="POST" action="/login">
               <div class="form-row"> 
                 <div class="col-lg-7">
-            <!--<fieldset> class="form-group">
+            <fieldset class="form-group">
                   {{ form.username.label }}
-                  {{ if form.username.errors%) }} 
+                  {% if form.username.errors %}
                       {{ form.username(class="input-field")}} 
                       <div class="invalid-feedback"> 
                        {% for error in form.username.errors %}
@@ -77,13 +77,12 @@
                       </div>
                     {% else %}
                       {{ form.username }}
-                    {% endif %} -->
-                  <input type="text" placeholder="Username" class="form-control my-3 p-3"> 
+                    {% endif %} 
                 </div>
               </div>
               <div class="form-row">
                 <div class="col-lg-7">
-              <!-- <div class="input-field">
+               <div class="input-field">
                       {{ form.password.label}}
                       {% if form.password.errors %}
                           {{ form.password }}
@@ -94,25 +93,20 @@
                           </div>
                           {% else %}
                             {{ form.password}} 
-                            {% endif %}-->
-                  <input type="password" placeholder="Password" class="form-control my-3 p-3">
+                            {% endif %}
                   
                 </div> 
-            <!-- <div class="check-box">
+             <div class="check-box">
                       {{ form.remember }}
                       {{ form.remember.label}}
-                  </div> -->
-                 <input type="checkbox" class="check-box"><span>   Remember Password</span> 
-
-            <!--</fieldset>
-                <div class="submit-btn">
-                    {{ form.submit_login}} -->
+                  </div> 
+             </fieldset>
+                <div >
+                    {{ form.submit_login (class="submit-btn mt-3 mb-5")}} 
               </div>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <button type="button" class="submit-btn mt-3 mb-5">Login</button>
-                    <a href="#">Forgotten password?</a>
-                   <p>Don't have an account? <a href="register.html">Register here</a></p>
+                   <p>Don't have an account? <a href="{{ url_for('register')}}">Register here</a></p>
                 </div>
               </div>
             </form>
@@ -128,3 +122,6 @@
   </body>
 </html>
 {% endblock content %}
+
+
+

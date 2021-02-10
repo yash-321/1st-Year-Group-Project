@@ -1,4 +1,4 @@
-from . import login_manager, db
+from website import login_manager, db
 from datetime import datetime
 from flask_login import UserMixin
 
