@@ -43,7 +43,7 @@ def seeMovieReview():
 
 @app.route("/writeReviews")
 def writeReviews():
-	return render_template('writeReviews.html', title='Write Reviews')
+	return render_template('writeReview.html', title='Write Reviews')
 
 
 @app.route("/detailed_review")
