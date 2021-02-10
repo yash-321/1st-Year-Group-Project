@@ -1,4 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>This is the See Movie Reviews Page</h1>
+	<!-- search bar -->
+	<div class="container-fluid">
+		<div class="input-group col-md-8 mx-md-auto p-3" id="searchForm">
+			<input class="form-control py-2 border-right-0 border" type="search" placeholder="Search..." id="searchMovies">
+			<span class="input-group-append">
+				<button class="btn btn-outline-secondary" type="button" action="#">
+					<i class="fa fa-search"></i>
+				</button>
+			</span>
+		</div>
+	</div>
 {% endblock content %}
