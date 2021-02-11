@@ -8,11 +8,11 @@ from website.models import User
 
 
 @app.route("/")
-
-
-@app.route("/base")
+@app.route("/home")
 def home():
 	return render_template('base.html', title='Home')
+	#this should render index.html but since the inheritence isn't set up on it, using base.html instead.
+	#return render_template('index.html', title='Home')
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -31,29 +31,24 @@ def register():
 	return render_template('register.html', title='Register', form=form)
 
 
-@app.route("/index")
-def index():
-	return render_template('index.html', title='Index')
-
-
-@app.route("/seeMovieReview")
+@app.route("/SearchMovies")
 def seeMovieReview():
-	return render_template('seeMovieReview.html', title='Movie Reviews')
+	return render_template('seeMovieReview.html', title='Search Movies')
 
 
-@app.route("/writeReviews")
+@app.route("/writeReview")
 def writeReviews():
-	return render_template('writeReview.html', title='Write Reviews')
+	return render_template('writeReview.html', title='Write A Review')
 
 
-@app.route("/detailed_review")
+@app.route("/detailedReview")
 def detailed_review():
-	return render_template('detailed_review.html', title='Detailed Reviews')
+	return render_template('detailed_review.html', title='Movie Reviews')
 
 
 @app.route("/account")
 def account():
-	return render_template('account.html', title='Detailed Reviews')
+	return render_template('account.html', title='Account')
 
 
 @app.route("/suggestMeMovies", methods=['GET', 'POST'])
