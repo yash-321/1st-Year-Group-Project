@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 	<!-- search bar -->
-	<div class="container-fluid">
-		<div class="input-group col-md-8 mx-md-auto p-3" id="searchForm">
+	<div class="container-fluid p-3">
+		<div class="input-group col-md-8 mx-md-auto pt-3" id="searchForm">
 			<input class="form-control py-2 border-right-0 border" type="search" placeholder="Search..." id="searchMovies">
 			<span class="input-group-append">
 				<button class="btn btn-outline-secondary" type="button" action="#">
@@ -10,5 +10,21 @@
 				</button>
 			</span>
 		</div>
+	</div>
+
+	<!-- List of popular movies and their top reviews -->
+	<div class="container-fluid p-3">
+		{% for i in range(6) %}
+			<div class="row" id="popularReviews">
+				<div class="col-md-2 no-gutters" id="popularMoviePosters">
+					<p>Movie Poster</p>
+				</div>
+				<div class="col-md-8 no-gutters" id="popularMovieReviews">
+					<h5><b>Movie Title</b></h5>
+					<h6><i>Rating: 5/5</i></h6>
+					<p>Top review of the movie to be inserted here</p>
+				</div>
+			</div>
+		{% endfor %}
 	</div>
 {% endblock content %}
