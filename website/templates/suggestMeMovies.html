@@ -1,40 +1,82 @@
 {% extends "base.html" %}
 {% block content %}
-	<div class="container">
-		<h1>{{title}}</h1>
-		<div class="col no-gutters" id="filterSection">
+<div class="container">
+	<div class=" row">
+		<div class=" col-4 " id="filterSection">
 			<form action="suggestMeMovies" method="POST" id="form">
-		    <h3><b>Genres:</b></h3>
-		    {% for i in range(number_of_different_genres) %}
-		        <label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
-		        <input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}}><br/>
-		    {% endfor %}
+				<div class="accordion" id="accordionExample">
+					<div class="card">
+					    <div class="card-header" id="headingOne">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					          <h3><b>Genres</b></h3>
+					        </button>
+					      </h2>
+					    </div>
+					    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" >
+					      <div class="card-body">
+					        {% for i in range(number_of_different_genres) %}
+						        <label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
+						        <input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}}><br/>
+					    	{% endfor %}
+					      </div>
+					    </div>
+					</div>
+					<div class="card">
+					    <div class="card-header" id="headingOne">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+					          <h3><b>Ratings</b></h3>
+					        </button>
+					      </h2>
+					    </div>
+					    <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" >
+					      <div class="card-body">
+					        <select name="Ratings" id="Ratings">
+					        {% for i in range(7) %}
+						        {% if ratings[i] == chosen_rating %}
+						        <option value="{{ratings[i]}}" selected>{{ratings_texts[i]}} </option>
+						        {% else %}
+						        <option value="{{ratings[i]}}">{{ratings_texts[i]}}</option>
+						        {% endif %}
+					        {% endfor %}
+					    	</select><br>
+					      </div>
+					    </div>
+					</div>
+					<div class="card">
+					    <div class="card-header" id="headingOne">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+					          <h3><b>Ranges of Years</b></h3>
+					        </button>
+					      </h2>
+					    </div>
+					    <!-- use class-"collapse show" to open after refreshing the page-->
+					    <div id="collapseThree" class="collapse" aria-labelledby="headingOne" >
+					      <div class="card-body">
+					        {% for i in range(number_of_different_ranges_of_years) %}
+						    	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
+						        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}}><br/>
+					    	{% endfor %}
+					      </div>
+					    </div>
+					</div>
+				</div>
+			</form>
 
-		    <h3><label for="Ratings">Ratings: </label></h3>
-		    <select name="Ratings" id="Ratings">
-		        {% for i in range(7) %}
-		        {% if ratings[i] == chosen_rating %}
-		        <option value="{{ratings[i]}}" selected>{{ratings_texts[i]}} </option>
-		        {% else %}
-		        <option value="{{ratings[i]}}">{{ratings_texts[i]}}</option>
-		        {% endif %}
-		        {% endfor %}
-		    </select><br>
-
-		    <h3><b>Ranges of Years:</b></h3>
-		    {% for i in range(number_of_different_ranges_of_years) %}
-		    <label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
-		        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}}><br/>
-		    {% endfor %}
-		</form>
 		</div>
 
-		<div class="col no-gutters" id="suggestedMovie">
-			<!-- You can actually have this button anywhere! -->
-			<button form="form" type="submit">Generate a movie!</button>
-			<br>
 
-			<h3>{{data}}</h3>
+		<div class="pt-3 col-8">
+			<div class="col " id="suggestedMovie">
+				<!-- You can actually have this button anywhere! -->
+				<button form="form" type="submit" class="btn btn-primary">Generate a movie!</button>
+				<br>
+
+				<h3>{{data}}</h3>
+			</div>
 		</div>
-	<div>
+	</div>
+</div>
 {% endblock content %}
