@@ -9,7 +9,7 @@ import random
 import requests
 from datetime import datetime, timedelta
 
-# the period of how long data is saved on the website
+# the period of time for how long data is saved on the website
 app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
@@ -73,6 +73,8 @@ def account():
 
 @app.route("/suggestMeMovies", methods=['GET', 'POST'])
 def suggestMeMovies():
+	# the tuples and lists to save the required data for criteria
+
 	names_of_genres = ("Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", 
 						"Documentary", "Drama", "Family", "Fantasy", "History", "Horror", 
 						 "Mystery", "Romance", "Sci-Fi", "Thriller"
@@ -100,8 +102,10 @@ def suggestMeMovies():
 	number_of_different_ranges_of_years = len(ranges_of_years_text)
 	checked_ranges_of_years = [""]*number_of_different_ranges_of_years
 
-
+	# executes when the button "generate the movie" was pressed
+	# this code encures that the selected criteria does not reset after every refresh of the page
 	if request.method == 'POST':
+		# session saves the checked criteria if the page was left
 		session.permanent = True
 
 		chosen_rating = float(request.form.get('Ratings'))
@@ -125,7 +129,7 @@ def suggestMeMovies():
 				if ("checked_ranges_of_years" + str(i)) in session:
 					session.pop("checked_ranges_of_years" + str(i), None)
 
-
+	# check if previously some criteria were selected, session is used to get them back
 	for i in range(number_of_different_genres):
 		if ("checked_genres" + str(i)) in session and checked_genres[i] != "checked":
 			checked_genres[i] = "checked"
@@ -142,17 +146,153 @@ def suggestMeMovies():
 			indices_of_checked_ranges_of_years.append(i)
 
 
+	# the actual algorithm starts here
+
+	# data required to call the first API
+	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+
+	querystring = {"type": "get-random-movies", "page": "1"}
+
+	headers = {
+		'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+		'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+	}
+
+
+	number_of_checked_genres_boxes = len(indices_of_checked_genres)
+	number_of_checked_ranges_of_years_boxes = len(indices_of_checked_ranges_of_years)
+	found = False
+
+	# determine how many films should the algorithm check (if times = 1, then 20 are checked)
+	counter, times = 0, 5
+
+	# set default values if a required movie was not found
+	imdb_rating = poster_url = movie_title = genres = year_of_movie = None
+
+	# the code which queries the APIs and check if received movies satisfy the criteria
+	while not found and counter < times:
+		# check if the connection with the API was made
+		try:
+			response = requests.request("GET", url, headers=headers, params=querystring) #, timeout=5 )
+			data = response.json()
+			i = index = 0
+		except:
+			counter += 1
+			continue
+
+		# go through 20 random movies received from the API and check if they meet the criteria
+		while i < 20 and not found:
+			try:
+				# a shortcut, otherwise I'd have needed to use this line every time I wanted to take data from the 'data'
+				movie = data["movie_results"][i]
+
+				genres = movie["genres"]
+
+				# this is necessary to randomly pick one genre of all genres to not check one genre all the time the first
+				copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
+				
+				id = movie["imdb_id"]
+				year_of_movie = int(movie["year"])
+				movie_title = movie["title"]
+
+
+				found_movie_within_year_range = False
+
+				# check if the movie appears in the selected range(s) of years, if any were selected
+				if 0 not in indices_of_checked_ranges_of_years and number_of_checked_ranges_of_years_boxes != 0:
+					for x in range(number_of_checked_ranges_of_years_boxes):
+						years = ranges_of_years[indices_of_checked_ranges_of_years[x]]
+						# check if not the last range was selected
+						if indices_of_checked_ranges_of_years[x] != number_of_different_ranges_of_years-1:
+							if years[0] <= year_of_movie <= years[1]:
+								found_movie_within_year_range = True
+								break
+						else:
+							if years >= year_of_movie:
+								found_movie_within_year_range = True
+								break
+
+					# take a new movie if it is not in the right range
+					if not found_movie_within_year_range:
+						i += 1
+						continue
+
+
+				found_corresponding_genre = False
+
+				# check if the movie has any of the selected genre
+				if "checked" in checked_genres:
+					for j in range(number_of_checked_genres_boxes):
+						random.shuffle(copy_of_indices_of_checked_genres)
+						if names_of_genres[copy_of_indices_of_checked_genres[-1]] in genres:
+							index = i
+							found_corresponding_genre = True
+							break
+						else:
+							copy_of_indices_of_checked_genres.remove(copy_of_indices_of_checked_genres[-1])
+            
+					if not found_corresponding_genre:
+						i += 1
+						continue
+
+
+				# if genres and years met the criteria, then the rating is checked using the OMDB API
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=b3814b2' 
+				r = requests.get(respString) #, timeout=1)
+				dictionary = r.json()
+
+				poster_url = dictionary["Poster"]
+				imdb_rating = dictionary["imdbRating"]
+
+				# it is possible to get "N/A" so it cannot be converted to a float at first
+				if imdb_rating == "N/A" and chosen_rating != 0 or dictionary["Response"] != "True":
+					i += 1
+					continue
+
+				if imdb_rating == "N/A":
+					found = True
+					break
+				else:
+					imdb_rating = float(imdb_rating)
+
+				# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
+				if imdb_rating >= chosen_rating:
+					found = True
+					break
+
+				i += 1
+
+			except:
+				i += 1
+
+		counter += 1
+    
+
+	if not found:
+		error_message = "Please try again!"
+	else:
+		error_message = ""
+
+
 	return render_template(
-		'suggestMeMovies.html', 
-		title='Suggest Me a Movie',
+		'suggestMeMovies.html',
+		title='Suggest Me Movies',
 		names_of_genres=names_of_genres,
 		checked_genres=checked_genres,
 		number_of_different_genres=number_of_different_genres,
 		ratings=ratings,
 		ratings_texts=ratings_texts,
 		chosen_rating=chosen_rating,
+		# votes=votes,
+		# votes_texts=votes_texts,
+		# chosen_num_of_votes=chosen_num_of_votes,
 		number_of_different_ranges_of_years=number_of_different_ranges_of_years,
 		ranges_of_years_text=ranges_of_years_text,
-		checked_ranges_of_years=checked_ranges_of_years
-		# data=data
-		)
+		checked_ranges_of_years=checked_ranges_of_years,
+		error_message=error_message,
+		movie_title=movie_title,
+		genres=genres,
+		rating=imdb_rating,
+		year_of_movie=year_of_movie,
+		poster=poster_url
+	)

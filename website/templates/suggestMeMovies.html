@@ -7,7 +7,7 @@
         width: 100%;
 	}
 	#suggestedMovie{
-		height: 1000px;
+		height: 1300px;
 		margin-top: 20px;
 	}
 
@@ -41,8 +41,6 @@
 					        			</div>
 					        		</div>
 					        	</div>
-
-						        
 					    	{% endfor %}
 					      </div>
 					    </div>
@@ -93,13 +91,24 @@
 		</div>
 
 		<div class="pt-3 col-8">
-			<div class="col " >
-				<!-- You can actually have this button anywhere! -->
-				<button form="form" type="submit" class="btn btn-primary">Generate a movie!</button>
-				<br>
+			<button form="form" type="submit" class="btn btn-primary">Generate a movie!</button><br>
+			<br>
+			{% if error_message %}
+                <h3>{{ error_message }}</h3>
+            {% else %}
+                <h3>{{ movie_title}}, {{ year_of_movie }}</h3>
+                <h3>IMDB rating: {{ rating }}</h3>
+                <br>
+                <h3>Genres</h3>
+                {% for genre in genres %}
+                {{genre}}
+                <br />
+                {% endfor %}
+                <br />
+                <img src={{poster}} width="500">
+            {% endif %}
 
-				<h3>{{data}}</h3>
-			</div>
+			<h3>{{data}}</h3>
 		</div>
 	</div>
 </div>
