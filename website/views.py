@@ -1,10 +1,17 @@
 import secrets
 import os
-from flask import render_template, url_for, flash, redirect, request, abort
+from flask import render_template, url_for, flash, redirect, request, abort, session
 from flask_login import login_user, current_user, logout_user, login_required
 from website.account_forms import RegistrationForm, LoginForm
 from website import app, db, bcrypt
 from website.models import User
+import random 
+import requests
+from datetime import datetime, timedelta
+
+# the period of how long data is saved on the website
+app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
+app.permanent_session_lifetime = timedelta(minutes=10)
 
 
 @app.route("/")
@@ -68,7 +75,7 @@ def account():
 def suggestMeMovies():
 	names_of_genres = ("Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", 
 						"Documentary", "Drama", "Family", "Fantasy", "History", "Horror", 
-						"Music", "Mystery", "Romance", "Sci-Fi", "Thriller"
+						 "Mystery", "Romance", "Sci-Fi", "Thriller"
 						)
 
 	indices_of_checked_genres = []
@@ -95,17 +102,44 @@ def suggestMeMovies():
 
 
 	if request.method == 'POST':
+		session.permanent = True
+
 		chosen_rating = float(request.form.get('Ratings'))
+		session["chosen_rating"] = chosen_rating
 
 		for i in range(number_of_different_genres):
 			if request.form.get(names_of_genres[i]):
 				indices_of_checked_genres.append(i)
 				checked_genres[i] = "checked"
+				session["checked_genres" + str(i)] = "checked"
+			else:
+				if ("checked_genres" + str(i)) in session:
+					session.pop("checked_genres" + str(i), None)
 
 		for i in range(number_of_different_ranges_of_years):
 			if request.form.get(ranges_of_years_text[i]):
 				indices_of_checked_ranges_of_years.append(i)
 				checked_ranges_of_years[i] = "checked"
+				session["checked_ranges_of_years" + str(i)] = "checked"
+			else:
+				if ("checked_ranges_of_years" + str(i)) in session:
+					session.pop("checked_ranges_of_years" + str(i), None)
+
+
+	for i in range(number_of_different_genres):
+		if ("checked_genres" + str(i)) in session and checked_genres[i] != "checked":
+			checked_genres[i] = "checked"
+			indices_of_checked_genres.append(i)
+
+	if "chosen_rating" in session:
+		chosen_rating = session["chosen_rating"]
+	else:
+		chosen_rating = 0
+
+	for i in range(number_of_different_ranges_of_years):
+		if ("checked_ranges_of_years" + str(i)) in session and checked_ranges_of_years[i] != "checked":
+			checked_ranges_of_years[i] = "checked"
+			indices_of_checked_ranges_of_years.append(i)
 
 
 	return render_template(
