@@ -19,14 +19,24 @@
         padding: 0;
         margin: 0;
         box-sizing: border-box;
+
       }
+
+      html {
+        height: 100%;
+      }
+
       body{
         background: rgb(221,228,228);
+        min-height: 100%;
 
       }
       .container{
         margin-top: 100px;
-        height: 1300px;
+
+      }
+      section {
+        padding-bottom: 218px;
       }
       .row{
         background: white;
@@ -66,12 +76,32 @@
       #footer {
         right: 0; bottom: 0; left: 0;
         width: 100%;
+        height: 218px;
+      }
+      .btn-primary{
+        background-color: white;
+        color: black;
+        padding: 5px;
+        border-color: black;
+        margin-top: 30px;
+        margin-bottom: 100px
+      }
+      .btn-primary:hover{
+        background-color: grey;
+        border:1px solid;
+        color: white;
+      }
+      .btn-primary.active, .btn-primary:active, .show>.btn-primary.dropdown-toggle {
+        background-color: grey;
+        border:1px solid;
+        color: white;
       }
 
 
     </style> 
   </head>
   <body>
+    <!-- image and register forms -->
     <section class="Form mx-5 my-4">
       <div class="container" id="register">
         <div class="row no-gutters">
@@ -82,6 +112,7 @@
             <h1 class="font-weight-bold py-3">FilmFlick</h1>
             <h4>Sign up for a new account</h4>
             <form class="form-signin" method="POST" action="/register">
+              <!-- username input field -->
               <div class="form-row"> 
                 <div class="col-lg-7">
                   <fieldset class="form-group">
@@ -98,6 +129,7 @@
                     {% endif %} 
                 </div>
               </div>
+              <!-- displayname input field -->
               <div class="form-row"> 
                 <div class="col-lg-7">
                   <fieldset class="form-group">
@@ -115,6 +147,7 @@
                
                 </div>
               </div>
+              <!-- password input field -->
               <div class="form-row">
                 <div class="col-lg-7">
                   <fieldset class="form-group">
@@ -129,17 +162,32 @@
                           </div>
                           {% else %}
                             {{ form.password}} 
-                            {% endif %}
-                  
-                </div> 
-             <div class="check-box">
-                      {{ form.agree }}
-                      {{ form.agree.label}}
-                  </div> 
-             </fieldset>
-                  
+                            {% endif %}             
+                          </div> 
+                          <!-- drop down for security questions -->
+                          <div class="form-row">
+                            <div class="col-lg-7">
+                              <div class="dropdown">
+                                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    Please choose a security question
+                                  </button>
+                                    <div class="dropdown-menu">
+                                      <a class="dropdown-item" href="#">What is your oldest sibling's middle name?</a>
+                                      <a class="dropdown-item" href="#">What is the name of a college you applied to but didn't attend?</a>
+                                      <a class="dropdown-item" href="#">In what city does your nearest sibling live?</a>
+                                    </div>
+                              </div>
+                            </div>   
+                          </div>
+              <!-- I agree to terms and conditions check box -->
+                      <div class="check-box">
+                          {{ form.agree }}
+                          {{ form.agree.label}}
+                      </div> 
+                 </fieldset>             
                 </div>
               </div>
+              <!-- register button -->
               <div class="form-row">
                 <div class="col-lg-7">
                   <div >
