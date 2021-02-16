@@ -195,6 +195,10 @@ def suggestMeMovies():
 				year_of_movie = int(movie["year"])
 				movie_title = movie["title"]
 
+				# possible (rarely) to get movies with year = 0, such movies are skipped (inaccurate data)
+				if year_of_movie == 0:
+					i += 1
+					continue
 
 				found_movie_within_year_range = False
 
@@ -202,6 +206,7 @@ def suggestMeMovies():
 				if 0 not in indices_of_checked_ranges_of_years and number_of_checked_ranges_of_years_boxes != 0:
 					for x in range(number_of_checked_ranges_of_years_boxes):
 						years = ranges_of_years[indices_of_checked_ranges_of_years[x]]
+						
 						# check if not the last range was selected
 						if indices_of_checked_ranges_of_years[x] != number_of_different_ranges_of_years-1:
 							if years[0] <= year_of_movie <= years[1]:

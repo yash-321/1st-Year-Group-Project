@@ -18,6 +18,7 @@
 		<div class=" col-4 " id="filterSection">
 			<form action="suggestMeMovies" method="POST" id="form">
 				<div class="accordion" id="accordionExample">
+
 					<div class="card">
 					    <div class="card-header" id="headingOne">
 					      <h2 class="mb-0">
@@ -26,7 +27,8 @@
 					        </button>
 					      </h2>
 					    </div>
-					    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" >
+					     <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
+					    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" >
 					      <div class="card-body">
 					        {% for i in range(number_of_different_genres//2) %}
 					        	<div class="container">
@@ -45,38 +47,41 @@
 					      </div>
 					    </div>
 					</div>
+
 					<div class="card">
-					    <div class="card-header" id="headingOne">
+					    <div class="card-header" id="headingTwo">
 					      <h2 class="mb-0">
 					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 					          <h3><b>Ratings</b></h3>
 					        </button>
 					      </h2>
 					    </div>
-					    <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" >
+					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
+					    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
 					      <div class="card-body">
-					        <select name="Ratings" id="Ratings">
-					        {% for i in range(7) %}
-						        {% if ratings[i] == chosen_rating %}
-						        <option value="{{ratings[i]}}" selected>{{ratings_texts[i]}} </option>
-						        {% else %}
-						        <option value="{{ratings[i]}}">{{ratings_texts[i]}}</option>
-						        {% endif %}
-					        {% endfor %}
-					    	</select><br>
+					      	{% for i in range(7) %}
+                                {% if ratings[i] == chosen_rating %}
+                                <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
+                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked><br/>
+                                {% else %}
+                                <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
+                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}"><br/>
+                                {% endif %}
+                            {% endfor %}
 					      </div>
 					    </div>
 					</div>
+
 					<div class="card">
-					    <div class="card-header" id="headingOne">
+					    <div class="card-header" id="headingThree">
 					      <h2 class="mb-0">
 					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
 					          <h3><b>Ranges of Years</b></h3>
 					        </button>
 					      </h2>
 					    </div>
-					    <!-- use class-"collapse show" to open after refreshing the page-->
-					    <div id="collapseThree" class="collapse" aria-labelledby="headingOne" >
+					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
+					    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" >
 					      <div class="card-body">
 					        {% for i in range(number_of_different_ranges_of_years) %}
 						    	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
@@ -85,6 +90,7 @@
 					      </div>
 					    </div>
 					</div>
+					
 				</div>
 			</form>
 
@@ -108,7 +114,7 @@
                 <img src={{poster}} width="500">
             {% endif %}
 
-			<h3>{{data}}</h3>
+			<!-- <h3>{{data}}</h3> -->
 		</div>
 	</div>
 </div>
