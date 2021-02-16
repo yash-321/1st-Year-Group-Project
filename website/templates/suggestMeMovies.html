@@ -59,7 +59,7 @@
 					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
 					    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
 					      <div class="card-body">
-					      	{% for i in range(7) %}
+					      	{% for i in range(number_of_different_ratings) %}
                                 {% if ratings[i] == chosen_rating %}
                                 <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
                                 <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked><br/>
@@ -113,8 +113,6 @@
                 <br />
                 <img src={{poster}} width="500">
             {% endif %}
-
-			<!-- <h3>{{data}}</h3> -->
 		</div>
 	</div>
 </div>

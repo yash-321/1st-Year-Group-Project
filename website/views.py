@@ -77,8 +77,7 @@ def suggestMeMovies():
 
 	names_of_genres = ("Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", 
 						"Documentary", "Drama", "Family", "Fantasy", "History", "Horror", 
-						 "Mystery", "Romance", "Sci-Fi", "Thriller"
-						)
+						 "Mystery", "Romance", "Sci-Fi", "Thriller")
 
 	indices_of_checked_genres = []
 	number_of_different_genres = len(names_of_genres)
@@ -89,14 +88,13 @@ def suggestMeMovies():
 					"Rated over 6.5","Rated over 6","Rated over 5.5",
 					"Rated over 5")
 	chosen_rating = 0
-
+	number_of_different_ratings = len(ratings)
 
 	ranges_of_years_text = ("All years", "2015 – now", "2010 – 2014", "2005 – 2009",
-							"2000 – 2004", "1995 – 1999", "1990 – 1994", "1985 – 1989",
-							"1980 - 1984", "Older than 1980")
+							"2000 – 2004", "1995 – 1999", "1990 – 1994", "Older than 1990")
 
 	ranges_of_years = (0, (2015, 2021), (2010, 2014), (2005, 2009), (2000, 2004), (1995, 1999),
-					  (1990, 1994), (1985, 1989), (1980, 1984), 1980)
+					  (1990, 1994), 1990)
 
 	indices_of_checked_ranges_of_years = []
 	number_of_different_ranges_of_years = len(ranges_of_years_text)
@@ -288,9 +286,7 @@ def suggestMeMovies():
 		ratings=ratings,
 		ratings_texts=ratings_texts,
 		chosen_rating=chosen_rating,
-		# votes=votes,
-		# votes_texts=votes_texts,
-		# chosen_num_of_votes=chosen_num_of_votes,
+		number_of_different_ratings=number_of_different_ratings,
 		number_of_different_ranges_of_years=number_of_different_ranges_of_years,
 		ranges_of_years_text=ranges_of_years_text,
 		checked_ranges_of_years=checked_ranges_of_years,
