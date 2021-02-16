@@ -45,7 +45,7 @@
 		background: rgb(46,48,46);		
 		margin-top: -15px;
 		border-color: rgb(46,48,46);
-		border-left, border-right, border-top, border-bottom: 10px;
+		border: 10px;
 	}
 	#movieSection{
 		background: rgba(255,255,255,0.5);
@@ -56,6 +56,11 @@
 		background: rgba(255,255,255,0.5);
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
+	}
+	#poster{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
 	}
 
 </style>
@@ -157,7 +162,7 @@
                 <br />
                 {% endfor %}
                 <br />
-                <img src={{poster}} width="500">
+                <img src={{poster}} width="500" id="poster">
             {% endif %}
 		</div>
 	</div>
