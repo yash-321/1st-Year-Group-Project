@@ -1,18 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-	#footer{
-		/*position: absolute;*/
-        right: 0; bottom: 0; left: 0;
-        width: 100%;
-	}
 	#suggestedMovie{
 		height: 1300px;
 		margin-top: 20px;
 	}
+	html {
+    	height: 100%;
+  	}
+  	body{
+    	min-height: 100%;
+    	background-image: url('../static/sky.jpg');
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-size: 100%;
+
+	}
+
+  	#suggestedMovie{
+    	padding-bottom: 218px;
+  	}
+
+  	}
+	#footer{
+        right: 0; bottom: 0; left: 0;
+        width: 100%;
+        height: 218px;
+    }
+
+    #headingOne, #headingTwo, #headingThree{
+    	background: grey;
+    }
+    .btn{
+    	color:white;
+    }
+	#generatebtn{
+		padding: 20px;
+		color: white;
+		background: grey;		
+		margin-top: -15px;
+		border-color: grey;
+		border-left, border-right, border-top, border-bottom: 10px;
+	}
+	#movieSection{
+		background: rgba(255,255,255,0.5);
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+	#filterSection{
+		background: rgba(255,255,255,0.5);
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
 
 </style>
-
 <div class="container" id="suggestedMovie">
 	<div class=" row">
 		<div class=" col-4 " id="filterSection">
@@ -35,11 +76,11 @@
 					        		<div class="row">
 					        			<div class=" col-6 ">
 					        				<label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
-						        			<input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}}><br/>
+						        			<input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}} style="float:right"><br/>
 					        			</div>
 					        			<div class=" col-6 ">
 					        				<label for="{{names_of_genres[i+number_of_different_genres//2]}}">{{names_of_genres[i+number_of_different_genres//2]}}</label>
-						       				 <input type="checkbox" name="{{names_of_genres[i+number_of_different_genres//2]}}" id="{{names_of_genres[i+number_of_different_genres//2]}}" value="{{names_of_genres[i+number_of_different_genres//2]}}" {{checked_genres[i+number_of_different_genres//2]}}><br/>
+						       				 <input type="checkbox" name="{{names_of_genres[i+number_of_different_genres//2]}}" id="{{names_of_genres[i+number_of_different_genres//2]}}" value="{{names_of_genres[i+number_of_different_genres//2]}}" {{checked_genres[i+number_of_different_genres//2]}} style="float:right"><br/>
 					        			</div>
 					        		</div>
 					        	</div>
@@ -62,10 +103,10 @@
 					      	{% for i in range(number_of_different_ratings) %}
                                 {% if ratings[i] == chosen_rating %}
                                 <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
-                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked><br/>
+                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked style="float:right"><br/>
                                 {% else %}
                                 <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
-                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}"><br/>
+                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" style="float:right"><br/>
                                 {% endif %}
                             {% endfor %}
 					      </div>
@@ -85,7 +126,7 @@
 					      <div class="card-body">
 					        {% for i in range(number_of_different_ranges_of_years) %}
 						    	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
-						        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}}><br/>
+						        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}} style="float:right"><br/>
 					    	{% endfor %}
 					      </div>
 					    </div>
@@ -96,8 +137,8 @@
 
 		</div>
 
-		<div class="pt-3 col-8">
-			<button form="form" type="submit" class="btn btn-primary">Generate a movie!</button><br>
+		<div class="pt-3 col-8" id="movieSection">
+			<button form="form" type="submit" class="btn btn-primary" id="generatebtn">Generate a movie!</button><br>
 			<br>
 			{% if error_message %}
                 <h3>{{ error_message }}</h3>
