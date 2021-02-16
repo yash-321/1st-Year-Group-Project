@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+</head>
 <style>
 	#suggestedMovie{
 		height: 1300px;
@@ -29,7 +33,8 @@
     }
 
     #headingOne, #headingTwo, #headingThree{
-    	background: grey;
+    	background: rgb(46,48,46);
+    	font-weight: bold;
     }
     .btn{
     	color:white;
@@ -37,9 +42,9 @@
 	#generatebtn{
 		padding: 20px;
 		color: white;
-		background: grey;		
+		background: rgb(46,48,46);		
 		margin-top: -15px;
-		border-color: grey;
+		border-color: rgb(46,48,46);
 		border-left, border-right, border-top, border-bottom: 10px;
 	}
 	#movieSection{
@@ -138,7 +143,7 @@
 		</div>
 
 		<div class="pt-3 col-8" id="movieSection">
-			<button form="form" type="submit" class="btn btn-primary" id="generatebtn">Generate a movie!</button><br>
+			<button form="form" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button><br>
 			<br>
 			{% if error_message %}
                 <h3>{{ error_message }}</h3>
