@@ -36,6 +36,7 @@ def login():
 			flash('Login Unsuccesful. Please check username and password', 'danger')
 	return render_template('login.html', title='Login', form=form)
 
+
 @app.route("/register", methods=['GET', 'POST'])
 def register():
 	if current_user.is_authenticated:
@@ -91,10 +92,10 @@ def suggestMeMovies():
 	number_of_different_ratings = len(ratings)
 
 	ranges_of_years_text = ("All years", "2015 – now", "2010 – 2014", "2005 – 2009",
-							"2000 – 2004", "1995 – 1999", "1990 – 1994", "Older than 1990")
+							"2000 – 2004", "1995 – 1999", "1990 – 1994", "1960 – 1989", "Older than 1960")
 
 	ranges_of_years = (0, (2015, 2021), (2010, 2014), (2005, 2009), (2000, 2004), (1995, 1999),
-					  (1990, 1994), 1990)
+					  (1990, 1994), (1960, 1989), 1960)
 
 	indices_of_checked_ranges_of_years = []
 	number_of_different_ranges_of_years = len(ranges_of_years_text)
@@ -211,7 +212,7 @@ def suggestMeMovies():
 								found_movie_within_year_range = True
 								break
 						else:
-							if years >= year_of_movie:
+							if years > year_of_movie:
 								found_movie_within_year_range = True
 								break
 
@@ -248,10 +249,12 @@ def suggestMeMovies():
 				imdb_rating = dictionary["imdbRating"]
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
-				if imdb_rating == "N/A" and chosen_rating != 0 or dictionary["Response"] != "True":
+				# check if the connection was made with the API
+				# check if the poster is provided 
+				if imdb_rating == "N/A" and chosen_rating != 0 or dictionary["Response"] != "True" or poster_url.strip() == "" or poster_url=="N/A":
 					i += 1
 					continue
-
+					
 				if imdb_rating == "N/A":
 					found = True
 					break
