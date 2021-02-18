@@ -100,6 +100,18 @@
 
     </style> 
 <canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
+    <!-- Displaying flash messages -->
+      <div class="col-md-8">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{category}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
     <!-- image and register forms -->
     <section class="Form mx-5 my-4">
       <div class="container" id="register">
@@ -110,7 +122,8 @@
           <div class="col-lg-7 px-5 pt-5">
             <h1 class="font-weight-bold py-3">FilmFlick</h1>
             <h4>Sign up for a new account</h4>
-            <form class="form-signin" method="POST" action="/register">
+            <form class="form-signin" method="POST" action="">
+              {{ form.hidden_tag() }}
               <!-- username input field -->
               <div class="form-row"> 
                 <div class="col-lg-7">

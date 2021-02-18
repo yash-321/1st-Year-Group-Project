@@ -15,6 +15,9 @@ class User(db.Model, UserMixin):
 	blacklisted = db.relationship('Blacklist')
 	reviews = db.relationship('Review')
 
+	def __repr__(self):
+		return f"User('{self.username}', '{self.display_name}')"
+
 class Question(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	question = db.Column(db.String(200), nullable=False)
