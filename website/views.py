@@ -166,7 +166,7 @@ def suggestMeMovies():
 	counter, times = 0, 5
 
 	# set default values if a required movie was not found
-	imdb_rating = poster_url = movie_title = genres = year_of_movie = None
+	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = None
 
 	# the code which queries the APIs and check if received movies satisfy the criteria
 	while not found and counter < times:
@@ -195,7 +195,8 @@ def suggestMeMovies():
 				movie_title = movie["title"]
 
 				# possible (rarely) to get movies with year = 0, such movies are skipped (inaccurate data)
-				if year_of_movie == 0:
+				# once I encoutered a movie with any genres and got an error because of that
+				if year_of_movie == 0 or len(genres) == 0:
 					i += 1
 					continue
 
@@ -240,21 +241,29 @@ def suggestMeMovies():
 						continue
 
 
+				trailer = movie["youtube_trailer_key"].strip()
+				if trailer:
+					trailer = "https://www.youtube.com/watch?v=" + trailer
+
 				# if genres and years met the criteria, then the rating is checked using the OMDB API
 				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=b3814b2' 
 				r = requests.get(respString) #, timeout=1)
 				dictionary = r.json()
 
-				poster_url = dictionary["Poster"]
+				poster_url = dictionary["Poster"].strip()
 				imdb_rating = dictionary["imdbRating"]
+				plot = dictionary["Plot"]
+				actors = dictionary["Actors"]
+				directors = dictionary["Director"]
+				runtime = dictionary["Runtime"]
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
 				# check if the poster is provided 
-				if imdb_rating == "N/A" and chosen_rating != 0 or dictionary["Response"] != "True" or poster_url.strip() == "" or poster_url=="N/A":
+				if imdb_rating == "N/A" and chosen_rating != 0 or dictionary["Response"] != "True" or poster_url == "" or poster_url=="N/A":
 					i += 1
 					continue
-					
+
 				if imdb_rating == "N/A":
 					found = True
 					break
@@ -298,5 +307,10 @@ def suggestMeMovies():
 		genres=genres,
 		rating=imdb_rating,
 		year_of_movie=year_of_movie,
-		poster=poster_url
+		poster=poster_url,
+		plot=plot,
+		actors=actors,
+		directors=directors,
+		runtime=runtime,
+		trailer=trailer
 	)
