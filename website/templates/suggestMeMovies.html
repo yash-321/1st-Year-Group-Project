@@ -49,6 +49,22 @@
 		border-color: rgb(46,48,46);
 		border: 10px;
 	}
+	#whitelistbtn{
+		padding: 20px;
+		color: white;
+		background: rgb(46,48,46);		
+		margin-top: -15px;
+		border-color: rgb(46,48,46);
+		border: 10px;
+	}
+	#blacklistlistbtn{
+		padding: 20px;
+		color: white;
+		background: rgb(46,48,46);		
+		margin-top: -15px;
+		border-color: rgb(46,48,46);
+		border: 10px;
+	}
 	#movieSection{
 		background: rgba(255,255,255,0.5);
 		/*border-top-right-radius: 10px;*/
@@ -158,7 +174,9 @@
 		<!-- also we could make this section smaller (e.g. col-3) to give more space for poster-->
 		<!-- but there would be left a very limited space for data about movies -->
 		<div class="col-4 pt-3" id="movieSection">
-			<button form="form" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button><br>
+			<button form="form" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button>
+			<button form="form" type="submit" class="btn btn-primary" id="whitelistbtn">Whitelist</button>
+			<button form="form" type="submit" class="btn btn-primary" id="whitelistbtn">Blacklist</button><br>
 			<br>
 			{% if error_message %}
 	            <h3>{{ error_message }}</h3>
@@ -198,7 +216,7 @@
 				<img src={{poster}} width="350" id="poster">
 				<br>
 				{% if trailer %}
-				<iframe src="{{trailer}}" frameborder="0" width="500" height="300" allow="fullscreen"></iframe>
+				<iframe src="{{trailer}}" frameborder="0" width="350" height="300" allow="fullscreen"></iframe>
 					<!-- <h4><a href="{{trailer}}">YT trailer</a></h4> -->
 				{% endif %}
 			{% endif %}
