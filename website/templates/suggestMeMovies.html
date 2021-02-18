@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+<style>
+	#suggestedMovie{
+		margin-top: 20px;
+	}
+	html {
+    	height: 100%;
+  	}
+  	body{
+    	min-height: 100%;
+		background-size: 100%;
+		background: rgb(46,48,46);
+	}
+
+
+	/*we can make the background to resize dynamically as the user zooms in or out*/
+	.container{
+		/*min-width: 100%;*/
+	}
+
+
+
+  	#suggestedMovie{
+    	padding-bottom: 218px;
+  	}
+
+	#footer{
+        right: 0; bottom: 0; left: 0;
+        width: 100%;
+        height: 218px;
+    }
+
+    #headingOne, #headingTwo, #headingThree{
+    	background: rgb(46,48,46);
+    	font-weight: bold;
+    }
+    .btn{
+    	color:white;
+    }
+	#generatebtn{
+		padding: 20px;
+		color: white;
+		background: rgb(46,48,46);		
+		margin-top: -15px;
+		border-color: rgb(46,48,46);
+		border: 10px;
+	}
+	#movieSection{
+		background: rgba(255,255,255,0.5);
+		/*border-top-right-radius: 10px;*/
+		/*border-bottom-right-radius: 10px;*/
+	}
+	#filterSection{
+		background: rgba(255,255,255,0.5);
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+	#posterSection{
+		background: rgba(255,255,255,0.5);
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+	#poster{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+</style>
+<canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
+<div class="container" id="suggestedMovie">
+	<div class=" row">
+		<div class=" col-4 " id="filterSection">
+			<form action="suggestMeMovies" method="POST" id="form">
+				<div class="accordion" id="accordionExample">
+
+					<div class="card">
+					    <div class="card-header" id="headingOne">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					          <h3><b>Genres</b></h3>
+					        </button>
+					      </h2>
+					    </div>
+					     <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
+					    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" >
+					      <div class="card-body">
+					        {% for i in range(number_of_different_genres//2) %}
+					        	<div class="container">
+					        		<div class="row">
+					        			<div class=" col-6 ">
+					        				<label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
+						        			<input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}} style="float:right"><br/>
+					        			</div>
+					        			<div class=" col-6 ">
+					        				<label for="{{names_of_genres[i+number_of_different_genres//2]}}">{{names_of_genres[i+number_of_different_genres//2]}}</label>
+						       				 <input type="checkbox" name="{{names_of_genres[i+number_of_different_genres//2]}}" id="{{names_of_genres[i+number_of_different_genres//2]}}" value="{{names_of_genres[i+number_of_different_genres//2]}}" {{checked_genres[i+number_of_different_genres//2]}} style="float:right"><br/>
+					        			</div>
+					        		</div>
+					        	</div>
+					    	{% endfor %}
+					      </div>
+					    </div>
+					</div>
+
+					<div class="card">
+					    <div class="card-header" id="headingTwo">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+					          <h3><b>Ratings</b></h3>
+					        </button>
+					      </h2>
+					    </div>
+					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
+					    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
+					      <div class="card-body">
+					      	{% for i in range(number_of_different_ratings) %}
+                                {% if ratings[i] == chosen_rating %}
+                                <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
+                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked style="float:right"><br/>
+                                {% else %}
+                                <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
+                                <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" style="float:right"><br/>
+                                {% endif %}
+                            {% endfor %}
+					      </div>
+					    </div>
+					</div>
+
+					<div class="card">
+					    <div class="card-header" id="headingThree">
+					      <h2 class="mb-0">
+					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+					          <h3><b>Ranges of Years</b></h3>
+					        </button>
+					      </h2>
+					    </div>
+					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
+					    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" >
+					      <div class="card-body">
+					        {% for i in range(number_of_different_ranges_of_years) %}
+						    	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
+						        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}} style="float:right"><br/>
+					    	{% endfor %}
+					      </div>
+					    </div>
+					</div>
+					
+				</div>
+			</form>
+
+		</div>
+
+		<!-- also we could make this section smaller (e.g. col-3) to give more space for poster-->
+		<!-- but there would be left a very limited space for data about movies -->
+		<div class="col-4 pt-3" id="movieSection">
+			<button form="form" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button><br>
+			<br>
+			{% if error_message %}
+	            <h3>{{ error_message }}</h3>
+	        {% else %}
+	            <h3>{{ movie_title}}  ({{ year_of_movie }})</h3>
+	             <br />
+	            <h3>IMDB rating: {{ rating }}</h3>
+	            <br />
+	            <h3>Genres</h3>
+	            {% for genre in genres %}
+	            {{genre}}    
+	            {% endfor %}
+	            <br /> <br />
+	            <h3>Short Description</h3>
+	            {{plot}}
+	             <br /> <br />
+	            <h3>Actors</h3>
+	            {{actors}}
+	             <br /> <br />
+				<h3>Directors</h3>
+	            {{directors}}
+	            <br /> <br />
+				<h3>Runtime</h3>
+	            {{runtime}}
+	            <br /> <br />
+
+	        {% endif %}
+		</div>
+
+		<!-- there is a fixed size of a poster set -->
+		<!-- it probably needs to be dynamically resizable -->
+		<!-- check bootstrap docs for image classes -->
+		<div class="col-4 pt-3" id="posterSection">
+			{% if error_message %}
+	            <!-- just skip then and not output anything -->
+	        {% else %}
+				<img src={{poster}} width="350" id="poster">
+				<br>
+				{% if trailer %}
+				<iframe src="{{trailer}}" frameborder="0" width="500" height="300" allow="fullscreen"></iframe>
+					<!-- <h4><a href="{{trailer}}">YT trailer</a></h4> -->
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
