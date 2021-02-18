@@ -243,7 +243,7 @@ def suggestMeMovies():
 
 				trailer = movie["youtube_trailer_key"].strip()
 				if trailer:
-					trailer = "https://www.youtube.com/watch?v=" + trailer
+					trailer = "https://www.youtube.com/embed/" + trailer
 
 				# if genres and years met the criteria, then the rating is checked using the OMDB API
 				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=b3814b2' 
