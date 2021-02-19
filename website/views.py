@@ -170,7 +170,7 @@ def suggestMeMovies():
 	counter, times = 0, 5
 
 	# set default values if a required movie was not found
-	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = None
+	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = None
 
 	# the code which queries the APIs and check if received movies satisfy the criteria
 	while not found and counter < times:
@@ -260,6 +260,7 @@ def suggestMeMovies():
 				actors = dictionary["Actors"]
 				directors = dictionary["Director"]
 				runtime = dictionary["Runtime"]
+				language = dictionary["Language"]
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
@@ -316,5 +317,6 @@ def suggestMeMovies():
 		actors=actors,
 		directors=directors,
 		runtime=runtime,
-		trailer=trailer
+		trailer=trailer,
+		language=language
 	)
