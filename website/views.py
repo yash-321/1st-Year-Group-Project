@@ -263,9 +263,6 @@ def suggestMeMovies():
 				language = dictionary["Language"]
 				awards = dictionary["Awards"].strip()
 
-				if awards == "N/A":
-					awards = ""
-
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
 				# check if the poster is provided 
