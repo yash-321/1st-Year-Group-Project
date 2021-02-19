@@ -179,29 +179,31 @@
 			<button form="form" type="submit" class="btn btn-primary" id="whitelistbtn">Blacklist</button><br>
 			<br>
 			{% if error_message %}
-	            <h3>{{ error_message }}</h3>
+	            <h2>{{ error_message }}</h2>
 	        {% else %}
-	            <h3>{{ movie_title}}  ({{ year_of_movie }})</h3>
+	            <h2>{{ movie_title}}  ({{ year_of_movie }})</h2>
 	             <br />
-	            <h3>IMDB rating: {{ rating }}</h3>
+	            <h4>IMDB rating: {{ rating }}</h4>
 	            <br />
-	            <h3>Genres</h3>
+	            <h4>Runtime: {{runtime}}</h4>
+	            <br />
+	            
+	           	<h4>Genres</h4>
 	            {% for genre in genres %}
-	            {{genre}}    
+	            	{{genre}}    
 	            {% endfor %}
+
 	            <br /> <br />
-	            <h3>Short Description</h3>
-	            {{plot}}
+	            <h4>Short Description</h4>
+	            {{plot}}</h4>
 	             <br /> <br />
-	            <h3>Actors</h3>
+	            <h4>Actors</h4>
 	            {{actors}}
 	             <br /> <br />
-				<h3>Directors</h3>
+				<h4>Directors</h4>
 	            {{directors}}
 	            <br /> <br />
-				<h3>Runtime</h3>
-	            {{runtime}}
-	            <br /> <br />
+				
 
 	        {% endif %}
 		</div>
