@@ -1,82 +1,23 @@
 import secrets
-import os
-from flask import render_template, url_for, flash, redirect, request, abort, session
-from flask_login import login_user, current_user, logout_user, login_required
-from website.account_forms import RegistrationForm, LoginForm
-from website import app, db, bcrypt
-from website.models import User
+from flask import Blueprint, render_template, request, session
+from website import app
 import random 
 import requests
 from datetime import datetime, timedelta
+
+movies = Blueprint('movies', __name__)
 
 # the period of time for how long data is saved on the website
 app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 
-@app.route("/")
-@app.route("/home")
-def home():
-	return render_template('base.html', title='Home')
-	#this should render index.html but since the inheritence isn't set up on it, using base.html instead.
-	#return render_template('index.html', title='Home')
-
-
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-	if current_user.is_authenticated:
-		return redirect(url_for('home'))
-	form = RegistrationForm()
-	if form.validate_on_submit():
-		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		user = User(username= form.username.data, display_name=form.display_name.data, password=hashed_password)
-		db.session.add(user)
-		db.session.commit()
-		flash(f'Your account has been created! You are able to login now.', 'success')
-		return redirect(url_for('login'))
-	return render_template('register.html', title='Register', form=form)
-
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-	if current_user.is_authenticated:
-		return redirect(url_for('home'))
-	form= LoginForm()
-	if form.validate_on_submit():
-		user = User.query.filter_by(username=form.username.data).first()
-		if user and bcrypt.check_password_hash(user.password, form.password.data):
-			login_user(user, remember=form.remember.data)
-			return redirect(url_for('home'))
-		else:
-			flash(f'Login Unsuccesful. Please check username and password', 'danger')
-	return render_template('login.html', title='Login', form=form)
-
-@app.route("/logout")
-def logout():
-	logout_user()
-	return redirect(url_for('home'))
-
-@app.route("/SearchMovies")
+@movies.route("/SearchMovies")
 def seeMovieReview():
 	return render_template('seeMovieReview.html', title='Search Movies')
 
 
-@app.route("/writeReview")
-def writeReviews():
-	return render_template('writeReview.html', title='Write A Review')
-
-
-@app.route("/detailedReview")
-def detailed_review():
-	return render_template('detailed_review.html', title='Movie Reviews')
-
-
-@app.route("/account")
-def account():
-	return render_template('account.html', title='Account')
-
-
-@app.route("/suggestMeMovies", methods=['GET', 'POST'])
+@movies.route("/suggestMeMovies", methods=['GET', 'POST'])
 def suggestMeMovies():
 	# the tuples and lists to save the required data for criteria
 
