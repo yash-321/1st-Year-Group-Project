@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
 	responses = db.relationship('Response')
 	blacklisted = db.relationship('Blacklist')
 	reviews = db.relationship('Review')
+	whitelisted = db.relationship('Whitelist')
 
 	def __repr__(self):
 		return f"User('{self.username}', '{self.display_name}')"
@@ -29,6 +30,11 @@ class Response(db.Model):
 	response = db.Column(db.String(20), nullable=False)
 
 class Blacklist(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	movie_id = db.Column(db.Integer, nullable=False)
+
+class Whitelist(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	movie_id = db.Column(db.Integer, nullable=False)
