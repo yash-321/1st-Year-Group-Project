@@ -12,9 +12,11 @@ class RegistrationForm(FlaskForm):
 
 	password= PasswordField('Password', validators=[DataRequired()])
 
+	confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+
 	agree= BooleanField('I agree to the terms & conditions', validators=[DataRequired()])
 
-	submit_register = SubmitField('Register', validators=[DataRequired()]) 
+	submit_register = SubmitField('Register', validators=[DataRequired()])
 
 	def validate_username(self, username):
 
@@ -22,11 +24,6 @@ class RegistrationForm(FlaskForm):
 		if user:
 			raise ValidationError('That username is taken, please choose a different one.')
 
-	def validate_email(self, email):
-
-		user = User.query.filter_by(display_name=display_name.data).first()
-		if user:
-			raise ValidationError('The email is taken, please choose a different one.')
 
 class LoginForm(FlaskForm):
 
