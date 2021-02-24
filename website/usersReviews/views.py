@@ -59,5 +59,3 @@ def writeReviews():
 @usersReviews.route("/detailedReview")
 def detailed_review():
 	return render_template('detailed_review.html', title='Movie Reviews')
-
-
