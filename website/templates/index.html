@@ -1,68 +1,117 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content %}
 <html>
-<head>
-<title>Home</title>
+    <head>
+        <style>
+            body{
+                background-image: url(../static/bg.jpg);
+                color:red;
+                
+            }
+
+            h1 {
+                background-color:rgba(red, green, blue, 0.1);
+                text-align: center;
+                padding: 2px;
+                color: plum;
+            }
+            h2{
+                color:red;
+            }
+            p {
+                font:Arial;
+                font-style: italic;
+                color:blanchedalmond;
+            }
+
+           
+
+            section{
+                display: flex;
+                flex-direction: row;
+            }
+
+            ul{
+                margin: 0;
+                padding: 0;
+                list-style-type: none;
+            }
+
+            li{
+                display: inline-block;
+                margin-right: 20px;
+
+            }
+            section div{
+                background-color: aquamarine;
+                width:100%;
+                margin: 100px;
+                height: 100px;
+            }
+            .carousel-item{
+                height:32rem;
+                background-image: url(../static/bg.jpg);
+                color:white;
+                position:relative;
+            }
+            .container{
+                position:absolute;
+                bottom:0;
+                left:0;
+                right:0;
+                padding-bottom:50px;
+            }
+             
+        </style>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    </head>
+
+    <body>
+        <canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
+
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="film1." class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>First slide label</h5>
+                  <p>Some representative placeholder content for the first slide.</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>Some representative placeholder content for the third slide.</p>
+                </div>
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"  data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
 
 
-<link href="css/style.css" type="text/css" rel="stylesheet" media="all">
-
-
-</head>
-<body>
-	<div class="header">
-		<div class="container">
-			<div class="header-left">
-				<ul> 
-					<li><a href="account.html">ACCOUNT</a></li>
-					<li class="login" >
-						<div id="loginContainer"><a href="#" id="loginButton"><span>LOGIN</span></a>
-						    <div id="loginBox">                
-						        <form id="loginForm">
-									<fieldset id="body">
-										<fieldset>
-											<label for="email">Email Address</label>
-											<input type="text" name="email" id="email">
-										</fieldset>
-										<fieldset>
-											<label for="password">Password</label>
-											<input type="password" name="password" id="password">
-										</fieldset>
-										<input type="submit" id="login" value="Sign in">
-										<label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
-									</fieldset>
-									<span><a href="#">Forgot your password?</a></span>
-								</form>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-
-			<div class="top-nav">
-				<span class="menu"><img src="" alt=""/></span>
-				<ul>
-					<li><a class="active" href="index.html">Home</a></li>
-					<li><a href="seemovie.html">see some movies</a></li>					
-					<li><a href="reviews.html">read some reviews</a></li>
-				</ul>
-
-			</div>
-
-		</div>
-	</div>	
-
-			
-	<div class="welcome">
-		<div class="container">
-			<h1 class="hdng">Welcome</h1>
-			<p>Start a fantasy movie journey </p>
-
-		</div>
-	</div>
-	
-</body>
-<<<<<<< HEAD
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="background.js"></script>
+    
 </html>
-=======
-</html>
->>>>>>> ba1fe72f4b2b9d9b8c6a936f2d73bd758879836b
+{% endblock content %}

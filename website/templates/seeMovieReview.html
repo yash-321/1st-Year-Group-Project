@@ -36,17 +36,21 @@
 
 </style>
 
+
+
 <canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
 <!-- search bar -->
 <div class="container-fluid p-3">
-	<div class="input-group col-md-8 mx-md-auto pt-3" id="searchForm">
-		<input class="form-control py-2 border-right-0 border" type="search" placeholder="Search..." id="searchMovies">
-		<span class="input-group-append">
-			<button class="btn btn-outline-secondary" type="button" action="#">
-				<i class="fa fa-search"></i>
-			</button>
-		</span>
-	</div>
+	<form action="searchMovies" method="POST" id="searchForm">
+		<div class="input-group col-md-8 mx-md-auto pt-3">
+				<input class="form-control py-2 border-right-0 border" name="search" value="{{ search_result }}" type="search" placeholder="Search..." id="searchMovies">
+				<span class="input-group-append">
+					<button class="btn btn-outline-secondary" type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+				</span>
+		</div>
+	</form>
 </div>
 
 <!-- List of popular movies and their top reviews -->
