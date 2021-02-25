@@ -12,9 +12,29 @@ app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 
-@movies.route("/SearchMovies")
+@movies.route("/searchMovies", methods=['GET', 'POST'])
 def seeMovieReview():
-	return render_template('seeMovieReview.html', title='Search Movies')
+	search_result = ""
+
+	if request.method == 'POST':
+		# session saves the typed keyword
+		session.permanent = True
+
+		search_result = request.form.get("search").strip()
+		session["search"] = search_result
+
+		print(search_result)
+
+
+	if "search" in session:
+		search_result = session["search"]
+	else:
+		search_result = ""
+
+	return render_template(
+		'seeMovieReview.html',
+	 	title='Search Movies',
+	 	search_result=search_result)
 
 
 @movies.route("/suggestMeMovies", methods=['GET', 'POST'])
