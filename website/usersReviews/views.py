@@ -66,11 +66,11 @@ def account():
 
 
 #reviews routes
-@usersReviews.route("/writeReview")
-def writeReviews():
+@usersReviews.route("/writeReview/<movie_id>")
+def writeReviews(movie_id):
 	return render_template('writeReview.html', title='Write A Review')
 
 
-@usersReviews.route("/detailedReview")
-def detailed_review():
+@usersReviews.route("/detailedReview/<movie_id>")
+def detailed_review(movie_id):
 	return render_template('detailed_review.html', title='Movie Reviews')
