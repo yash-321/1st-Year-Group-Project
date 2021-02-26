@@ -55,24 +55,24 @@
 
 <!-- List of popular movies and their top reviews -->
 <div class="container-fluid p-3" id="searchPage">
-	{% for i in range(6) %}
+	{% for i in range(number_of_movies) %}
 		<div class="row" id="popularReviews">
 			<div class="card mx-auto">
 				<div class="col-md-4 no-gutters" id="popularMoviePosters">
-					{% if error_message %}
+				{% if error_message %}
 			            <!-- just skip then and not output anything -->
 			    {% else %}
-						<img src={{poster}} width="250" id="poster">
+						<img src={{posters[i]}} width="250" id="poster">
 					{% endif %}
 				</div>
-				<div class="col-md-8 no-gutters" id="popularMovieReviews">
-					{% if error_message %}
-	            <h3>{{ error_message }}</h3>
-	        {% else %}
-	            <h3><b>{{ movie_title}}  ({{ year_of_movie }})</b></h3>
-							<br>
-							<h5><i>IMDB Rating: {{ rating }}</i></h5>
-							<p>Top review of the movie to be inserted here</p>
+				<div class="col-md-8 no-gutters p-4" id="popularMovieReviews">
+				{% if error_message %}
+	            	<h3>{{ error_message }}</h3>
+	        	{% else %}
+	            <h2><b>{{ titles[i]}}  ({{ years[i] }})</b></h2>
+							<!-- <br> -->
+							<!-- <h5><i>IMDB Rating: {{ rating }}</i></h5> -->
+							<!-- <p>Top review of the movie to be inserted here</p> -->
 					{% endif %}
 				</div>
 			</div>
