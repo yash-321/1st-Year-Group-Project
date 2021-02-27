@@ -12,9 +12,17 @@ class RegistrationForm(FlaskForm):
 
 	password= PasswordField('Password', validators=[DataRequired()])
 
+	confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+
 	agree= BooleanField('I agree to the terms & conditions', validators=[DataRequired()])
 
-	submit_register = SubmitField('Register', validators=[DataRequired()]) 
+	question_1 = StringField('What is your oldest siblings name?', validators=[DataRequired()])
+
+	question_2 = StringField('What is your first pets name?', validators=[DataRequired()])
+
+	question_3 = StringField('What is your favourite food?', validators=[DataRequired()])
+
+	submit_register = SubmitField('Register', validators=[DataRequired()])
 
 	def validate_username(self, username):
 
@@ -22,11 +30,6 @@ class RegistrationForm(FlaskForm):
 		if user:
 			raise ValidationError('That username is taken, please choose a different one.')
 
-	def validate_email(self, email):
-
-		user = User.query.filter_by(display_name=display_name.data).first()
-		if user:
-			raise ValidationError('The email is taken, please choose a different one.')
 
 class LoginForm(FlaskForm):
 
@@ -37,3 +40,19 @@ class LoginForm(FlaskForm):
 	remember= BooleanField('Remember Me')
 
 	submit_login = SubmitField('Log In')
+
+class ForgotPasswordForm(FlaskForm):
+
+	username = StringField('Username', validators=[DataRequired()])
+
+	question_1 = StringField('What is your oldest siblings name?', validators=[DataRequired()])
+
+	question_2 = StringField('What is your first pets name?', validators=[DataRequired()])
+
+	question_3 = StringField('What is your favourite food?', validators=[DataRequired()])
+
+	password= PasswordField('New Password', validators=[DataRequired()])
+
+	submit_forgot_password = SubmitField('Confirm Changes', validators=[DataRequired()])
+
+

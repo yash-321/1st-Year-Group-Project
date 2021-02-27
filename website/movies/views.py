@@ -12,9 +12,57 @@ app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 
-@movies.route("/SearchMovies")
+@movies.route("/searchMovies", methods=['GET', 'POST'])
 def seeMovieReview():
-	return render_template('seeMovieReview.html', title='Search Movies')
+	# initialise the required data
+	search_result = ""
+	number_of_movies = 0
+	titles = []
+	years = []
+	IDs = []
+	types = []
+	posters = []
+
+	if request.method == 'POST':
+		# session saves the typed keyword
+		session.permanent = True
+
+		search_result = request.form.get("search").strip()
+		session["search"] = search_result
+
+		if search_result:
+			respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2' 
+			r = requests.get(respString) 
+			dictionary = r.json()
+			if dictionary['Response'] == 'True':
+				data = dictionary["Search"]
+				number_of_movies = len(data)
+				for movie in data:
+					# print(movie['Title'])
+					titles.append(movie['Title'])
+					years.append(movie['Year'])
+					IDs.append(movie['imdbID'])
+					types.append(movie['Type'])
+					posters.append(movie['Poster'])
+
+		# http://www.omdbapi.com/?s=home&apikey=b3814b2&page=1
+		# http://www.omdbapi.com/?t=home&apikey=b3814b2
+
+	if "search" in session:
+		search_result = session["search"]
+	else:
+		search_result = ""
+
+	return render_template(
+		'seeMovieReview.html',
+	 	title='Search Movies',
+	 	search_result=search_result,
+	 	number_of_movies=number_of_movies,
+	 	titles=titles,
+	 	years=years,
+	 	IDs=IDs,
+	 	types=types,
+	 	posters=posters)
 
 
 @movies.route("/suggestMeMovies", methods=['GET', 'POST'])

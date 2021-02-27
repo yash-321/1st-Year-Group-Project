@@ -98,7 +98,7 @@
       }
 
 
-    </style> 
+    </style>
 <canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
     <!-- Displaying flash messages -->
       <div class="col-md-8">
@@ -117,7 +117,7 @@
       <div class="container" id="register">
         <div class="row no-gutters">
           <div class="col-lg-5">
-            <img src="{{url_for('static', filename='neo.jpg')}}" class="img-fluid" alt="someimage">          
+            <img src="{{url_for('static', filename='neo.jpg')}}" class="img-fluid" alt="someimage">
           </div>
           <div class="col-lg-7 px-5 pt-5">
             <h1 class="font-weight-bold py-3">FilmFlick</h1>
@@ -125,38 +125,38 @@
             <form class="form-signin" method="POST" action="">
               {{ form.hidden_tag() }}
               <!-- username input field -->
-              <div class="form-row"> 
+              <div class="form-row">
                 <div class="col-lg-7">
                   <fieldset class="form-group">
                   {{ form.username.label }}
                   {% if form.username.errors %}
-                      {{ form.username(class="input-field")}} 
-                      <div class="invalid-feedback"> 
+                      {{ form.username(class="input-field")}}
+                      <div class="invalid-feedback">
                        {% for error in form.username.errors %}
-                        <span>{{ error }} </span> 
-                        {% endfor %} 
+                        <span>{{ error }} </span>
+                        {% endfor %}
                       </div>
                     {% else %}
                       {{ form.username }}
-                    {% endif %} 
+                    {% endif %}
                 </div>
               </div>
               <!-- displayname input field -->
-              <div class="form-row"> 
+              <div class="form-row">
                 <div class="col-lg-7">
                   <fieldset class="form-group">
                   {{ form.display_name.label }}
                   {% if form.display_name.errors %}
-                      {{ form.display_name(class="input-field")}} 
-                      <div class="invalid-feedback"> 
+                      {{ form.display_name(class="input-field")}}
+                      <div class="invalid-feedback">
                        {% for error in form.display_name.errors %}
-                        <span>{{ error }} </span> 
-                        {% endfor %} 
+                        <span>{{ error }} </span>
+                        {% endfor %}
                       </div>
                     {% else %}
                       {{ form.display_name }}
-                    {% endif %} 
-               
+                    {% endif %}
+
                 </div>
               </div>
               <!-- password input field -->
@@ -170,40 +170,110 @@
                           <div class="invalid-feedback">
                             {% for error in form.password.errors %}
                                 <span> {{ error}} </span>
-                            {% endfor %} 
+                            {% endfor %}
                           </div>
                           {% else %}
-                            {{ form.password}} 
-                            {% endif %}             
-                          </div> 
-                          <!-- drop down for security questions -->
+                            {{ form.password}}
+                            {% endif %}
+                          </div>
+                          <!-- confirm password input field -->
                           <div class="form-row">
                             <div class="col-lg-7">
-                              <div class="dropdown">
-                                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                    Please choose a security question
-                                  </button>
-                                    <div class="dropdown-menu">
-                                      <a class="dropdown-item" href="#">What is your oldest sibling's middle name?</a>
-                                      <a class="dropdown-item" href="#">What is the name of a college you applied to but didn't attend?</a>
-                                      <a class="dropdown-item" href="#">In what city does your nearest sibling live?</a>
-                                    </div>
+                              <fieldset class="form-group">
+                              <div class="input-field">
+                                  {{ form.confirm_password.label}}
+                                  {% if form.confirm_password.errors %}
+                                      {{ form.confirm_password }}
+                                      <div class="invalid-feedback">
+                                        {% for error in form.confirm_password.errors %}
+                                            <span> {{ error }} </span>
+                                        {% endfor %}
+                                      </div>
+                                      {% else %}
+                                        {{ form.confirm_password}}
+                                        {% endif %}
+                                      </div>
+                          <!-- buttons for security questions -->
+                          <div class="form-row">
+                            <div class="col-lg-7">
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#security_questions">
+                                  Security Questions
+                                </button>
                               </div>
-                            </div>   
-                          </div>
+                            </div>
+                        <!-- pop-up windwo for security questions -->
+                        <div id="security_questions" class="modal fade">
+                          <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                  <div class="modal-header">
+                                      <h4 class="modal-title text-xs-center">Security Questions</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="form-group">
+                                      <div class="col-lg-7 px-2 pt-2">
+                                        <fieldset class="form-group">
+                                            {{ form.question_1.label}}
+                                            {% if form.question_1.errors %}
+                                                {{ form.question_1 }}
+                                                <div class="invalid-feedback">
+                                                  {% for error in form.question_1.errors %}
+                                                      <span> {{ error}} </span>
+                                                  {% endfor %}
+                                                </div>
+                                                {% else %}
+                                                  {{ form.question_1}}
+                                                  {% endif %}
+                                                </div>
+                                    <div class="form-group">
+						                <div class="col-lg-7 px-2 pt-2">
+						                  <fieldset class="form-group">
+						                  <div class="input-field">
+						                      {{ form.question_2.label}}
+						                      {% if form.question_2.errors %}
+						                          {{ form.question_2 }}
+						                          <div class="invalid-feedback">
+						                            {% for error in form.question_2.errors %}
+						                                <span> {{ error}} </span>
+						                            {% endfor %}
+						                          </div>
+						                          {% else %}
+						                            {{ form.question_2}}
+						                            {% endif %}
+						                          </div>
+						            <div class="form-group">
+						                <div class="col-lg-7 px-2 pt-2">
+						                  <fieldset class="form-group">
+						                  <div class="input-field">
+						                      {{ form.question_3.label}}
+						                      {% if form.question_3.errors %}
+						                          {{ form.question_3 }}
+						                          <div class="invalid-feedback">
+						                            {% for error in form.question_3.errors %}
+						                                <span> {{ error}} </span>
+						                            {% endfor %}
+						                          </div>
+						                          {% else %}
+						                            {{ form.question_3}}
+						                            {% endif %}
+						                          </div>
+						            <button type="button" class="submit-btn mt-2 mb-3" data-dismiss="modal">Close</button>
+                                  </div>
+                              </div><!-- /.modal-content -->
+                          </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
               <!-- I agree to terms and conditions check box -->
-                      <div class="check-box">
-                          {{ form.agree }}
-                          {{ form.agree.label}}
-                      </div> 
-                 </fieldset>             
+	              </fieldset>
+	              <div class="check-box">
+	                  {{ form.agree }}
+	                  {{ form.agree.label}}
+	              </div>
                 </div>
               </div>
               <!-- register button -->
               <div class="form-row">
                 <div class="col-lg-7">
                   <div >
-                    {{ form.submit_register (class="submit-btn mt-3 mb-5")}} 
+                    {{ form.submit_register (class="submit-btn mt-3 mb-5")}}
                   </div>
                 </div>
               </div>
@@ -219,17 +289,3 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
 {% endblock content %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
