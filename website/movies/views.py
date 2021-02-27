@@ -28,30 +28,38 @@ def seeMovieReview():
 		session.permanent = True
 
 		search_result = request.form.get("search").strip()
-		session["search"] = search_result
-
+		
 		if search_result:
-			respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2' 
-			r = requests.get(respString) 
-			dictionary = r.json()
-			if dictionary['Response'] == 'True':
-				data = dictionary["Search"]
-				number_of_movies = len(data)
-				for movie in data:
-					# print(movie['Title'])
-					titles.append(movie['Title'])
-					years.append(movie['Year'])
-					IDs.append(movie['imdbID'])
-					types.append(movie['Type'])
-					posters.append(movie['Poster'])
+			session["search"] = search_result
+		else:
+			# if nothing was typed when do not query the API
+			session.pop("search", None)
+			
 
 		# http://www.omdbapi.com/?s=home&apikey=b3814b2&page=1
 		# http://www.omdbapi.com/?t=home&apikey=b3814b2
 
+
+	# if anything was typed in the search bar when query the API
 	if "search" in session:
 		search_result = session["search"]
+		respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2' 
+		r = requests.get(respString) 
+		dictionary = r.json()
+
+		if dictionary['Response'] == 'True':
+			data = dictionary["Search"]
+			number_of_movies = len(data)
+			for movie in data:
+				titles.append(movie['Title'])
+				years.append(movie['Year'])
+				IDs.append(movie['imdbID'])
+				types.append(movie['Type'])
+				posters.append(movie['Poster'])
 	else:
 		search_result = ""
+		# generate default movies
+		
 
 	return render_template(
 		'seeMovieReview.html',
