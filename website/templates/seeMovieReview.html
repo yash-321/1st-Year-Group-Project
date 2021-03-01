@@ -69,11 +69,11 @@
 				{% if error_message %}
 	            	<h3>{{ error_message }}</h3>
 	        	{% else %}
-	            <h2><b>{{ titles[i]}}  ({{ years[i] }})</b></h2>
+	            <a href="/detailedReview/{{IDs[i]}}"><h2><b>{{ titles[i]}}  ({{ years[i] }})</b></h2></a>
 							<!-- <br> -->
 							<!-- <h5><i>IMDB Rating: {{ rating }}</i></h5> -->
 							<!-- <p>Top review of the movie to be inserted here</p> -->
-					{% endif %}
+				{% endif %}
 				</div>
 			</div>
 		</div>

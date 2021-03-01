@@ -22,6 +22,7 @@ def seeMovieReview():
 	IDs = []
 	types = []
 	posters = []
+	error_message = ""
 
 	if request.method == 'POST':
 		# session saves the typed keyword
@@ -38,7 +39,8 @@ def seeMovieReview():
 
 		# http://www.omdbapi.com/?s=home&apikey=b3814b2&page=1
 		# http://www.omdbapi.com/?t=home&apikey=b3814b2
-
+		
+	not_found = False
 
 	# if anything was typed in the search bar when query the API
 	if "search" in session:
@@ -56,7 +58,10 @@ def seeMovieReview():
 				IDs.append(movie['imdbID'])
 				types.append(movie['Type'])
 				posters.append(movie['Poster'])
-	else:
+		else:
+			error_message = "Try again! None movies were found..."
+
+	if not_found or "search" not in session:
 		search_result = ""
 		# generate default movies
 		url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
@@ -110,7 +115,8 @@ def seeMovieReview():
 	 	years=years,
 	 	IDs=IDs,
 	 	types=types,
-	 	posters=posters)
+	 	posters=posters,
+	 	error_message=error_message)
 
 
 @movies.route("/suggestMeMovies", methods=['GET', 'POST'])
@@ -287,7 +293,7 @@ def suggestMeMovies():
 					trailer = "https://www.youtube.com/embed/" + trailer
 
 				# if genres and years met the criteria, then the rating is checked using the OMDB API
-				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=b3814b2' 
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=b3814b2&plot=full' 
 				r = requests.get(respString) #, timeout=1)
 				dictionary = r.json()
 
