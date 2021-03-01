@@ -1,4 +1,67 @@
 {% extends "base.html" %}
 {% block content %}
-	<h1>This is the Account Page</h1>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+<style>
+    *{
+	    padding: 0;
+	    margin: 0;
+	    box-sizing: border-box;
+  	}
+
+	html{
+    	height: 100%;
+  	}
+  	body{
+    	min-height: 100%;
+		background-size: 100%;
+		background: rgb(46,48,46);
+	}
+	#accountpage {
+		background: rgba(255,255,255,0.5);
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+	}
+	.profilelinks li{
+		list-style-type: none;
+	}
+
+	#footer {
+	    right: 0; bottom: 0; left: 0;
+	    position: relative;
+	    width: 100%;
+	    height: 218px;
+	}
+    .container{
+        margin-top: 100px;
+     }
+
+</style>
+
+<canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
+<div class="container-fluid p-3" id="accountpage">
+	<div class="col-4 pt-3" id="pageview">
+		<div class="row">
+			<ul class="profilelinks">
+				<li class="prof-item">
+					<a class="prof-link" href="#">My Reviews</a>
+				</li>
+				<li class="prof-item">
+					<a class="prof-link" href="#">Whitelist</a>
+				</li>
+				<li class="prof-item">
+					<a class="prof-link" href="#">Blacklist</a>
+				</li>
+				<li class="prof-item">
+					<a class="prof-link" href="#">Account settings</a>
+				</li>		
+			</ul>
+		</div>
+	</div>
+</div>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
 {% endblock content %}
