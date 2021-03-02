@@ -35,76 +35,78 @@ def seeMovieReview():
 		else:
 			# if nothing was typed when do not query the API
 			session.pop("search", None)
-			
 
-		# http://www.omdbapi.com/?s=home&apikey=b3814b2&page=1
-		# http://www.omdbapi.com/?t=home&apikey=b3814b2
 		
-	not_found = False
-
 	# if anything was typed in the search bar when query the API
 	if "search" in session:
-		search_result = session["search"]
-		respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2' 
-		r = requests.get(respString) 
-		dictionary = r.json()
-
-		if dictionary['Response'] == 'True':
-			data = dictionary["Search"]
-			number_of_movies = len(data)
-			for movie in data:
-				titles.append(movie['Title'])
-				years.append(movie['Year'])
-				IDs.append(movie['imdbID'])
-				types.append(movie['Type'])
-				posters.append(movie['Poster'])
-		else:
-			error_message = "Try again! None movies were found..."
-
-	if not_found or "search" not in session:
-		search_result = ""
-		# generate default movies
-		url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
-
-		page_number = str(random.randint(1, 200))
-
-		querystring = {"type":"get-popular-movies","page":page_number,"year":"2020"}
-
-		headers = {
-		    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-		    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-		    }
-
-		response = requests.request("GET", url, headers=headers, params=querystring)
-		data = response.json()
-
-		chosen_movies_numbers = []
-		number_of_movies = 5
-
-		i = 0
-		while i < number_of_movies:
-			while True:
-				number = random.randint(0, 19)
-				if number not in chosen_movies_numbers:
-					chosen_movies_numbers.append(number)
-					break
-
-			IDs.append(data["movie_results"][number]["imdb_id"])
-
-			respString = 'http://www.omdbapi.com/?i=' + IDs[i] + '&apikey=b3814b2' 
-			r = requests.get(respString)
+		try:
+			search_result = session["search"]
+			respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2' 
+			r = requests.get(respString) 
 			dictionary = r.json()
 
-			poster = dictionary['Poster'].strip()
+			if dictionary['Response'] == 'True':
+				data = dictionary["Search"]
+				number_of_movies = len(data)
+				for movie in data:
+					titles.append(movie['Title'])
+					years.append(movie['Year'])
+					IDs.append(movie['imdbID'])
+					types.append(movie['Type'])
+					posters.append(movie['Poster'])
+			else:
+				error_message = "Try again! None movies were found..."
 
-			if dictionary['Response'] == 'True' and poster != "" and poster != "N/A":
-				titles.append(dictionary['Title'])
-				years.append(dictionary['Year'])
-				types.append(dictionary['Type'])
-				posters.append(dictionary['Poster'])
+		except:
+			error_message = "Try again! None movies were found..."
 
-				i += 1
-		
+	if "search" not in session:
+		try:
+			search_result = ""
+			# generate default movies
+			url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+
+			page_number = str(random.randint(1, 200))
+
+			querystring = {"type":"get-popular-movies","page":page_number,"year":"2020"}
+
+			headers = {
+			    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+			    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+			    }
+
+			response = requests.request("GET", url, headers=headers, params=querystring)
+			data = response.json()
+
+			chosen_movies_numbers = []
+			number_of_movies = 5
+
+			i = 0
+			while i < number_of_movies:
+				while True:
+					number = random.randint(0, 19)
+					if number not in chosen_movies_numbers:
+						chosen_movies_numbers.append(number)
+						break
+
+				IDs.append(data["movie_results"][number]["imdb_id"])
+
+				respString = 'http://www.omdbapi.com/?i=' + IDs[i] + '&apikey=b3814b2' 
+				r = requests.get(respString)
+				dictionary = r.json()
+
+				poster = dictionary['Poster'].strip()
+
+				if dictionary['Response'] == 'True' and poster != "" and poster != "N/A":
+					titles.append(dictionary['Title'])
+					years.append(dictionary['Year'])
+					types.append(dictionary['Type'])
+					posters.append(dictionary['Poster'])
+
+					i += 1
+		except:
+			error_message = "Try again! None movies were found..."
+
 
 	return render_template(
 		'seeMovieReview.html',
