@@ -19,6 +19,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="website/static/style.css" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    .dropdown-container {
+      position: relative;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+    }
+</style>
 <body>
 	  <!-- navbar and shared html elements to be inserted here -->
     <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
@@ -41,7 +50,17 @@
         <ul class="navbar-nav ml-auto">
           {% if current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('usersReviews.account') }}">My Profile</a>
+            <div class="dropdown-container">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                  My Profile
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{{ url_for('usersReviews.account') }}">My Reviews</a>
+                  <a class="dropdown-item" href="{{ url_for('usersReviews.account') }}">White List</a>
+                  <a class="dropdown-item" href="{{ url_for('usersReviews.account') }}">Black List</a>
+                  <a class="dropdown-item" href="{{ url_for('usersReviews.account') }}">Settings</a>
+                </div>
+              </div>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('usersReviews.logout') }}">Logout</a>
           {%else%}
