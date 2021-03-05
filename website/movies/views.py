@@ -59,8 +59,7 @@ def seeMovieReview():
 
 		except:
 			error_message = "Try again! None movies were found..."
-
-	if "search" not in session:
+	else:
 		try:
 			search_result = ""
 			# generate default movies
@@ -77,7 +76,8 @@ def seeMovieReview():
 
 			response = requests.request("GET", url, headers=headers, params=querystring)
 			data = response.json()
-
+			# print(data)
+			# print("\n")
 			chosen_movies_numbers = []
 			number_of_movies = 5
 
@@ -94,6 +94,9 @@ def seeMovieReview():
 				respString = 'http://www.omdbapi.com/?i=' + IDs[i] + '&apikey=b3814b2' 
 				r = requests.get(respString)
 				dictionary = r.json()
+				
+				# print(dictionary)
+				# print("\n")
 
 				poster = dictionary['Poster'].strip()
 
@@ -133,18 +136,18 @@ def suggestMeMovies():
 	number_of_different_genres = len(names_of_genres)
 	checked_genres = [""]*number_of_different_genres
 
-	ratings = (0, 7.5, 7, 6.5, 6, 5.5, 5)
-	ratings_texts = ("Any Ratings", "Rated over 7.5", "Rated over 7",
+	ratings = (0, 7, 6.5, 6, 5.5, 5, 4.5)
+	ratings_texts = ("Any Ratings", "Rated over 7",
 					"Rated over 6.5","Rated over 6","Rated over 5.5",
-					"Rated over 5")
+					"Rated over 5", "Rated over 4.5")
 	chosen_rating = 0
 	number_of_different_ratings = len(ratings)
 
-	ranges_of_years_text = ("All years", "2015 – now", "2010 – 2014", "2005 – 2009",
-							"2000 – 2004", "1995 – 1999", "1990 – 1994", "1960 – 1989", "Older than 1960")
+	ranges_of_years_text = ("All years", "2010 – now", "2000 – 2009", "1990 – 1999",
+							"1980 – 1989", "1960 – 1979", "Older than 1960")
 
-	ranges_of_years = (0, (2015, 2021), (2010, 2014), (2005, 2009), (2000, 2004), (1995, 1999),
-					  (1990, 1994), (1960, 1989), 1960)
+	ranges_of_years = (0, (2010, 2021), (2000, 2009), (1990, 1999),
+					  (1980, 1989), (1960, 1979), 1960)
 
 	indices_of_checked_ranges_of_years = []
 	number_of_different_ranges_of_years = len(ranges_of_years_text)
