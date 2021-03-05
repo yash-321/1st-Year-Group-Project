@@ -1,7 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
+
+	<!-- Link to the animated background -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+	<!-- CSS styling, to be moved to static style file -->
+	<style>
+	#suggestedMovie{
+		margin-top: 20px;
+	}
+	html {
+    	height: 100%;
+  	}
+  	body{
+    	min-height: 100%;
+		background-size: 100%;
+		background: rgb(46,48,46);
+	}
+
+	#mainBody {
+		margin-top: 20px;
+		margin-bottom: 40px;
+		background: rgba(255,255,255,0.5);
+		background-position: center;
+		width: 80%;
+		height: 80%;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+	}
+
+	#footer{
+        right: 0; bottom: 0; left: 0;
+        width: 100%;
+        height: 218px;
+    }
+
+    .btn{
+    	padding: 20px;
+		color: white;
+		background: rgb(46,48,46);		
+		margin-top: -15px;
+		border-color: rgb(46,48,46);
+		border: 10px;
+    }
+
+
+</style>
+
+
+	<!-- display the animated background -->
+	<canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
 	<!-- FILM INFORMATION SECTION-->
-	<div class="container-fluid padding">
+	<div id="mainBody" class="container-fluid p-3">
 		<div class="row">
 			<div class="col-md-4">
 				<h3>Movie Title (Year released)</h3>
@@ -19,27 +71,29 @@
 				<p>Production company credits here</p>
 			</div>
 		</div>
+
+			<!-- REVIEWS SECTION -->
+		<div class="container-fluid padding">
+			<h3>Reviews</h3>
+			<!-- loop criteria to be replaced with for review in review 
+			where the reviews are returned from the DB -->
+			{% for i in [0,1,2] %}
+				<div>
+					<div class="row">
+						<div class="col-md-4">
+							<h4>Review name</h4>
+							<p>by display name</p>
+						</div>
+						<div class="col-md-8">
+							<h4>Rating: 5/5</h4>
+							<p>Date:01/01/2021</p>
+						</div>
+					</div>
+					<p>Review text here</p>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 
-	<!-- REVIEWS SECTION -->
-	<div class="container-fluid padding">
-		<h3>Reviews</h3>
-		<!-- loop criteria to be replaced with for review in review 
-		where the reviews are returned from the DB -->
-		{% for i in [0,1,2] %}
-			<div>
-				<div class="row">
-					<div class="col-md-4">
-						<h4>Review name</h4>
-						<p>by display name</p>
-					</div>
-					<div class="col-md-8">
-						<h4>Rating: 5/5</h4>
-						<p>Date:01/01/2021</p>
-					</div>
-				</div>
-				<p>Review text here</p>
-			</div>
-		{% endfor %}
-	</div>
+
 {% endblock content %}
