@@ -12,8 +12,9 @@ app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 
-@movies.route("/searchMovies", methods=['GET', 'POST'])
-def seeMovieReview():
+@movies.route("/searchMovies/", methods=['GET', 'POST'])
+@movies.route("/searchMovies/page=<page>", methods=['GET', 'POST'])
+def seeMovieReview(page = 1):
 	# initialise the required data
 	search_result = ""
 	number_of_movies = 0
@@ -36,12 +37,14 @@ def seeMovieReview():
 			# if nothing was typed when do not query the API
 			session.pop("search", None)
 
+	emptySearchBox = False
 		
-	# if anything was typed in the search bar when query the API
+	# if anything was typed in the search bar when query the API to get movies by keyword
+	# otherwise, query the other API to receive 5 random popular movies
 	if "search" in session:
 		try:
 			search_result = session["search"]
-			respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2' 
+			respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2&page=' + str(page) 
 			r = requests.get(respString) 
 			dictionary = r.json()
 
@@ -61,6 +64,8 @@ def seeMovieReview():
 			error_message = "Try again! None movies were found..."
 	else:
 		try:
+			emptySearchBox = True
+
 			search_result = ""
 			# generate default movies
 			url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
@@ -76,8 +81,7 @@ def seeMovieReview():
 
 			response = requests.request("GET", url, headers=headers, params=querystring)
 			data = response.json()
-			# print(data)
-			# print("\n")
+
 			chosen_movies_numbers = []
 			number_of_movies = 5
 
@@ -94,9 +98,6 @@ def seeMovieReview():
 				respString = 'http://www.omdbapi.com/?i=' + IDs[i] + '&apikey=b3814b2' 
 				r = requests.get(respString)
 				dictionary = r.json()
-				
-				# print(dictionary)
-				# print("\n")
 
 				poster = dictionary['Poster'].strip()
 
@@ -110,6 +111,12 @@ def seeMovieReview():
 		except:
 			error_message = "Try again! None movies were found..."
 
+	# validate if page data type is not string
+	try:
+		page = int(page)
+	except:
+		error_message = "Try again! Invalid page number was provided!"
+
 
 	return render_template(
 		'seeMovieReview.html',
@@ -121,10 +128,12 @@ def seeMovieReview():
 	 	IDs=IDs,
 	 	types=types,
 	 	posters=posters,
-	 	error_message=error_message)
+	 	error_message=error_message,
+	 	page=page,
+	 	emptySearchBox=emptySearchBox)
 
 
-@movies.route("/suggestMeMovies", methods=['GET', 'POST'])
+@movies.route("/suggestMeMovies/", methods=['GET', 'POST'])
 def suggestMeMovies():
 	# the tuples and lists to save the required data for criteria
 
