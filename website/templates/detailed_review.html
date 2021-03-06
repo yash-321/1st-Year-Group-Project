@@ -49,30 +49,38 @@
 
 </style>
 
-
 	<!-- display the animated background -->
 	<canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
 	<!-- FILM INFORMATION SECTION-->
 	<div id="mainBody" class="container-fluid p-3">
 		<div class="row">
+			{% if not error_message %}
 			<div class="col-md-4">
-				<h3>Movie Title (Year released)</h3>
-				<p>Movie poster to be inserted here</p>
+				<h3>{{movie_title}}({{year_of_movie}})</h3>
+				<p><img src={{poster}} width="350" id="poster"></p>
 			</div>
 			<div class="col-md-6">
-				<p>Ratings: 10/10</p>
-				<h4>Movie Information:</h4>
-				<p>Age rating: rating here<br>Duration: 2 hours<br>Genre: Action</p>
+				<h4>Movie Information: </h4>
+				<p>Ratings: {{imdb_rating}}</p>
+				<p>Duration: {{runtime}}<br>Genres: {{genres}}</p>
 				<br>
-				<p>Director: Director's name<br>Writer: Writer's name</p>
-				<p>Cast</p>
-				<h4>Movie Plot:</h4>
-				<p>Insert movie plot here</p>
-				<p>Production company credits here</p>
+				<p>Director: {{directors}}<br>Writer: {{writer}}</p>
+				<p>{{actors}}</p>
+				<h4>Movie Plot: </h4>
+				<p>{{plot}}</p>
+				<p>{{production}}</p>
+				<p>Language:</p>
+				<p>{{language}}</p>
+				<p>Awards</p>
+				<p>{{awards}}</p>
 			</div>
+			{% else %}
+				<h2 class="m-2">{{error_message}}</h2>
+			{% endif %}
 		</div>
 
 			<!-- REVIEWS SECTION -->
+		{% if not error_message %}
 		<div class="container-fluid padding">
 			<h3>Reviews</h3>
 			<!-- loop criteria to be replaced with for review in review 
@@ -93,6 +101,7 @@
 				</div>
 			{% endfor %}
 		</div>
+		{% endif %}
 	</div>
 
 

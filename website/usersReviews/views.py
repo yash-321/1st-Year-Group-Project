@@ -3,6 +3,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm
 from website import db, bcrypt
 from website.models import User
+import requests
 
 usersReviews = Blueprint('usersReviews', __name__)
 
@@ -71,6 +72,48 @@ def writeReviews(movie_id):
 	return render_template('writeReview.html', title='Write A Review')
 
 
-@usersReviews.route("/detailedReview/<movie_id>")
+@usersReviews.route("/detailedReview/ID=<movie_id>")
 def detailed_review(movie_id):
-	return render_template('detailed_review.html', title='Movie Reviews')
+	# query the API to get the data about a specific movie
+	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full' 
+	r = requests.get(respString) #, timeout=1)
+	dictionary = r.json()
+
+	error_message = movie_title = genres = year_of_movie = poster_url = imdb_rating = plot = actors \
+	= directors = runtime = language = awards = production = writer = None
+
+	if dictionary["Response"] != "False":
+		movie_title = dictionary["Title"]
+		genres = dictionary["Genre"]
+		year_of_movie = dictionary["Year"]
+		poster_url = dictionary["Poster"].strip()
+		imdb_rating = dictionary["imdbRating"]
+		plot = dictionary["Plot"]
+		actors = dictionary["Actors"]
+		directors = dictionary["Director"]
+		runtime = dictionary["Runtime"]
+		language = dictionary["Language"]
+		awards = dictionary["Awards"].strip()
+
+		production = dictionary["Production"].strip()
+		writer = dictionary["Writer"].strip()
+	else:
+		error_message = "The movie was not found! Try again!"
+
+	return render_template(
+		'detailed_review.html', 
+		title='Movie Reviews',
+		error_message=error_message,
+		movie_title=movie_title,
+		genres=genres,
+		year_of_movie=year_of_movie,
+		poster=poster_url,
+		imdb_rating=imdb_rating,
+		plot=plot,
+		actors=actors,
+		directors=directors,
+		runtime=runtime,
+		language=language,
+		awards=awards,
+		production=production,
+		writer=writer)

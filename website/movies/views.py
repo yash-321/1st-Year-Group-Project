@@ -133,7 +133,7 @@ def seeMovieReview(page = 1):
 	 	emptySearchBox=emptySearchBox)
 
 
-@movies.route("/suggestMeMovies/", methods=['GET', 'POST'])
+@movies.route("/suggestMeMovies", methods=['GET', 'POST'])
 def suggestMeMovies():
 	# the tuples and lists to save the required data for criteria
 
