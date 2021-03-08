@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
 <style>
 	#suggestedMovie{
@@ -40,24 +40,26 @@
   	color:white;
   }
 	#generatebtn{
-		padding: 15px;
+		padding: 20px;
 		color: white;
 		background: rgb(46,48,46);
+    margin-left: 75px;
 		border-color: rgb(46,48,46);
 		border: 10px;
 	}
 	#whitelistbtn{
-		padding: 15px;
+		padding: 20px;
 		color: white;
-    margin-left: 60px;
+    margin-left: 80px;
     margin-right: 0px;
 		background: rgb(46,48,46);
 		border-color: rgb(46,48,46);
 		border: 10px;
 	}
 	#blacklistbtn{
-		padding: 15px;
+		padding: 20px;
 		color: white;
+    margin-left: 5px;
 		background: rgb(46,48,46);
 		border-color: rgb(46,48,46);
 		border: 10px;
@@ -180,10 +182,7 @@
 		<!-- also we could make this section smaller (e.g. col-3) to give more space for poster-->
 		<!-- but there would be left a very limited space for data about movies -->
 		<div class="col-md-4 pt-3 no-gutters" id="movieSection">
-			<button form="formSuggestMovie" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button>
-			<button form="formSuggestMovie" type="submit" class="btn btn-primary" id="whitelistbtn">Whitelist</button>
-			<button form="formSuggestMovie" type="submit" class="btn btn-primary" id="blacklistbtn">Blacklist</button><br>
-			<br>
+      <br>
 			{% if error_message %}
           <h2>{{ error_message }}</h2>
       {% else %}
@@ -219,6 +218,7 @@
 		<!-- it probably needs to be dynamically resizable -->
 		<!-- check bootstrap docs for image classes -->
 		<div class="col-md-4 pt-3 no-gutters" id="posterSection">
+      <br>
       {% if error_message %}
         <!-- just skip then and not output anything -->
       {% else %}
@@ -229,6 +229,15 @@
 					<!-- <h4><a href="{{trailer}}">YT trailer</a></h4> -->
 				{% endif %}
 			{% endif %}
+      <br>
+      <br>
+      <button form="formSuggestMovie" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button>
+			<button form="formSuggestMovie" type="button" class="btn btn-primary" id="whitelistbtn">
+        <i class="fa fa-heart" aria-hidden="true"></i>
+      </button>
+			<button form="formSuggestMovie" type="button" class="btn btn-primary" id="blacklistbtn">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
 		</div>
 	</div>
 </div>
