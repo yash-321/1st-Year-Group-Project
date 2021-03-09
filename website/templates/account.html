@@ -1,62 +1,108 @@
 {% extends "base.html" %}
 {% block content %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-
 <style>
-    *{
-	    padding: 0;
-	    margin: 0;
-	    box-sizing: border-box;
-  	}
+  html {
+    height: 100%;
+  }
+  body{
+    background: rgb(46,48,46);
+    min-height: 100%;
+  }
+  .hide {
+      display: none;
+  }
+  .menu {
+    margin-top: 50px;
+    list-style: none;
+  }
+  #pages {
+    min-height: 100%;
+    color: white;
+  }
+  .container{
+    margin-top: 100px;
+    height: 100%;
 
-	html{
-    	height: 100%;
-  	}
-  	body{
-    	min-height: 100%;
-		background-size: 100%;
-		background: rgb(46,48,46);
-	}
-	#accountpage {
-		background: rgba(255,255,255,0.5);
-	}
-	.profilelinks li{
-		list-style-type: none;
-	}
-
-	#footer {
-	    right: 0; bottom: 0; left: 0;
-	    position: relative;
-	    width: 100%;
-	    height: 218px;
-	}
-
+  }
+  .row {
+    background: white;
+    border-radius: 30px;
+    box-shadow: 12px 12px 22px grey;
+  }
+  #footer {
+    right: 0px; bottom: 0px; left: 0px;
+    position: absolute;
+    width: 100%;
+    height: 218px;
+  }
+  section{
+    padding-bottom: 218px;
+  }
 </style>
-
 <canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
-<div class="container-fluid p-3" id="accountpage">
-	<div class="col-4 pt-3" id="pageview">
-		<div class="row">
-			<ul class="profilelinks">
-				<li class="prof-item">
-					<a class="prof-link" href="#">My Reviews</a>
-				</li>
-				<li class="prof-item">
-					<a class="prof-link" href="#">Whitelist</a>
-				</li>
-				<li class="prof-item">
-					<a class="prof-link" href="#">Blacklist</a>
-				</li>
-				<li class="prof-item">
-					<a class="prof-link" href="#">Account settings</a>
-				</li>		
-			</ul>
-		</div>
-	</div>
-</div>
+<section>
+  <!-- Main profile menu -->
+<div class="container">
+  <ul class="menu" id="menu" >
+    <li><a data-page="myReviews" href="#"><h3> My Reviews </h3> </a></li>
+    <li><a data-page="myWhitelist" href="#"><h3> Whitelist </h3> </a></li> 
+    <li><a data-page="myBlacklist" href="#"><h3> Blacklist </h3> </a></li>
+    <li><a data-page="mySettings" href="#"><h3> Settings </h3> </a></li>
+</ul>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<!-- Each menu link, with filler text  -->
+<div id="pages">
+    <div id="myReviews" class="page" data-page="myReviews">
+        <div class="row-4">
+            <div class="col-12 pt-5">
+                <h1> My Reviews </h1>
+                <p> Wall-E: "Another out-of-this-world Pixar picture. And this time that label applies to the setting, too, as a lonely little robot named WALL-E finds and follows the lovely EVE across the universe." </p>
+            </div>
+        </div>
+    </div>
+    <div id="myWhitelist" class="page hide" data-page="myWhitelist">
+        <div class="row-4">
+            <div class="col-12 pt-5">
+                <h1> Whitelisted Films </h1>
+                <p> Up, Avengers: End Game, Cars 3 </p>
+            </div>
+        </div>
+    </div>
+    <div id="myBlacklist" class="page hide" data-page="myBlacklist">
+        <div class="row-4">
+            <div class="col-12 pt-5">
+                <h1> Blacklisted Films </h1>
+                <p> Vampire Man, Scary Movie </p>
+            </div>
+        </div>
+    </div>
+    <div id="mySettings" class="page hide" data-page="mySettings">
+        <div class="row-4">
+            <div class="col-12 pt-5">
+                <h1> Settings </h1>
+                <p> Username: </p>
+                <p> Display name: </p>
+                <p> Password Reset </p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+<!-- Hiding/showiing content on the same div function -->
+<script>
+jQuery.noConflict(); //prevents jquery from interfering with other scripts
+$(document).ready(function() {
+    $("#menu li a").on('click', function(e) {
+        e.preventDefault()
+        var page = $(this).data('page');
+        $("#pages .page:not('.hide')").stop().fadeOut('fast', function() {
+            $(this).addClass('hide');
+            $('#pages .page[data-page="'+page+'"]').fadeIn('slow').removeClass('hide'); //fading animation of the content in div
+        });
+    });
+});  
+</script>
 
 {% endblock content %}
