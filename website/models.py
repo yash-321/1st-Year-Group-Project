@@ -37,12 +37,14 @@ class Blacklist(db.Model):
 	title = db.Column(db.String(50), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	movie_id = db.Column(db.String(20), nullable=False)
+	poster = db.Column(db.String(200))
 
 class Whitelist(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(50), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	movie_id = db.Column(db.String(20), nullable=False)
+	poster = db.Column(db.String(200))
 
 class Review(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -57,14 +59,14 @@ class Review(db.Model):
 class Movies(db.Model):
 	movie_id = db.Column(db.String(20), primary_key=True, unique=True)
 	title = db.Column(db.String(50), nullable=False)
-	rating = db.Column(db.Float, nullable=False)
+	rating = db.Column(db.String(20))
 	poster = db.Column(db.String(200), nullable=False)
 	genres = db.Column(db.String(100), nullable=False)
 	year = db.Column(db.Integer, nullable=False)
 	plot = db.Column(db.String(100000), nullable=False)
-	actors = db.Column(db.String(10000), nullable=False)
-	directors = db.Column(db.String(10000), nullable=False)
+	actors = db.Column(db.String(100000), nullable=False)
+	directors = db.Column(db.String(100000), nullable=False)
 	runtime = db.Column(db.String(20), nullable=False)
-	trailer = db.Column(db.String(100))
+	trailer = db.Column(db.String(200))
 	language = db.Column(db.String(50))
 	awards = db.Column(db.String(100), nullable=False)
