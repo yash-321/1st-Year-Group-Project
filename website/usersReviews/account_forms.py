@@ -43,8 +43,6 @@ class LoginForm(FlaskForm):
 
 class ForgotPasswordForm(FlaskForm):
 
-	username = StringField('Username', validators=[DataRequired()])
-
 	question_1 = StringField('What is your oldest siblings name?', validators=[DataRequired()])
 
 	question_2 = StringField('What is your first pets name?', validators=[DataRequired()])
@@ -55,4 +53,22 @@ class ForgotPasswordForm(FlaskForm):
 
 	submit_forgot_password = SubmitField('Confirm Changes', validators=[DataRequired()])
 
+class UpdateQuestionsForm(FlaskForm):
 
+	question_1 = StringField('What is your oldest siblings name?', validators=[DataRequired()])
+
+	question_2 = StringField('What is your first pets name?', validators=[DataRequired()])
+
+	question_3 = StringField('What is your favourite food?', validators=[DataRequired()])
+
+	password= PasswordField('Password', validators=[DataRequired()])
+
+	submit_change_q = SubmitField('Submit Changes', validators=[DataRequired()])
+
+class UpdatePasswordForm(FlaskForm):
+
+	old_password= PasswordField('Old Password', validators=[DataRequired()])
+
+	new_password= PasswordField('New Password', validators=[DataRequired()])
+
+	submit_change_p = SubmitField('Submit Changes', validators=[DataRequired()])

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, session
 from flask_login import login_user, current_user, logout_user, login_required
-from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm
+from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm
 from website import db, bcrypt
 from website.models import User
 import requests
@@ -43,7 +43,7 @@ def login():
 def forgot_password():
 	form = ForgotPasswordForm()
 	if form.validate_on_submit():
-		user = User.query.filter_by(username=form.username.data, question_1=form.question_1.data, 
+		user = User.query.filter_by(username=form.username.data, question_1=form.question_1.data,
 									question_2=form.question_2.data, question_3=form.question_3.data).first()
 		if user:
 			new_hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -60,9 +60,34 @@ def logout():
 	return redirect(url_for('misc.home'))
 
 
-@usersReviews.route("/account")
+@usersReviews.route("/account", methods=['GET', 'POST'])
+@login_required
 def account():
-	return render_template('account.html', title='Account')
+	questions_form = UpdateQuestionsForm()
+	password_form = UpdatePasswordForm()
+
+	user = User.query.filter_by(username=current_user.username).first()
+
+	if questions_form.validate_on_submit():
+		if user and bcrypt.check_password_hash(user.password, questions_form.password.data):
+			user.question_1 = form.question_1.data
+			user.question_2 = form.question_2.data
+			user.question_3 = form.question_3.data
+			db.session.commit()
+			flash(f'Your security questions has been updated!', 'success')
+			return redirect(url_for('usersReviews.account'))
+		else:
+			flash(f'Password is wrong, check again', 'danger')
+	elif password_form.validate_on_submit():
+		if user and bcrypt.check_password_hash(user.password, password_form.old_password):
+			new_hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+			user.password = new_hashed_password
+			db.session.commit()
+			flash(f'Your password has been succesfully updated!', 'success')
+			return redirect(url_for('usersReviews.account'))
+		else:
+			flash(f'Password is wrong, check again', 'danger')
+	return render_template('account.html', title='Account', form1=questions_form, form2=password_form)
 
 
 
@@ -75,7 +100,7 @@ def writeReviews(movie_id):
 @usersReviews.route("/detailedReview/ID=<movie_id>")
 def detailed_review(movie_id):
 	# query the API to get the data about a specific movie
-	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full' 
+	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full'
 	r = requests.get(respString) #, timeout=1)
 	dictionary = r.json()
 
@@ -101,7 +126,7 @@ def detailed_review(movie_id):
 		error_message = "The movie was not found! Try again!"
 
 	return render_template(
-		'detailed_review.html', 
+		'detailed_review.html',
 		title='Movie Reviews',
 		error_message=error_message,
 		movie_title=movie_title,
