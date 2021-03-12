@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <style>
   html {
     height: 100%;
@@ -14,6 +15,7 @@
   .menu {
     margin-top: 50px;
     list-style: none;
+
   }
   #pages {
     min-height: 100%;
@@ -42,17 +44,7 @@
 <canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
 <section>
 <!-- For flash messages -->
-  <div class="col-md-8">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="alert alert-{category}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-  </div>
+
 
   <!-- Main profile menu -->
 <div class="container">
@@ -89,180 +81,137 @@
             </div>
         </div>
     </div>
-    <div id="mySettings" class="page hide" data-page="mySettings">
+    <div id="mySettings"  class="page hide" data-page="mySettings">
         <div class="row-4">
             <div class="col-12 pt-5">
                 <h1> Settings </h1>
                 <p> Username: {{current_user.username}}</p>
                 <p> Display name: {{current_user.display_name}}</p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#security_questions">
-                  Change Security Question's Answers
-                </button>
-                <!-- pop-up windwo for security questions -->
-                <div id="security_questions" class="modal fade">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
-                    <form class="form-signin" method="POST" action="">
-                      {{ form1.hidden_tag() }}
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h4 class="modal-title text-xs-center">Security Questions</h4>
-                          </div>
 
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <div class="col-lg-7 px-2 pt-2">
+
+              <!-- Change Password-->
+                <div id="changeP" data-page="changeP">
+                    <div class="row-4">
+                        <div class="col-12 pt-10">
+                          <h4> Change Password </h4>
+                            <form class="form-signin" method="POST" action="">
+                              {{ form2.hidden_tag() }}
+
+                                        <!-- password input field -->
+                                <div class="form-row">
+                                  <div class="col-lg-8">
+                                    <fieldset class="form-group">
+                                    <div class="input-field">
+                                        {{ form2.new_password.label}}
+                                        {% if form2.new_password.errors %}
+                                            {{ form2.new_password }}
+                                            <div class="invalid-feedback">
+                                              {% for error in form2.new_password.errors %}
+                                                  <span> {{ error }} </span>
+                                              {% endfor %}
+                                            </div>
+                                        {% else %}
+                                        {{ form2.new_password}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                              </div>
+                              <div class="form-row">
+                                <div class="col-lg-8">
+                                  <div >
+                                    {{ form2.submit_change_p (class="submit-btn mt-3 mb-5")}}
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Change Security Questions Answers -->
+                <div style="position:relative; float:right; top:-225px;"id="changeQ" data-page="changeQ">
+                    <div class="row-4">
+                        <div class="col-12 pt-5">
+                          <h4> Change Security Questions </h4>
+                          <form class="form-signin" method="POST" action="">
+                            {{ form1.hidden_tag() }}
+                          <div class="form-row">
+                            <div class="col-lg-8">
+                              <fieldset class="form-group">
+                              <div class="input-field">
+                                  {{ form1.question_1.label}}
+                                  {% if form1.question_1.errors %}
+                                      {{ form1.question_1 }}
+                                      <div class="invalid-feedback">
+                                        {% for error in form1.question_1.errors %}
+                                            <span> {{ error}} </span>
+                                        {% endfor %}
+                                      </div>
+                                      {% else %}
+                                        {{ form1.question_1}}
+                                        {% endif %}
+                                      </div>
+                              </div>
+                          </div>
+                              <div class="form-row">
+                                <div class="col-lg-8">
+                                  <fieldset class="form-group">
+                                  <div class="input-field">
+                                      {{ form1.question_2.label}}
+                                      {% if form1.question_2.errors %}
+                                          {{ form1.question_2 }}
+                                          <div class="invalid-feedback">
+                                            {% for error in form1.question_2.errors %}
+                                                <span> {{ error }} </span>
+                                            {% endfor %}
+                                          </div>
+                                      {% else %}
+                                      {{ form1.question_2}}
+                                      {% endif %}
+                                  </div>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col-lg-8">
                                 <fieldset class="form-group">
-                                    {{ form1.question_1.label}}
-                                    {% if form1.question_1.errors %}
-                                        {{ form1.question_1 }}
+                                <div class="input-field">
+                                    {{ form1.question_3.label}}
+                                    {% if form1.question_3.errors %}
+                                        {{ form1.question_3 }}
                                         <div class="invalid-feedback">
-                                          {% for error in form1.question_1.errors %}
-                                              <span> {{ error}} </span>
+                                          {% for error in form1.question_3.errors %}
+                                              <span> {{ error }} </span>
                                           {% endfor %}
                                         </div>
-                                        {% else %}
-                                          {{ form1.question_1}}
-                                          {% endif %}
-                                          </fieldset>
-                                        </div>
-                                        </div>
-                  <div class="form-group">
-                    <div class="col-lg-7 px-2 pt-2">
-                      <fieldset class="form-group">
-                      <div class="input-field">
-                          {{ form1.question_2.label}}
-                          {% if form1.question_2.errors %}
-                              {{ form1.question_2 }}
-                              <div class="invalid-feedback">
-                                {% for error in form1.question_2.errors %}
-                                    <span> {{ error}} </span>
-                                {% endfor %}
-                              </div>
-                              {% else %}
-                                {{ form1.question_2}}
-                                {% endif %}
-                        </div>
-                      </fieldset>
-                    </div>
-                  </div>
-                <div class="form-group">
-                    <div class="col-lg-7 px-2 pt-2">
-                      <fieldset class="form-group">
-                      <div class="input-field">
-                          {{ form1.question_3.label}}
-                          {% if form1.question_3.errors %}
-                              {{ form1.question_3 }}
-                              <div class="invalid-feedback">
-                                {% for error in form1.question_3.errors %}
-                                    <span> {{ error}} </span>
-                                {% endfor %}
-                              </div>
-                              {% else %}
-                                {{ form1.question_3}}
-                                {% endif %}
-                              </div>
-                              </fieldset>
+                                    {% else %}
+                                    {{ form1.question_3}}
+                                    {% endif %}
+                                </div>
                             </div>
-                          </div
-                <div class="form-group">
-		                <div class="col-lg-7 px-2 pt-2">
-		                  <fieldset class="form-group">
-		                  <div class="input-field">
-		                      {{ form1.password.label}}
-		                      {% if form1.password.errors %}
-		                          {{ form1.password }}
-		                          <div class="invalid-feedback">
-		                            {% for error in form1.password.errors %}
-		                                <span> {{ error}} </span>
-		                            {% endfor %}
-		                          </div>
-		                          {% else %}
-		                            {{ form1.password}}
-		                            {% endif %}
-		                  </div>
-                      </fieldset>
-                    </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-lg-7">
-                      <div >
-                        {{ form1.submit_change_q (class="submit-btn mt-3 mb-5")}}
-                      </div>
-                    </div>
                           </div>
-                      </div><!-- /.modal-content -->
-                  </div><!-- /.modal-dialog -->
-                  </form>
-            </div><!-- /.modal -->
-            </div>
-            </div>
-
-            <!--For change password -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#change_password">
-              Change Password
-            </button>
-
-            <div id="change_password" class="modal fade">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h4 class="modal-title text-xs-center">Change Password</h4>
-                      </div>
-                      <form class="form-signin" method="POST" action="">
-                        {{ form2.hidden_tag() }}
-                      <div class="modal-body">
-                        <div class="form-group">
-                          <div class="col-lg-7 px-2 pt-2">
-                            <fieldset class="form-group">
-                                {{ form2.old_password.label}}
-                                {% if form2.old_password.errors %}
-                                    {{ form2.old_password }}
-                                    <div class="invalid-feedback">
-                                      {% for error in form2.old_password.errors %}
-                                          <span> {{ error}} </span>
-                                      {% endfor %}
-                                    </div>
-                                    {% else %}
-                                      {{ form2.old_password}}
-                                      {% endif %}
-                                    </div>
-
-                      <div class="form-group">
-                          <div class="col-lg-7 px-2 pt-2">
-                            <fieldset class="form-group">
-                            <div class="input-field">
-                                {{ form2.new_password.label}}
-                                {% if form2.new_password.errors %}
-                                    {{ form2.new_password }}
-                                    <div class="invalid-feedback">
-                                      {% for error in form2.new_password.errors %}
-                                          <span> {{ error}} </span>
-                                      {% endfor %}
-                                    </div>
-                                    {% else %}
-                                      {{ form2.new_password}}
-                                      {% endif %}
-                      </div>
-                    </div>
-                  </div>
-                      <div class="form-row">
-                        <div class="col-lg-7">
-                          <div >
-                            {{ form2.submit_change_p (class="submit-btn mt-3 mb-5")}}
-                          </div>
-                        </div>
+                            <div class="form-row">
+                              <div class="col-lg-8">
+                                <div >
+                                  {{ form1.submit_change_q (class="submit-btn mt-3 mb-5")}}
+                                </div>
                               </div>
-                          </div><!-- /.modal-content -->
-                      </div><!-- /.modal-dialog -->
-                      </form>
-                </div><!-- /.modal -->
+                            </div>
+                          </form>
+
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
+
+
+
+
+    </div>
     </div>
 </div>
-</div>
+
 </section>
 
 <!-- Hiding/showiing content on the same div function -->
@@ -279,5 +228,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
 {% endblock content %}

@@ -16,8 +16,11 @@ def register():
 	form = RegistrationForm()
 	if form.validate_on_submit():
 		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+		hq_1 = bcrypt.generate_password_hash(form.question_1.data).decode('utf-8')
+		hq_2 = bcrypt.generate_password_hash(form.question_2.data).decode('utf-8')
+		hq_3 = bcrypt.generate_password_hash(form.question_3.data).decode('utf-8')
 		user = User(username= form.username.data, display_name=form.display_name.data, password=hashed_password,
-					question_1 = form.question_1.data, question_2 = form.question_2.data, question_3 = form.question_3.data)
+					question_1 = hq_1, question_2 = hq_2, question_3 = hq_3)
 		db.session.add(user)
 		db.session.commit()
 		flash(f'Your account has been created! You are able to login now.', 'success')
@@ -43,9 +46,8 @@ def login():
 def forgot_password():
 	form = ForgotPasswordForm()
 	if form.validate_on_submit():
-		user = User.query.filter_by(username=form.username.data, question_1=form.question_1.data,
-									question_2=form.question_2.data, question_3=form.question_3.data).first()
-		if user:
+		user = User.query.filter_by(username=form.username.data).first()
+		if user and bcrypt.check_password_hash(user.question_1, form.question_1.data) and bcrypt.check_password_hash(user.question_2, form.question_2.data) and bcrypt.check_password_hash(user.question_3, form.question_3.data):
 			new_hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 			user.password = new_hashed_password
 			db.session.commit()
@@ -69,24 +71,27 @@ def account():
 	user = User.query.filter_by(username=current_user.username).first()
 
 	if questions_form.validate_on_submit():
-		if user and bcrypt.check_password_hash(user.password, questions_form.password.data):
-			user.question_1 = form.question_1.data
-			user.question_2 = form.question_2.data
-			user.question_3 = form.question_3.data
+		if user:
+			hq_1 = bcrypt.generate_password_hash(questions_form.question_1.data).decode('utf-8')
+			hq_2 = bcrypt.generate_password_hash(questions_form.question_2.data).decode('utf-8')
+			hq_3 = bcrypt.generate_password_hash(questions_form.question_3.data).decode('utf-8')
+			user.question_1 = hq_1
+			user.question_2 = hq_2
+			user.question_3 = hq_3
 			db.session.commit()
 			flash(f'Your security questions has been updated!', 'success')
 			return redirect(url_for('usersReviews.account'))
 		else:
 			flash(f'Password is wrong, check again', 'danger')
 	elif password_form.validate_on_submit():
-		if user and bcrypt.check_password_hash(user.password, password_form.old_password):
-			new_hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+		if user:
+			new_hashed_password = bcrypt.generate_password_hash(password_form.new_password.data).decode('utf-8')
 			user.password = new_hashed_password
 			db.session.commit()
 			flash(f'Your password has been succesfully updated!', 'success')
 			return redirect(url_for('usersReviews.account'))
 		else:
-			flash(f'Password is wrong, check again', 'danger')
+			flash(f'Password format is incorrect, check again', 'danger')
 	return render_template('account.html', title='Account', form1=questions_form, form2=password_form)
 
 
