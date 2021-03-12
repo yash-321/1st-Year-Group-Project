@@ -15,58 +15,57 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 
 @movies.route("/test/", methods=['GET', 'POST'])
 def test():
-	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
 	
-	# headers = {
-	#     'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-	#     }
+	headers = {
+	    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+	    }
 
-	# for i in range(15):
-	# 	page_number = str(random.randint(1, 200))
-	# 	year = str(random.randint(1950, 1990))
+	for i in range(15):
+		page_number = str(random.randint(1, 200))
+		year = str(random.randint(2000, 2021))
 
-	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
+		querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
-	# 	response = requests.request("GET", url, headers=headers, params=querystring)
-	# 	data = response.json()
-		
+		response = requests.request("GET", url, headers=headers, params=querystring)
+		data = response.json()
 
-	# 	for i in range(20):
-	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
-	# 		try:
-	# 			id = data["movie_results"][i]["imdb_id"]
+		for i in range(20):
+			# IDs.append(data["movie_results"][i]["imdb_id"])
+			try:
+				id = data["movie_results"][i]["imdb_id"]
 
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
-	# 			r = requests.get(respString) 
-	# 			dictionary = r.json()
-	# 			print(dictionary)
+				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+				r = requests.get(respString) 
+				dictionary = r.json()
+				print(dictionary)
 
-	# 			title = dictionary["Title"]
-	# 			imdb_rating = dictionary["imdbRating"]
-	# 			poster_url = dictionary["Poster"].strip()
-	# 			genres = dictionary["Genre"]
-	# 			year = dictionary["Year"]
-	# 			plot = dictionary["Plot"]
-	# 			actors = dictionary["Actors"]
-	# 			directors = dictionary["Director"]
-	# 			runtime = dictionary["Runtime"]
-	# 			language = dictionary["Language"]
-	# 			awards = dictionary["Awards"].strip()
+				title = dictionary["Title"]
+				imdb_rating = dictionary["imdbRating"]
+				poster_url = dictionary["Poster"].strip()
+				genres = dictionary["Genre"]
+				year = dictionary["Year"]
+				plot = dictionary["Plot"]
+				actors = dictionary["Actors"]
+				directors = dictionary["Director"]
+				runtime = dictionary["Runtime"]
+				language = dictionary["Language"]
+				awards = dictionary["Awards"].strip()
 				
-	# 			movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
-	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
-	# 							language=language, awards=awards)
+				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+								year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
+								language=language, awards=awards)
 				
-	# 			db.session.add(movie)
-	# 			db.session.commit()
-	# 		except KeyError as e:
-	# 			print(e)
+				db.session.add(movie)
+				db.session.commit()
+			except KeyError as e:
+				print(e)
 			
 			
 
-	# movies = Movies.query.filter_by(year=2020).all()
+	movies = Movies.query.filter_by(year=2020).all()
 	movies = Movies.query.all()
 	# random.shuffle(movies)
 
@@ -149,13 +148,16 @@ def seeMovieReview(page = 1):
 			chosen_movies_numbers = []
 			number_of_movies = 5
 
-			i = 0
-			while i < number_of_movies:
-				while True:
+			i = counter = 0
+			found_number = False
+
+			while i < number_of_movies and not found_number:
+				while counter <= 20:
+					counter += 1
 					number = random.randint(0, 19)
 					if number not in chosen_movies_numbers:
 						chosen_movies_numbers.append(number)
-						break
+						found_number = True
 
 				IDs.append(data["movie_results"][number]["imdb_id"])
 
@@ -270,7 +272,7 @@ def suggestMeMovies():
 			indices_of_checked_ranges_of_years.append(i)
 
 
-	# the actual algorithm starts here
+	# ----------------- the actual algorithm starts here -----------------
 
 	# data required to call the first API
 	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
@@ -282,6 +284,8 @@ def suggestMeMovies():
 		'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	}
 
+	movies = Movies.query.all()
+	print(len(movies))
 
 	number_of_checked_genres_boxes = len(indices_of_checked_genres)
 	number_of_checked_ranges_of_years_boxes = len(indices_of_checked_ranges_of_years)
@@ -367,6 +371,7 @@ def suggestMeMovies():
 
 
 				trailer = movie["youtube_trailer_key"].strip()
+				
 				if trailer:
 					trailer = "https://www.youtube.com/embed/" + trailer
 
@@ -383,6 +388,24 @@ def suggestMeMovies():
 				runtime = dictionary["Runtime"]
 				language = dictionary["Language"]
 				awards = dictionary["Awards"].strip()
+
+				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
+				print(check_not_in_db, "A")
+
+				if not check_not_in_db:
+					movie = Movies(movie_id=id, title=movie_title, rating=imdb_rating, poster=poster_url, genres=", ".join(genres),
+									year=year_of_movie, plot=plot, actors=actors, directors=directors, runtime=runtime,
+									language=language, awards=awards, trailer=trailer)
+					
+					db.session.add(movie)
+					db.session.commit()
+				else:
+					movie = check_not_in_db
+
+					if not movie.trailer and trailer:
+						movie.trailer = trailer
+						print("trailer", movie.trailer)
+						db.session.commit()
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
@@ -409,6 +432,8 @@ def suggestMeMovies():
 
 		counter += 1
     
+	movies = Movies.query.all()
+	print(len(movies))
 
 	if not found:
 		print("AAA")
