@@ -231,14 +231,58 @@
 			{% endif %}
       <br>
       <br>
-      <button form="formSuggestMovie" type="submit" class="btn btn-primary" id="generatebtn">Generate!</button>
-			<button form="formSuggestMovie" type="button" class="btn btn-primary" id="whitelistbtn">
-        <i class="fa fa-heart" aria-hidden="true"></i>
+      <button form="formSuggestMovie" type="submit" name="generatebtn" class="btn btn-primary" id="generatebtn">Generate!</button>
+      <!-- form to add movie to white or blacklist -->
+      <form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
+      	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
+      	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
+      	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
+		<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
+        	<i class="fa fa-heart" aria-hidden="true"></i>
+      	</button>
+		<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
+        	<i class="fa fa-times" aria-hidden="true"></i>
       </button>
-			<button form="formSuggestMovie" type="button" class="btn btn-primary" id="blacklistbtn">
-        <i class="fa fa-times" aria-hidden="true"></i>
-      </button>
+  	</form>
 		</div>
 	</div>
 </div>
+<!-- Script to deal with data without refreshing page --> 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+	//Checks if whitelist or blacklist was clicked
+	var buttonpressed;
+	$('.btn-primary').click(function() {
+	    buttonpressed = $(this).attr('name')
+	});
+
+   $("#saveMovieForm").submit(function(e) {
+       e.preventDefault();
+       var form = $(this);
+       var url = form.attr('action');
+       var info = form.serialize() + '&buttonpressed=' + buttonpressed;
+    
+       $.ajax({
+           type: "POST",
+           url: url,
+           data: info,
+           context: form,
+           success: function(resp) {
+           		if (resp == "SavedW"){
+           			alert("Added to favourites")
+           		} else if (resp == "SavedB"){
+           			alert("Added to blacklist")
+           		}else if (resp == "RemovedW"){
+           			alert("Movie removed from favourites")
+           		}else if (resp == "RemovedB"){
+           			alert("Movie removed from blacklist")
+           		}else if (resp == "/login"){
+					$(location).attr('href', resp)    
+           		}else{
+           			alert("Something went wrong")
+           		}
+           }
+       });
+   });
+</script>
 {% endblock content %}

@@ -1,11 +1,11 @@
 import secrets
-from flask import Blueprint, render_template, request, session
-from website import app
+from flask import Blueprint, render_template, request, session, url_for, flash, redirect
+from flask_login import current_user
+from website import app, db
+from website.models import User, Blacklist, Whitelist, Movies
 import random 
 import requests
 from datetime import datetime, timedelta
-from website import db
-from website.models import Movies
 
 movies = Blueprint('movies', __name__)
 
@@ -529,6 +529,7 @@ def suggestMeMovies():
 		ranges_of_years_text=ranges_of_years_text,
 		checked_ranges_of_years=checked_ranges_of_years,
 		error_message=error_message,
+		movie_id=id,
 		movie_title=movie_title,
 		genres=genres,
 		rating=imdb_rating,
@@ -542,3 +543,45 @@ def suggestMeMovies():
 		language=language,
 		awards=awards
 	)
+
+
+# Saving movie to white or blacklist
+@movies.route('/save_movie', methods=['POST'])
+def save_movie():
+	data = request.form.to_dict()
+
+	if not current_user.is_authenticated:
+		if data['buttonpressed'] == "whitelistbtn":
+			flash(f'Please login to add a movie to your favourites', 'danger')
+		elif data['buttonpressed'] == "blacklistbtn":
+			flash(f'Please login to add a movie to your blacklist', 'danger')
+		return url_for('usersReviews.login')
+	else:
+		user = User.query.filter_by(username=current_user.username).first()
+		if data['buttonpressed'] == "whitelistbtn":
+			check = Whitelist.query.filter_by(user_id=user.id).all()
+			# checks if movie is alredy in users whitelist
+			for movies in check:
+				if movies.movie_id == data['currentMovieID']:
+					db.session.delete(movies)
+					db.session.commit()
+					return "RemovedW"
+			white = Whitelist(title=data['currentMovieTitle'], user_id=user.id, movie_id=data['currentMovieID'], poster=data['currentMoviePoster'])
+			db.session.add(white)
+			db.session.commit()
+			return "SavedW"
+			
+		elif data['buttonpressed'] == "blacklistbtn":
+			check = Blacklist.query.filter_by(user_id=user.id).all()
+			for movies in check:
+				# checks if movie is alredy in users blacklist
+				if movies.movie_id == data['currentMovieID']:
+					db.session.delete(movies)
+					db.session.commit()
+					return "RemovedB"
+			black = Blacklist(title=data['currentMovieTitle'], user_id=user.id, movie_id=data['currentMovieID'], poster=data['currentMoviePoster'])
+			db.session.add(black)
+			db.session.commit()
+			return "SavedB"
+			
+		return "Something went wrong"
