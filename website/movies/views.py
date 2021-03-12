@@ -4,6 +4,8 @@ from website import app
 import random 
 import requests
 from datetime import datetime, timedelta
+from website import db
+from website.models import Movies
 
 movies = Blueprint('movies', __name__)
 
@@ -11,6 +13,68 @@ movies = Blueprint('movies', __name__)
 app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
+@movies.route("/test/", methods=['GET', 'POST'])
+def test():
+	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+	
+	# headers = {
+	#     'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+	#     }
+
+	# for i in range(15):
+	# 	page_number = str(random.randint(1, 200))
+	# 	year = str(random.randint(1950, 1990))
+
+	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
+
+	# 	response = requests.request("GET", url, headers=headers, params=querystring)
+	# 	data = response.json()
+		
+
+	# 	for i in range(20):
+	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
+	# 		try:
+	# 			id = data["movie_results"][i]["imdb_id"]
+
+	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+	# 			r = requests.get(respString) 
+	# 			dictionary = r.json()
+	# 			print(dictionary)
+
+	# 			title = dictionary["Title"]
+	# 			imdb_rating = dictionary["imdbRating"]
+	# 			poster_url = dictionary["Poster"].strip()
+	# 			genres = dictionary["Genre"]
+	# 			year = dictionary["Year"]
+	# 			plot = dictionary["Plot"]
+	# 			actors = dictionary["Actors"]
+	# 			directors = dictionary["Director"]
+	# 			runtime = dictionary["Runtime"]
+	# 			language = dictionary["Language"]
+	# 			awards = dictionary["Awards"].strip()
+				
+	# 			movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
+	# 							language=language, awards=awards)
+				
+	# 			db.session.add(movie)
+	# 			db.session.commit()
+	# 		except KeyError as e:
+	# 			print(e)
+			
+			
+
+	# movies = Movies.query.filter_by(year=2020).all()
+	movies = Movies.query.all()
+	# random.shuffle(movies)
+
+	print(len(movies))
+
+	return render_template(
+		'test.html',
+	 	title='TEST')
 
 @movies.route("/searchMovies/", methods=['GET', 'POST'])
 @movies.route("/searchMovies/page=<page>", methods=['GET', 'POST'])
@@ -224,7 +288,7 @@ def suggestMeMovies():
 	found = False
 
 	# determine how many films should the algorithm check (if times = 1, then 20 are checked)
-	counter, times = 0, 5
+	counter, times = 0, 3
 
 	# set default values if a required movie was not found
 	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = awards = None
@@ -345,6 +409,80 @@ def suggestMeMovies():
 
 		counter += 1
     
+
+	if not found:
+		print("AAA")
+		movies = Movies.query.all()
+		# shuffle the list to avoid getting the same movie as the first all the time
+		random.shuffle(movies)
+
+		for movie in movies:
+			copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
+			found_corresponding_genre = False
+
+			if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
+				continue
+
+			if "checked" in checked_genres:
+				for j in range(number_of_checked_genres_boxes):
+					random.shuffle(copy_of_indices_of_checked_genres)
+					if names_of_genres[copy_of_indices_of_checked_genres[-1]] in movie.genres:
+						found_corresponding_genre = True
+						break
+					else:
+						copy_of_indices_of_checked_genres.remove(copy_of_indices_of_checked_genres[-1])
+        
+				if not found_corresponding_genre:
+					continue
+
+			found_movie_within_year_range = False
+
+			# check if the movie appears in the selected range(s) of years, if any were selected
+			if 0 not in indices_of_checked_ranges_of_years and number_of_checked_ranges_of_years_boxes != 0:
+				for x in range(number_of_checked_ranges_of_years_boxes):
+					years = ranges_of_years[indices_of_checked_ranges_of_years[x]]
+					
+					# check if not the last range was selected
+					if indices_of_checked_ranges_of_years[x] != number_of_different_ranges_of_years-1:
+						if years[0] <= movie.year <= years[1]:
+							found_movie_within_year_range = True
+							break
+					else:
+						if years > movie.year:
+							found_movie_within_year_range = True
+							break
+
+				# take a new movie if it is not in the right range
+				if not found_movie_within_year_range:
+					continue
+
+			if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
+				continue
+
+			if movie.rating == "N/A":
+				found = True
+			else:
+				movie.rating = float(movie.rating)
+
+			# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
+			if movie.rating >= chosen_rating and not found:
+				found = True
+
+			if found:
+				movie_title = movie.title
+				genres = movie.genres.split(", ")
+				imdb_rating = movie.rating
+				year_of_movie = movie.year
+				poster_url = movie.poster
+				plot = movie.plot
+				actors = movie.actors
+				directors = movie.directors
+				runtime = movie.runtime
+				trailer = movie.trailer
+				language = movie.language
+				awards = movie.awards
+				break
+
 
 	if not found:
 		error_message = "Please try again!"
