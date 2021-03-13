@@ -251,6 +251,8 @@
 <script>
 	//Checks if whitelist or blacklist was clicked
 	var buttonpressed;
+	var whitebtn = document.getElementById("whitelistbtn");
+	var blackbtn = document.getElementById("blacklistbtn");
 	$('.btn-primary').click(function() {
 	    buttonpressed = $(this).attr('name')
 	});
@@ -268,13 +270,19 @@
            context: form,
            success: function(resp) {
            		if (resp == "SavedW"){
-           			alert("Added to favourites")
+           			whitebtn.style.color = "red"
            		} else if (resp == "SavedB"){
-           			alert("Added to blacklist")
+           			blackbtn.style.color = "black"
            		}else if (resp == "RemovedW"){
-           			alert("Movie removed from favourites")
+           			whitebtn.style.color = "white"
            		}else if (resp == "RemovedB"){
-           			alert("Movie removed from blacklist")
+           			blackbtn.style.color = "white"
+           		}else if (resp == "BtoW"){
+           			whitebtn.style.color = "red"
+           			blackbtn.style.color = "white"
+           		}else if (resp == "WtoB"){
+           			whitebtn.style.color = "white"
+           			blackbtn.style.color = "black"
            		}else if (resp == "/login"){
 					$(location).attr('href', resp)    
            		}else{
