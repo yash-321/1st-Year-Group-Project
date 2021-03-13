@@ -37,6 +37,8 @@ def login():
 		user = User.query.filter_by(username=form.username.data).first()
 		if user and bcrypt.check_password_hash(user.password, form.password.data):
 			login_user(user, remember=form.remember.data)
+			if 'movieID' in session:
+				return redirect(url_for('usersReviews.detailed_review', movie_id=session['movieID']))
 			return redirect(url_for('misc.home'))
 		else:
 			flash(f'Login Unsuccessful. Please check username and password', 'danger')
@@ -114,6 +116,7 @@ def writeReviews(movie_id):
 
 @usersReviews.route("/detailedReview/ID=<movie_id>")
 def detailed_review(movie_id):
+	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
 	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full'
 	r = requests.get(respString) #, timeout=1)

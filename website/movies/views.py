@@ -554,9 +554,10 @@ def save_movie():
 
 	if not current_user.is_authenticated:
 		if data['buttonpressed'] == "whitelistbtn":
-			flash(f'Please login to add a movie to your favourites', 'danger')
+			flash(f'Please login to add a movie to your whitelist', 'danger')
 		elif data['buttonpressed'] == "blacklistbtn":
 			flash(f'Please login to add a movie to your blacklist', 'danger')
+		session['movieID'] = data['currentMovieID']
 		return url_for('usersReviews.login')
 	else:
 		user = User.query.filter_by(username=current_user.username).first()
@@ -568,6 +569,15 @@ def save_movie():
 					db.session.delete(movies)
 					db.session.commit()
 					return "RemovedW"
+			check = Blacklist.query.filter_by(user_id=user.id).all()
+			for movies in check:
+				# checks if movie is in users blacklist
+				if movies.movie_id == data['currentMovieID']:
+					white = Whitelist(title=data['currentMovieTitle'], user_id=user.id, movie_id=data['currentMovieID'], poster=data['currentMoviePoster'])
+					db.session.add(white)
+					db.session.delete(movies)
+					db.session.commit()
+					return "BtoW"
 			white = Whitelist(title=data['currentMovieTitle'], user_id=user.id, movie_id=data['currentMovieID'], poster=data['currentMoviePoster'])
 			db.session.add(white)
 			db.session.commit()
@@ -581,6 +591,15 @@ def save_movie():
 					db.session.delete(movies)
 					db.session.commit()
 					return "RemovedB"
+			check = Whitelist.query.filter_by(user_id=user.id).all()
+			for movies in check:
+				# checks if movie is in users blacklist
+				if movies.movie_id == data['currentMovieID']:
+					black = Blacklist(title=data['currentMovieTitle'], user_id=user.id, movie_id=data['currentMovieID'], poster=data['currentMoviePoster'])
+					db.session.add(black)
+					db.session.delete(movies)
+					db.session.commit()
+					return "WtoB"
 			black = Blacklist(title=data['currentMovieTitle'], user_id=user.id, movie_id=data['currentMovieID'], poster=data['currentMoviePoster'])
 			db.session.add(black)
 			db.session.commit()
