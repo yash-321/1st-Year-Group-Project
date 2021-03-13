@@ -75,6 +75,6 @@ class UpdatePasswordForm(FlaskForm):
 
 class UpdateNameForm(FlaskForm):
 
-	new_display_name = StringField('Enter your new display_name', validators=[DataRequired()])
+	new_display_name = StringField('Enter your new display name', validators=[DataRequired()])
 
 	submit_change_n = SubmitField('Submit Changes', validators=[DataRequired()])
