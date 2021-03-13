@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<!DOCTYPE html>
 <style>
   @font-face {
     font-family: 'ProximaNovaBold';
@@ -75,7 +74,6 @@
     }
   }
 </style>
-<body>
 <div class="container" id="textvertical">
   <div class="row-4">
     <div class="col-12">
@@ -86,12 +84,12 @@
         <h4>We designed FilmFlick in order to aid in decreasing the amount of time spent looking for a film to watch. Our back-end team worked incredibly hard to create an algorithm which would both introduce you to something which you may have never otherwise come across, as well as tailoring future results according to your taste. With the press of a button, a new film will be generated and presented to you with all the necessary information which may help you make the decision. </h4>
         <hr class="linebreak">
         <h4 style="padding-bottom: 15px;">Well, it's time for you to try it yourself. We sincerely hope you enjoy our service!</h4>
-        <button id="suggestbtn" href="{{ url_for('movies.suggestMeMovies') }}">Suggest a Movie!</button>
+        <form action="{{ url_for('movies.suggestMeMovies') }}">
+          <input id="suggestbtn" type="submit" value="Go to Suggest me movies" />
+        </form>
 
     </div>
   </div>
 </div>
 
-</body>
-</html>
 {% endblock content %}

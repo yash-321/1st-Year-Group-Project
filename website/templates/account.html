@@ -2,6 +2,15 @@
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <style>
+    @font-face {
+    font-family: 'ProximaNovaBold';
+    src: url(../static/Proxima_Nova_Bold.otf);
+    font-style: normal;
+    font-weight: 100;
+  }
+  *{
+    font-family: ProximaNovaBold;
+  }
   html {
     height: 100%;
     background-image: linear-gradient(to right, white, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
@@ -21,7 +30,7 @@
   }
   #pages {
     min-height: 100%;
-    color: black;
+    color: #323232;
   }
   .container{
     margin-top: 50px;
@@ -36,7 +45,7 @@
     padding-left: 10px;
   }
   .row {
-    background: white;
+    background: #FF8870;;
     /*box-shadow: 12px 12px 12px grey;*/
   }
   #footer {
@@ -55,7 +64,7 @@
     overflow-x: hidden;
   }
   .linebreak{
-    border-top: 8px solid rgb(240,132,31);
+    border-top: 8px solid white;
     border-radius: 5px;
   }
 </style>
