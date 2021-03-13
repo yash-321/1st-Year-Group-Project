@@ -62,6 +62,7 @@
         border:1px solid;
         color: black;
       }
+
       .check-box{
         margin-left: 10px;
       }
@@ -194,14 +195,14 @@
                                         {% endif %}
                                       </div>
                           <!-- buttons for security questions -->
-                          <div class="form-row">
-                            <div class="col-lg-7">
+                          <div class="form-row" style="height: 80px;">
+                            <div class="col-lg-7" >
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#security_questions">
                                   Security Questions
                                 </button>
                               </div>
                             </div>
-                        <!-- pop-up windwo for security questions -->
+                        <!-- pop-up window for security questions -->
                         <div id="security_questions" class="modal fade">
                           <div class="modal-dialog modal-dialog-centered" role="document">
                               <div class="modal-content">
@@ -264,7 +265,7 @@
                     </div><!-- /.modal -->
               <!-- I agree to terms and conditions check box -->
 	              </fieldset>
-	              <div class="check-box">
+	              <div class="check-box" style="width: 402px" >
 	                  {{ form.agree }}
 	                  {{ form.agree.label}}
 	              </div>
