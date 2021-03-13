@@ -26,13 +26,15 @@
     height: 100%;
 
   }
+  .page {
+    padding-left: 10px; padding-right: 10px;
+  }
   .menu li{
     display: inline-block;
     padding-left: 10px;
   }
   .row {
     background: white;
-    border-radius: 30px;
     box-shadow: 12px 12px 22px grey;
   }
   #footer {
@@ -42,6 +44,17 @@
   }
   section{
     padding-bottom: 218px;
+  }
+  label{
+    display: block;
+  }
+  #myReviews, #myWhitelist, #myBlacklist{
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .linebreak{
+    border-top: 8px solid rgb(240,132,31);
+    border-radius: 5px;
   }
 </style>
 <section>
@@ -59,43 +72,92 @@
 
 <!-- Each menu link, with filler text  -->
 <div id="pages">
-    <div id="myReviews" class="page" data-page="myReviews">
+    <div id="myReviews" style="overflow-y:auto; height:700px;" class="page" data-page="myReviews">
         <div class="row">
-            <div class="col-12 pt-5">
+            <div class="col-12 pt-3">
                 <h1> My Reviews </h1>
                 <p> Wall-E: "Another out-of-this-world Pixar picture. And this time that label applies to the setting, too, as a lonely little robot named WALL-E finds and follows the lovely EVE across the universe." </p>
+                <hr class="linebreak">
+                <p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
+<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
+<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
             </div>
         </div>
     </div>
-    <div id="myWhitelist" class="page hide" data-page="myWhitelist">
+    <div id="myWhitelist" style="overflow-y:auto; height:700px;" class="page hide" data-page="myWhitelist">
         <div class="row">
-            <div class="col-12 pt-5">
+            <div class="col-12 pt-3">
                 <h1> Whitelisted Films </h1>
                 <p> Up, Avengers: End Game, Cars 3 </p>
+                <hr class="linebreak">
+                <p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
+<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
+<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
             </div>
         </div>
     </div>
-    <div id="myBlacklist" class="page hide" data-page="myBlacklist">
+    <div id="myBlacklist" style="overflow-y:auto; height:700px;" class="page hide" data-page="myBlacklist">
         <div class="row">
-            <div class="col-12 pt-5">
+            <div class="col-12 pt-3">
                 <h1> Blacklisted Films </h1>
                 <p> Vampire Man, Scary Movie </p>
+                <hr class="linebreak">
+                <p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
+<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
+<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
+
+Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+</p>
+<hr class="linebreak">
             </div>
         </div>
     </div>
     <div id="mySettings"  class="page hide" data-page="mySettings">
         <div class="row">
-            <div class="col-12 pt-5">
-                <h1> Settings </h1>
-                <p> Username: {{current_user.username}}</p>
-                <p> Display name: {{current_user.display_name}}</p>
+            <div class="col-12 pt-3">
+                <h1 style="padding: 0 15px 0 15px"> Settings </h1>
+                <p style="padding: 10px 15px 0 15px; font-weight: bold;"> Username: {{current_user.username}}</p>
+                <p style="padding: 0 15px 0 15px; font-weight: bold;"> Display name: {{current_user.display_name}}</p>
+                <hr class="linebreak">
 
 
               <!-- Change Password-->
                 <div id="changeP" data-page="changeP">
                     <div class="row-4">
                         <div class="col-12 pt-10">
-                          <h4> Change Password </h4>
+                          <h4 style="padding: 20px 0 10px 0;"> Change Password </h4>
                             <form class="form-signin" method="POST" action="">
                               {{ form2.hidden_tag() }}
 
@@ -147,11 +209,12 @@
                         </div>
                     </div>
                 </div>
+                <hr class="linebreak">
                 <!-- Change display name-->
                 <div id="changeN" data-page="changeN">
                     <div class="row-4">
                         <div class="col-12 pt-10">
-                          <h4> Change Display Name </h4>
+                          <h4 style="padding: 20px 0 10px 0; float: top;"> Change Display Name </h4>
                             <form class="form-signin" method="POST" action="">
                               {{ form3.hidden_tag() }}
 
@@ -185,8 +248,9 @@
                         </div>
                     </div>
                 </div>
+                <hr class="linebreak">
                 <!-- Change Security Questions Answers -->
-                <div style="position:relative; float:right; top:-225px;"id="changeQ" data-page="changeQ">
+                <div style="float:top;"id="changeQ" data-page="changeQ">
                     <div class="row-4">
                         <div class="col-12 pt-5">
                           <h4> Change Security Questions </h4>
