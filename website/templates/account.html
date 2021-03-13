@@ -120,8 +120,64 @@
                               </div>
                               <div class="form-row">
                                 <div class="col-lg-8">
+                                  <fieldset class="form-group">
+                                  <div class="input-field">
+                                      {{ form2.confirm_new_password.label}}
+                                      {% if form2.confirm_new_password.errors %}
+                                          {{ form2.confirm_new_password }}
+                                          <div class="invalid-feedback">
+                                            {% for error in form2.confirm_new_password.errors %}
+                                                <span> {{ error }} </span>
+                                            {% endfor %}
+                                          </div>
+                                      {% else %}
+                                      {{ form2.confirm_new_password}}
+                                      {% endif %}
+                                  </div>
+                              </div>
+                            </div>
+                              <div class="form-row">
+                                <div class="col-lg-8">
                                   <div >
                                     {{ form2.submit_change_p (class="submit-btn mt-3 mb-5")}}
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- Change display name-->
+                <div id="changeN" data-page="changeN">
+                    <div class="row-4">
+                        <div class="col-12 pt-10">
+                          <h4> Change Display Name </h4>
+                            <form class="form-signin" method="POST" action="">
+                              {{ form3.hidden_tag() }}
+
+                                <div class="form-row">
+                                  <div class="col-lg-8">
+                                    <fieldset class="form-group">
+                                    <div class="input-field">
+                                        {{ form3.new_display_name.label}}
+                                        {% if form3.new_display_name.errors %}
+                                            {{ form3.new_display_name }}
+                                            <div class="invalid-feedback">
+                                              {% for error in form3.new_display_name.errors %}
+                                                  <span> {{ error }} </span>
+                                              {% endfor %}
+                                            </div>
+                                        {% else %}
+                                        {{ form3.new_display_name}}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                              </div>
+
+                              <div class="form-row">
+                                <div class="col-lg-8">
+                                  <div >
+                                    {{ form3.submit_change_n (class="submit-btn mt-3 mb-5")}}
                                   </div>
                                 </div>
                               </div>

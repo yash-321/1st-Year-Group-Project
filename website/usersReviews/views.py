@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, session
 from flask_login import login_user, current_user, logout_user, login_required
-from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm
+from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm, UpdateNameForm
 from website import db, bcrypt
 from website.models import User
 import requests
@@ -67,6 +67,7 @@ def logout():
 def account():
 	questions_form = UpdateQuestionsForm()
 	password_form = UpdatePasswordForm()
+	name_form = UpdateNameForm()
 
 	user = User.query.filter_by(username=current_user.username).first()
 
@@ -92,7 +93,16 @@ def account():
 			return redirect(url_for('usersReviews.account'))
 		else:
 			flash(f'Password format is incorrect, check again', 'danger')
-	return render_template('account.html', title='Account', form1=questions_form, form2=password_form)
+	elif name_form.validate_on_submit():
+		if user:
+			user.display_name = name_form.new_display_name.data
+			db.session.commit()
+			flash(f'Your display name has been succesfully updated!', 'success')
+			return redirect(url_for('usersReviews.account'))
+		else:
+			flash(f'Display name format is incorrect!', 'danger')
+
+	return render_template('account.html', title='Account', form1=questions_form, form2=password_form, form3=name_form)
 
 
 
