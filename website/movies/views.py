@@ -151,15 +151,16 @@ def seeMovieReview(page = 1):
 			i = counter = 0
 			found_number = False
 
-			while i < number_of_movies and not found_number:
-				while counter <= 20:
+			while i < number_of_movies:
+				while counter <= 20 and not found_number:
 					counter += 1
 					number = random.randint(0, 19)
 					if number not in chosen_movies_numbers:
 						chosen_movies_numbers.append(number)
-						found_number = True
+						if len(chosen_movies_numbers) == 5:
+							found_number = True
 
-				IDs.append(data["movie_results"][number]["imdb_id"])
+				IDs.append(data["movie_results"][chosen_movies_numbers[i]]["imdb_id"])
 
 				respString = 'http://www.omdbapi.com/?i=' + IDs[i] + '&apikey=b3814b2' 
 				r = requests.get(respString)
@@ -176,6 +177,7 @@ def seeMovieReview(page = 1):
 					i += 1
 		except:
 			error_message = "Try again! None movies were found..."
+
 
 	# validate if page data type is not string
 	try:
@@ -285,7 +287,7 @@ def suggestMeMovies():
 	}
 
 	movies = Movies.query.all()
-	# print(len(movies))
+	print(len(movies))
 
 	number_of_checked_genres_boxes = len(indices_of_checked_genres)
 	number_of_checked_ranges_of_years_boxes = len(indices_of_checked_ranges_of_years)
@@ -390,7 +392,7 @@ def suggestMeMovies():
 				awards = dictionary["Awards"].strip()
 
 				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
-				# print(check_not_in_db, "A")
+				print(check_not_in_db, "A")
 
 				if not check_not_in_db:
 					movie = Movies(movie_id=id, title=movie_title, rating=imdb_rating, poster=poster_url, genres=", ".join(genres),
@@ -404,7 +406,7 @@ def suggestMeMovies():
 
 					if not movie.trailer and trailer:
 						movie.trailer = trailer
-						# print("trailer", movie.trailer)
+						print("trailer", movie.trailer)
 						db.session.commit()
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
@@ -433,10 +435,10 @@ def suggestMeMovies():
 		counter += 1
     
 	movies = Movies.query.all()
-	# print(len(movies))
+	print(len(movies))
 
 	if not found:
-		# print("AAA")
+		print("AAA")
 		movies = Movies.query.all()
 		# shuffle the list to avoid getting the same movie as the first all the time
 		random.shuffle(movies)
