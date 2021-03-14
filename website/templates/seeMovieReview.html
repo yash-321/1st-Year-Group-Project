@@ -17,7 +17,7 @@
 		margin-bottom: 40px;
 		background: rgba(255,255,255,0.5);
 		background-position: center;
-		width: 80%;
+		width: 75%;
 		height: 80%;
 		border-top-right-radius: 10px;
 		border-top-left-radius: 10px;
@@ -27,26 +27,19 @@
 	}
 	.card {
 		background: white;
-		width: 80%;
+		width: 95%;
 		margin-top: 20px;
-	}
-	#popularMovieReviews {
-		white-space: nowrap;
 	}
 	#poster{
 		margin-left: 10px;
-		margin-top: 10px;
+		margin-top: 20px;
 		margin-right: 10px;
 		margin-bottom: 10px;
-		height: 350px;
-		width: 250px;
-	}
-	.pagination{
-
+		height:340px;
+		width: 260px;
 	}
 
 </style>
-
 
 <!-- search bar -->
 <div class="container-fluid p-3">
@@ -68,11 +61,11 @@
 		{% for i in range(number_of_movies) %}
 			<div class="row" id="popularReviews">
 				{% for j in range(4) %}
-					<div class="col-md-3" id="popularMoviePosters">
+					<div class="col-md-3 no-gutters" id="popularMoviePosters">
 						<div class="card mx-auto">
 							<div class="well text-center">
 								<img src={{posters[i]}} width="250" id="poster">
-				        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5><b>{{ titles[i] }} ({{ years[i] }})</b></h5></a>
+				        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 							</div>
 						</div>
 					</div>
@@ -82,7 +75,7 @@
 		<br>
 	  	{% if not emptySearchBox%}
 			<nav aria-label="Pagination">
-			  <ul class="pagination pagination-lg">
+			  <ul class="pagination pagination-lg justify-content-center">
 			  	{% if page == 1 %}
 			  		<li class="page-item disabled"><a class="page-link" href="/searchMovies/page={{(page-1)|string}}">Previous</a></li>
 			  	{% else %}

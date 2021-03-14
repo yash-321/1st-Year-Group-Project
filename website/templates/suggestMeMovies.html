@@ -97,7 +97,7 @@
 </style>
 <div class="container-fluid" id="suggestedMovie">
 	<div class="row">
-		<div class="col-md-4 no-gutters" id="filterSection">
+		<div class="col-sm-4 no-gutters" id="filterSection">
 			<form action="suggestMeMovies" method="POST" id="formSuggestMovie">
 				<div class="accordion" id="accordionExample">
 
@@ -246,7 +246,7 @@
 		</div>
 	</div>
 </div>
-<!-- Script to deal with data without refreshing page --> 
+<!-- Script to deal with data without refreshing page -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 	//Checks if whitelist or blacklist was clicked
@@ -262,7 +262,7 @@
        var form = $(this);
        var url = form.attr('action');
        var info = form.serialize() + '&buttonpressed=' + buttonpressed;
-    
+
        $.ajax({
            type: "POST",
            url: url,
@@ -284,7 +284,7 @@
            			whitebtn.style.color = "white"
            			blackbtn.style.color = "black"
            		}else if (resp == "/login"){
-					$(location).attr('href', resp)    
+					$(location).attr('href', resp)
            		}else{
            			alert("Something went wrong")
            		}
