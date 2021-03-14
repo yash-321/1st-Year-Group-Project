@@ -22,7 +22,7 @@ def test():
 	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	    }
 
-	for i in range(20):
+	for i in range(30):
 		page_number = str(random.randint(1, 200))
 		year = str(random.randint(1970, 2021))
 
@@ -36,8 +36,8 @@ def test():
 			try:
 				id = data["movie_results"][i]["imdb_id"]
 
-				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
 				r = requests.get(respString) 
 				dictionary = r.json()
 				print(dictionary)
@@ -53,8 +53,11 @@ def test():
 				runtime = dictionary["Runtime"]
 				language = dictionary["Language"]
 				awards = dictionary["Awards"].strip()
+
+				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
 				
-				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+				if not check_not_in_db:
+					movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
 								year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
 								language=language, awards=awards)
 				
@@ -65,7 +68,7 @@ def test():
 			
 			
 
-	movies = Movies.query.filter_by(year=2020).all()
+	# movies = Movies.query.filter_by(year=2020).all()
 	movies = Movies.query.all()
 	# random.shuffle(movies)
 
@@ -128,56 +131,33 @@ def seeMovieReview(page = 1):
 	else:
 		try:
 			emptySearchBox = True
-
-			search_result = ""
-			# generate default movies
-			url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
-
-			page_number = str(random.randint(1, 200))
-
-			querystring = {"type":"get-popular-movies","page":page_number,"year":"2020"}
-
-			headers = {
-			    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-			    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-			    }
-
-			response = requests.request("GET", url, headers=headers, params=querystring)
-			data = response.json()
-
-			chosen_movies_numbers = []
 			number_of_movies = 5
 
-			i = counter = 0
-			found_number = False
+			search_result = ""
 
-			while i < number_of_movies:
-				while counter <= 20 and not found_number:
-					counter += 1
-					number = random.randint(0, 19)
-					if number not in chosen_movies_numbers:
-						chosen_movies_numbers.append(number)
-						if len(chosen_movies_numbers) == 5:
-							found_number = True
+			movies = Movies.query.filter_by(year=2020).all()
+			number = len(movies)
 
-				IDs.append(data["movie_results"][chosen_movies_numbers[i]]["imdb_id"])
+			chose_movies = False
 
-				respString = 'http://www.omdbapi.com/?i=' + IDs[i] + '&apikey=b3814b2' 
-				r = requests.get(respString)
-				dictionary = r.json()
+			while not chose_movies:
+				try:
+					num = random.randint(1, number)
+					movie = movies[num]
 
-				poster = dictionary['Poster'].strip()
+					if movie.movie_id not in IDs and movie.poster != 'N/A':
+						titles.append(movie.title)
+						years.append(movie.year)
+						IDs.append(movie.movie_id)
+						posters.append(movie.poster)
 
-				if dictionary['Response'] == 'True' and poster != "" and poster != "N/A":
-					titles.append(dictionary['Title'])
-					years.append(dictionary['Year'])
-					types.append(dictionary['Type'])
-					posters.append(dictionary['Poster'])
+					if len(titles) == 5:
+						chose_movies = True
+				except:
+					pass
 
-					i += 1
 		except:
 			error_message = "Try again! None movies were found..."
-
 
 	# validate if page data type is not string
 	try:
@@ -185,7 +165,7 @@ def seeMovieReview(page = 1):
 	except:
 		error_message = "Try again! Invalid page number was provided!"
 
-
+	print(error_message)
 	return render_template(
 		'seeMovieReview.html',
 	 	title='Search Movies',
