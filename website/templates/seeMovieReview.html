@@ -5,11 +5,11 @@
 
 <style>
 	html {
-	    height: 100%;
-	    background: linear-gradient(to bottom right, #DF2D8C, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
+    height: 100%;
+    background: linear-gradient(to bottom right, #DF2D8C, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
 	}
 	body {
-  		min-height: 100%;
+  	min-height: 100%;
 		background: linear-gradient(to bottom right, #F75692, 40%, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
 	}
 	#searchPage {
@@ -23,15 +23,23 @@
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
+		box-shadow: 5px 5px 22px grey;
 	}
 	.card {
 		background: white;
 		width: 80%;
 		margin-top: 20px;
 	}
+	#popularMovieReviews {
+		white-space: nowrap;
+	}
 	#poster{
 		margin-left: 10px;
 		margin-top: 10px;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		height: 350px;
+		width: 250px;
 	}
 	.pagination{
 
@@ -43,7 +51,7 @@
 <!-- search bar -->
 <div class="container-fluid p-3">
 	<form action="/searchMovies/" method="POST" id="searchForm">
-		<div class="input-group col-md-8 mx-md-auto pt-3">
+		<div class="input-group col-md-9 mx-md-auto pt-3">
 				<input class="form-control py-2 border-right-0 border" name="search" value="{{ search_result }}" type="search" placeholder="Search..." id="searchMovies">
 				<span class="input-group-append">
 					<button class="btn btn-outline-secondary" type="submit">
@@ -59,14 +67,16 @@
 	{% if not error_message %}
 		{% for i in range(number_of_movies) %}
 			<div class="row" id="popularReviews">
-				<div class="card mx-auto">
-					<div class="col-md-4 no-gutters" id="popularMoviePosters">
-						<img src={{posters[i]}} width="250" id="poster">
+				{% for j in range(4) %}
+					<div class="col-md-3" id="popularMoviePosters">
+						<div class="card mx-auto">
+							<div class="well text-center">
+								<img src={{posters[i]}} width="250" id="poster">
+				        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5><b>{{ titles[i] }} ({{ years[i] }})</b></h5></a>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-8 no-gutters p-4" id="popularMovieReviews">
-		            	<a href="/detailedReview/ID={{IDs[i]}}"><h2><b>{{ titles[i]}}  ({{ years[i] }})</b></h2></a>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
 		{% endfor %}
 		<br>
@@ -85,6 +95,6 @@
 	{% else %}
     	<h3>{{ error_message }}</h3>
 	{% endif %}
-	
+
 </div>
 {% endblock content %}
