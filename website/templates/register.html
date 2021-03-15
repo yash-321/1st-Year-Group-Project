@@ -71,15 +71,11 @@
       }
 
       .check-box{
-        margin-left: 10px;
+
       }
       label{
         width: 240px;
         display: inline-block;
-      }
-      #agree {
-        margin-left: -10px;
-        margin-top: 20px;
       }
       #footer {
         right: 0; bottom: 0; left: 0;
@@ -104,6 +100,7 @@
         border:1px solid;
         color: white;
       }
+
 
 
     </style>
@@ -186,7 +183,7 @@
                           </div>
                           <!-- confirm password input field -->
                           <div class="form-row">
-                            <div class="col-lg-7">
+                            <div class="column">
                               <fieldset class="form-group">
                               <div class="input-field">
                                   {{ form.confirm_password.label}}
@@ -203,11 +200,11 @@
                                       </div>
                           <!-- buttons for security questions -->
                           <div class="form-row" style="height: 80px;">
-                            <div class="col-lg-7" >
+                            
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#security_questions">
                                   Security Questions
                                 </button>
-                              </div>
+              
                             </div>
                         <!-- pop-up window for security questions -->
                         <div id="security_questions" class="modal fade">
@@ -272,7 +269,7 @@
                     </div><!-- /.modal -->
               <!-- I agree to terms and conditions check box -->
 	              </fieldset>
-	              <div class="check-box" style="width: 402px" >
+	              <div class="check-box">
 	                  {{ form.agree }}
 	                  {{ form.agree.label}}
 	              </div>
