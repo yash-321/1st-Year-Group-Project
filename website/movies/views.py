@@ -22,49 +22,49 @@ def test():
 	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	    }
 
-	# for i in range(30):
-	# 	page_number = str(random.randint(1, 200))
-	# 	year = str(random.randint(1970, 2021))
+	for i in range(18):
+		page_number = str(random.randint(1, 200))
+		year = str(random.randint(1990, 2021))
 
-	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
+		querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
-	# 	response = requests.request("GET", url, headers=headers, params=querystring)
-	# 	data = response.json()
+		response = requests.request("GET", url, headers=headers, params=querystring)
+		data = response.json()
 
-	# 	for i in range(20):
-	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
-	# 		try:
-	# 			id = data["movie_results"][i]["imdb_id"]
+		for i in range(20):
+			# IDs.append(data["movie_results"][i]["imdb_id"])
+			try:
+				id = data["movie_results"][i]["imdb_id"]
 
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
-	# 			r = requests.get(respString) 
-	# 			dictionary = r.json()
-	# 			print(dictionary)
+				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+				r = requests.get(respString) 
+				dictionary = r.json()
+				print(dictionary)
 
-	# 			title = dictionary["Title"]
-	# 			imdb_rating = dictionary["imdbRating"]
-	# 			poster_url = dictionary["Poster"].strip()
-	# 			genres = dictionary["Genre"]
-	# 			year = dictionary["Year"]
-	# 			plot = dictionary["Plot"]
-	# 			actors = dictionary["Actors"]
-	# 			directors = dictionary["Director"]
-	# 			runtime = dictionary["Runtime"]
-	# 			language = dictionary["Language"]
-	# 			awards = dictionary["Awards"].strip()
+				title = dictionary["Title"]
+				imdb_rating = dictionary["imdbRating"]
+				poster_url = dictionary["Poster"].strip()
+				genres = dictionary["Genre"]
+				year = dictionary["Year"]
+				plot = dictionary["Plot"]
+				actors = dictionary["Actors"]
+				directors = dictionary["Director"]
+				runtime = dictionary["Runtime"]
+				language = dictionary["Language"]
+				awards = dictionary["Awards"].strip()
 
-	# 			check_not_in_db = Movies.query.filter_by(movie_id=id).first()
+				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
 				
-	# 			if not check_not_in_db:
-	# 				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
-	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
-	# 							language=language, awards=awards)
+				if not check_not_in_db:
+					movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+								year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
+								language=language, awards=awards)
 				
-	# 			db.session.add(movie)
-	# 			db.session.commit()
-	# 		except Exception as e:
-	# 			print(e)
+				db.session.add(movie)
+				db.session.commit()
+			except Exception as e:
+				print(e)
 			
 			
 
