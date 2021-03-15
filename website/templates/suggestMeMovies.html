@@ -5,9 +5,9 @@
 
 <style>
 	#suggestedMovie{
-		margin-top: 40px;
+		margin-top: 20px;
     padding-bottom: 218px;
-    width: 80%;
+    width: 100%;
 	}
 	html{
   	height: 100%;
@@ -40,64 +40,149 @@
   	color:white;
   }
 	#generatebtn{
-		padding: 20px;
+		padding: 10px;
 		color: white;
 		background: rgb(46,48,46);
-    margin-left: 75px;
+    margin-left: 5px;
 		border-color: rgb(46,48,46);
 		border: 10px;
+		width: 150px;
 	}
 	#whitelistbtn{
-		padding: 20px;
+		padding: 10px;
 		color: white;
-    margin-left: 80px;
-    margin-right: 0px;
 		background: rgb(46,48,46);
 		border-color: rgb(46,48,46);
 		border: 10px;
+		width: 50px;
 	}
 	#blacklistbtn{
-		padding: 20px;
+		padding: 10px;
 		color: white;
     margin-left: 5px;
 		background: rgb(46,48,46);
 		border-color: rgb(46,48,46);
 		border: 10px;
+		width: 50px;
 	}
-  #placeholder{
-    width: 80%;
-    height: 80%;
-  }
 	#movieSection{
 		background: rgba(255,255,255,0.5);
-		/*border-top-right-radius: 10px;*/
-		/*border-bottom-right-radius: 10px;*/
+		box-shadow: 5px 5px 22px grey;
+		margin-top: 20px;
+		margin-left: 20px;
+	}
+	#runtime {
+		float: left;
+	}
+	#rating {
+		float: right;
 	}
 	#filterSection{
-		background: rgba(255,255,255,0.5);
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
+		margin-top: 20px;
+		margin-left: 20px;
 	}
 	#posterSection{
-		background: rgba(255,255,255,0.5);
-		border-top-right-radius: 10px;
-		border-bottom-right-radius: 10px;
+		margin-left: 30px;
 	}
 	#poster{
 		display: block;
-		margin-left: auto;
-		margin-right: auto;
+		margin-left: 0;
+		margin-top: 0;
+		width: 450px;
+		height: 650px;
 	}
   #trailer{
     display: block;
     margin-left: auto;
     margin-right: auto;
+		margin-bottom: 20px;
   }
+	#writereviewbtn {
+		padding: 10px;
+		color: white;
+		background: rgb(46,48,46);
+    margin-left: 5px;
+		margin-bottom: 5px;
+		border-color: rgb(46,48,46);
+		border: 10px;
+		width: 250px;
+	}
+	#movieprofilebtn {
+		padding: 10px;
+		color: white;
+		background: rgb(46,48,46);
+    margin-left: 5px;
+		margin-bottom: 5px;
+		border-color: rgb(46,48,46);
+		border: 10px;
+		width: 250px;
+	}
 
 </style>
 <div class="container-fluid" id="suggestedMovie">
 	<div class="row">
-		<div class="col-sm-4 no-gutters" id="filterSection">
+		<!-- there is a fixed size of a poster set -->
+		<!-- it probably needs to be dynamically resizable -->
+		<!-- check bootstrap docs for image classes -->
+		<div class="col-sm-3 pt-3 no-gutters" id="posterSection">
+      {% if error_message %}
+        <!-- just skip then and not output anything -->
+      {% else %}
+				<img src={{poster}} id="poster">
+			{% endif %}
+		</div>
+
+		<div class="col-sm-6 pt-3 no-gutters" id="movieSection">
+			<div class="col-sm-12 p-3" id="movieDetails">
+				{% if error_message %}
+	          <h2>{{ error_message }}</h2>
+	      {% else %}
+	          <h2><b><u>{{ movie_title}}  ({{ year_of_movie }})</u></b></h2>
+	          <br>
+						<div style="clear: both;">
+		          <h4 id="runtime">Runtime: {{runtime}}</h4>
+		          <h4 id="rating">IMDB Rating: {{ rating }}</h4>
+						</div>
+	          <br> <br>
+	          <h4>Language</h4>
+	          {{language}}
+	          <br> <br>
+	         	<h4>Genres</h4>
+	          {% for genre in genres %}
+	          	{{genre}}
+	          {% endfor %}
+	          <br> <br>
+	          <h4>Description</h4>
+	          {{plot}}
+	           <br> <br>
+	          <h4>Directors</h4>
+	          {{directors}}
+	          <br> <br>
+	          <h4>Actors</h4>
+	          {{actors}}
+	         	<br> <br>
+	         	<h4>Awards</h4>
+	        	{{awards}}
+	         	<br> <br>
+	      {% endif %}
+			</div>
+		</div>
+
+		<div class="col-sm-2 no-gutters" id="filterSection">
+			{% if error_message %}
+        <!-- just skip then and not output anything -->
+      {% else %}
+				{% if trailer %}
+					<iframe src="{{trailer}}" frameborder="0" width="350" height="300" allow="fullscreen" id="trailer"></iframe>
+					<!-- <h4><a href="{{trailer}}">YT trailer</a></h4> -->
+				{% endif %}
+			{% endif %}
+      <!-- form to add movie to white or blacklist -->
+			<button type="submit" name="writereviewbtn" class="btn btn-primary" id="writereviewbtn">Write Review</button>
+			<br>
+			<button type="submit" name="movieprofilebtn" class="btn btn-primary" id="movieprofilebtn">View Movie Profile</button>
+			<br>
+			<!-- pop-up window for movie filter -->
 			<form action="suggestMeMovies" method="POST" id="formSuggestMovie">
 				<div class="accordion" id="accordionExample">
 
@@ -110,7 +195,7 @@
 					      </h2>
 					    </div>
 					     <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" >
+					    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" >
 					      <div class="card-body">
 					        {% for i in range(number_of_different_genres//2) %}
 					        	<div class="container">
@@ -139,7 +224,7 @@
 					      </h2>
 					    </div>
 					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" >
+					    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
 					      <div class="card-body">
 					      	{% for i in range(number_of_different_ratings) %}
                       {% if ratings[i] == chosen_rating %}
@@ -163,7 +248,7 @@
 					      </h2>
 					    </div>
 					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" >
+					    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
 					      <div class="card-body">
 					        {% for i in range(number_of_different_ranges_of_years) %}
 						    	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
@@ -175,75 +260,20 @@
 
 				</div>
 			</form>
-
-		</div>
-
-		<!-- also we could make this section smaller (e.g. col-3) to give more space for poster-->
-		<!-- but there would be left a very limited space for data about movies -->
-		<div class="col-md-4 pt-3 no-gutters" id="movieSection">
-      <br>
-			{% if error_message %}
-          <h2>{{ error_message }}</h2>
-      {% else %}
-          <h2><b>{{ movie_title}}  ({{ year_of_movie }})</b></h2>
-          <br>
-          <h4>IMDB Rating: {{ rating }}</h4>
-          <h4>Runtime: {{runtime}}</h4>
-          <br>
-          <h4>Language</h4>
-          {{language}}
-          <br> <br>
-         	<h4>Genres</h4>
-          {% for genre in genres %}
-          	{{genre}}
-          {% endfor %}
-          <br> <br>
-          <h4>Description</h4>
-          {{plot}}
-           <br> <br>
-          <h4>Directors</h4>
-          {{directors}}
-          <br> <br>
-          <h4>Actors</h4>
-          {{actors}}
-         	<br> <br>
-         	<h4>Awards</h4>
-        	{{awards}}
-         	<br> <br>
-      {% endif %}
-		</div>
-
-		<!-- there is a fixed size of a poster set -->
-		<!-- it probably needs to be dynamically resizable -->
-		<!-- check bootstrap docs for image classes -->
-		<div class="col-md-4 pt-3 no-gutters" id="posterSection">
-      <br>
-      {% if error_message %}
-        <!-- just skip then and not output anything -->
-      {% else %}
-				<img src={{poster}} width="350" id="poster">
-				<br>
-				{% if trailer %}
-					<iframe src="{{trailer}}" frameborder="0" width="350" height="300" allow="fullscreen" id="trailer"></iframe>
-					<!-- <h4><a href="{{trailer}}">YT trailer</a></h4> -->
-				{% endif %}
-			{% endif %}
-      <br>
-      <br>
-      <button form="formSuggestMovie" type="submit" name="generatebtn" class="btn btn-primary" id="generatebtn">Generate!</button>
-      <!-- form to add movie to white or blacklist -->
       <form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
       	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
       	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
       	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
-		<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
+				<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
         	<i class="fa fa-heart" aria-hidden="true"></i>
       	</button>
-		<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
+				<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
         	<i class="fa fa-times" aria-hidden="true"></i>
-      </button>
-  	</form>
+      	</button>
+				<button form="formSuggestMovie" type="submit" name="generatebtn" class="btn btn-primary" id="generatebtn">Generate!</button>
+  		</form>
 		</div>
+
 	</div>
 </div>
 <!-- Script to deal with data without refreshing page -->
