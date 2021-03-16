@@ -109,7 +109,7 @@ def account():
 
 
 #reviews routes
-@usersReviews.route("/writeReview/<movie_id>")
+@usersReviews.route("/writeReview/ID=<movie_id>")
 def writeReviews(movie_id):
 	return render_template('writeReview.html', title='Write A Review')
 
@@ -126,20 +126,66 @@ def detailed_review(movie_id):
 	= directors = runtime = language = awards = production = writer = None
 
 	if dictionary["Response"] != "False":
-		movie_title = dictionary["Title"]
-		genres = dictionary["Genre"]
-		year_of_movie = dictionary["Year"]
-		poster_url = dictionary["Poster"].strip()
-		imdb_rating = dictionary["imdbRating"]
-		plot = dictionary["Plot"]
-		actors = dictionary["Actors"]
-		directors = dictionary["Director"]
-		runtime = dictionary["Runtime"]
-		language = dictionary["Language"]
-		awards = dictionary["Awards"].strip()
-
-		production = dictionary["Production"].strip()
-		writer = dictionary["Writer"].strip()
+		try:
+			movie_title = dictionary["Title"]
+		except KeyError:
+			movie_title = None
+		try:
+			genres = dictionary["Genre"]
+		except KeyError:
+			genres = None
+		try:
+			year_of_movie = dictionary["Year"]
+		except KeyError:
+			year_of_movie = None
+		try:
+			movie_title = dictionary["Title"]
+		except KeyError:
+			movie_title = None
+		try:
+			poster_url = dictionary["Poster"].strip()
+		except KeyError:
+			poster_url = None
+		try:
+			imdb_rating = dictionary["imdbRating"]
+		except KeyError:
+			imdb_rating = None
+		try:
+			plot = dictionary["Plot"]
+		except KeyError:
+			plot = None
+		try:
+			actors = dictionary["Actors"]
+		except KeyError:
+			actors = None
+		try:
+			directors = dictionary["Director"]
+		except KeyError:
+			directors = None
+		try:
+			runtime = dictionary["Runtime"]
+		except KeyError:
+			runtime = None
+		try:
+			directors = dictionary["Director"]
+		except KeyError:
+			directors = None
+		try:
+			language = dictionary["Language"]
+		except KeyError:
+			language = None
+		try:
+			awards = dictionary["Awards"].strip()
+		except KeyError:
+			awards = None
+		try:
+			production = dictionary["Production"].strip()
+		except KeyError:
+			production = None
+		try:
+			writer = dictionary["Writer"].strip()
+		except KeyError:
+			writer = None
 	else:
 		error_message = "The movie was not found! Try again!"
 

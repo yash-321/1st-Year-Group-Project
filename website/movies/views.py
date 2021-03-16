@@ -22,9 +22,9 @@ def test():
 	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	    }
 
-	for i in range(30):
+	for i in range(18):
 		page_number = str(random.randint(1, 200))
-		year = str(random.randint(1970, 2021))
+		year = str(random.randint(1990, 2021))
 
 		querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
@@ -36,8 +36,8 @@ def test():
 			try:
 				id = data["movie_results"][i]["imdb_id"]
 
-				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
 				r = requests.get(respString) 
 				dictionary = r.json()
 				print(dictionary)
@@ -372,7 +372,7 @@ def suggestMeMovies():
 				awards = dictionary["Awards"].strip()
 
 				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
-				print(check_not_in_db, "A")
+				# print(check_not_in_db, "A")
 
 				if not check_not_in_db:
 					movie = Movies(movie_id=id, title=movie_title, rating=imdb_rating, poster=poster_url, genres=", ".join(genres),
@@ -386,7 +386,7 @@ def suggestMeMovies():
 
 					if not movie.trailer and trailer:
 						movie.trailer = trailer
-						print("trailer", movie.trailer)
+						# print("trailer", movie.trailer)
 						db.session.commit()
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
@@ -418,7 +418,7 @@ def suggestMeMovies():
 	print(len(movies))
 
 	if not found:
-		print("AAA")
+		# print("AAA")
 		movies = Movies.query.all()
 		# shuffle the list to avoid getting the same movie as the first all the time
 		random.shuffle(movies)
