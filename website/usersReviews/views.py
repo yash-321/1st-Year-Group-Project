@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, url_for, flash, redirect, session
+from flask import Blueprint, render_template, url_for, flash, redirect, session, request
 from flask_login import login_user, current_user, logout_user, login_required
 from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm, UpdateNameForm
 from website import db, bcrypt
-from website.models import User
+from website.models import User, Whitelist, Blacklist
 import requests
 
 usersReviews = Blueprint('usersReviews', __name__)
@@ -104,7 +104,33 @@ def account():
 		else:
 			flash(f'Display name format is incorrect!', 'danger')
 
-	return render_template('account.html', title='Account', form1=questions_form, form2=password_form, form3=name_form)
+	whitelist = Whitelist.query.filter_by(user_id=user.id).all()
+	blacklist = Blacklist.query.filter_by(user_id=user.id).all()
+
+	return render_template(
+		'account.html',
+		title='Account',
+		form1=questions_form,
+		form2=password_form,
+		form3=name_form,
+		whitelist=whitelist,
+		blacklist=blacklist)
+
+
+@usersReviews.route("/removeMovie", methods=['POST'])
+def removeMovie():
+	data = request.form.to_dict()
+	user = User.query.filter_by(username=current_user.username).first()
+
+	if data['buttonpressed'] == "whitelist":
+		movie = Whitelist.query.filter_by(movie_id=data['currentMovieID'], user_id=user.id).first()
+		db.session.delete(movie)
+		db.session.commit()
+	elif data['buttonpressed'] == "blacklist":
+		movie = Blacklist.query.filter_by(movie_id=data['currentMovieID'], user_id=user.id).first()
+		db.session.delete(movie)
+		db.session.commit()
+	return redirect(url_for('usersReviews.account'))
 
 
 
@@ -193,6 +219,7 @@ def detailed_review(movie_id):
 		'detailed_review.html',
 		title='Movie Reviews',
 		error_message=error_message,
+		movie_id=movie_id,
 		movie_title=movie_title,
 		genres=genres,
 		year_of_movie=year_of_movie,

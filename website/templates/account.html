@@ -67,6 +67,72 @@
     border-top: 8px solid white;
     border-radius: 5px;
   }
+
+/* css for whitelist cards */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    color: #6ABCEA;
+  }
+
+  .movie-card {
+    background: #ffffff;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 280px;
+    margin: 2em;
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  .movie-header {
+    padding: 0;
+    margin: 0;
+    height: 367px;
+    width: 100%;
+    display: block;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .movie-card:hover {
+    -webkit-transform: scale(1.03);
+            transform: scale(1.03);
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .movie-content {
+    padding: 18px 18px 24px 18px;
+    margin: 0;
+  }
+
+  .movie-content-header, .movie-info {
+    display: table;
+    width: 100%;
+  }
+
+  .movie-title {
+    font-size: 24px;
+    margin: 0;
+    display: table-cell;
+  }
+
+  .fa-times {
+    color: red;
+  }
+
+  .deleteButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    margin-right: 5px;
+  }
 </style>
 <section>
 <!-- For flash messages -->
@@ -111,22 +177,31 @@ Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget faci
         <div class="row">
             <div class="col-12 pt-3">
                 <h1> Whitelisted Films </h1>
-                <p> Up, Avengers: End Game, Cars 3 </p>
                 <hr class="linebreak">
-                <p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
-
-Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-</p>
-<hr class="linebreak">
-<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
-
-Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-</p>
-<hr class="linebreak">
-<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
-
-Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-</p>
+                {% if whitelist %}
+                  {% for movie in whitelist %}
+                    <div class="movie-card">
+                      <div class="movie-header" style="background: url({{ movie.poster }})">
+                        <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormW{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your whitelist?')">
+                          <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
+                          <input type="hidden" name="buttonpressed" id="buttonpressed" value="whitelist">
+                          <button form="removeMovieFormW{{ movie.id }}" class="deleteButton" type="submit">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                          </button>
+                        </form>
+                      </div><!--movie-header-->
+                      <div class="movie-content">
+                        <div class="movie-content-header">
+                          <a href="/detailedReview/ID={{ movie.movie_id }}">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                          </a>
+                        </div>
+                      </div><!--movie-content-->
+                    </div><!--movie-card-->
+                  {% endfor %}
+                {% else %}
+                  <h3>There are no movies in your Whitelist</h3>
+                {% endif %}
 <hr class="linebreak">
             </div>
         </div>
@@ -135,26 +210,36 @@ Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget faci
         <div class="row">
             <div class="col-12 pt-3">
                 <h1> Blacklisted Films </h1>
-                <p> Vampire Man, Scary Movie </p>
                 <hr class="linebreak">
-                <p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
-
-Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-</p>
-<hr class="linebreak">
-<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
-
-Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-</p>
-<hr class="linebreak">
-<p>Praesent gravida sem ut tristique feugiat. Mauris sed massa condimentum, lacinia ex eu, sagittis enim. Aliquam ex ipsum, vulputate quis cursus sed, sagittis nec turpis. Maecenas tincidunt placerat ante, faucibus luctus lorem malesuada non. Aenean bibendum auctor dolor, in tempus dolor tempor quis. Nulla in elit risus. Pellentesque pharetra quis nulla et ornare. Nunc aliquam dolor elit, ac dignissim turpis tempus at. Donec elementum sodales mauris, et ultricies tellus feugiat a. Aenean a dui id turpis sagittis commodo eget eget nisl. Ut posuere rutrum velit eu egestas. Morbi tincidunt lectus nisi. Aliquam erat volutpat. Nullam scelerisque at lorem eget blandit. Nullam ac erat vel nisl lobortis consequat. Donec sed nisi sapien.
-
-Morbi semper tortor id turpis fringilla semper. In vitae cursus dolor, eget facilisis dui. Vestibulum tellus turpis, lobortis sed tincidunt at, tristique sit amet nunc. Etiam pellentesque justo nec blandit dapibus. Nulla lorem tellus, pulvinar nec arcu ac, ornare mollis leo. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In hac habitasse platea dictumst. Quisque pretium eleifend ipsum, ac ullamcorper lorem efficitur vitae. Etiam ut ipsum et sem tristique consequat at eu elit. Fusce hendrerit urna dui, ut pharetra dui dignissim a. Quisque euismod, tellus et dignissim accumsan, elit sem efficitur sapien, in tincidunt enim nisi vel urna. Praesent dapibus at arcu in tempus. Suspendisse et scelerisque justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-</p>
+                {% if blacklist %}
+                  {% for movie in blacklist %}
+                    <div class="movie-card">
+                      <div class="movie-header" style="background: url({{ movie.poster }})">
+                        <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormB{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your blacklist?')">
+                          <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
+                          <input type="hidden" name="buttonpressed" id="buttonpressed" value="blacklist">
+                          <button form="removeMovieFormB{{ movie.id }}" class="deleteButton" type="submit">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                          </button>
+                        </form>
+                      </div><!--movie-header-->
+                      <div class="movie-content">
+                        <div class="movie-content-header">
+                          <a href="/detailedReview/ID={{ movie.movie_id }}">
+                            <h3 class="movie-title">{{ movie.title }}</h3>
+                          </a>
+                        </div>
+                      </div><!--movie-content-->
+                    </div><!--movie-card-->
+                  {% endfor %}
+                {% else %}
+                  <h3>There are no movies in your Blacklist</h3>
+                {% endif %}
 <hr class="linebreak">
             </div>
         </div>
     </div>
+
     <div id="mySettings"  class="page hide" data-page="mySettings">
         <div class="row">
             <div class="col-12 pt-3">
