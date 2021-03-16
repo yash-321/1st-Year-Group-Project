@@ -35,8 +35,8 @@
 		margin-top: 20px;
 		margin-right: 10px;
 		margin-bottom: 10px;
-		height:340px;
-		width: 260px;
+		height:relative;
+		width: 90%;
 	}
 
 </style>
@@ -64,7 +64,7 @@
 					<div class="col-md-3 no-gutters" id="popularMoviePosters">
 						<div class="card mx-auto">
 							<div class="well text-center">
-								<img src={{posters[i]}} width="250" id="poster">
+								<img src={{posters[i]}} id="poster">
 				        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 							</div>
 						</div>
