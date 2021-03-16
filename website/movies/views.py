@@ -15,68 +15,73 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 
 @movies.route("/test/", methods=['GET', 'POST'])
 def test():
-	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
 	
-	headers = {
-	    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-	    }
+	# headers = {
+	#     'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+	#     }
 
-	for i in range(18):
-		page_number = str(random.randint(1, 200))
-		year = str(random.randint(1990, 2021))
+	# for i in range(10):
+	# 	page_number = str(random.randint(1, 200))
+	# 	year = str(random.randint(1990, 2021))
 
-		querystring = {"type":"get-popular-movies","page":page_number,"year":year}
+	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
-		response = requests.request("GET", url, headers=headers, params=querystring)
-		data = response.json()
+	# 	response = requests.request("GET", url, headers=headers, params=querystring)
+	# 	data = response.json()
 
-		for i in range(20):
-			# IDs.append(data["movie_results"][i]["imdb_id"])
-			try:
-				id = data["movie_results"][i]["imdb_id"]
+	# 	for i in range(20):
+	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
+	# 		try:
+	# 			id = data["movie_results"][i]["imdb_id"]
 
-				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
-				r = requests.get(respString) 
-				dictionary = r.json()
-				print(dictionary)
+	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+	# 			r = requests.get(respString) 
+	# 			dictionary = r.json()
+	# 			print(dictionary)
 
-				title = dictionary["Title"]
-				imdb_rating = dictionary["imdbRating"]
-				poster_url = dictionary["Poster"].strip()
-				genres = dictionary["Genre"]
-				year = dictionary["Year"]
-				plot = dictionary["Plot"]
-				actors = dictionary["Actors"]
-				directors = dictionary["Director"]
-				runtime = dictionary["Runtime"]
-				language = dictionary["Language"]
-				awards = dictionary["Awards"].strip()
+	# 			title = dictionary["Title"]
+	# 			imdb_rating = dictionary["imdbRating"]
+	# 			poster_url = dictionary["Poster"].strip()
+	# 			genres = dictionary["Genre"]
+	# 			year = dictionary["Year"]
+	# 			plot = dictionary["Plot"]
+	# 			actors = dictionary["Actors"]
+	# 			directors = dictionary["Director"]
+	# 			runtime = dictionary["Runtime"]
+	# 			language = dictionary["Language"]
+	# 			awards = dictionary["Awards"].strip()
 
-				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
+	# 			check_not_in_db = Movies.query.filter_by(movie_id=id).first()
 				
-				if not check_not_in_db:
-					movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
-								year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
-								language=language, awards=awards)
+	# 			if not check_not_in_db:
+	# 				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
+	# 							language=language, awards=awards)
 				
-				db.session.add(movie)
-				db.session.commit()
-			except Exception as e:
-				print(e)
+	# 			db.session.add(movie)
+	# 			db.session.commit()
+	# 		except Exception as e:
+	# 			print(e)
+	# 			break
 			
 			
 
 	# movies = Movies.query.filter_by(year=2020).all()
+	# movies = Movies.query.limit(7000).offset(46).all()
 	movies = Movies.query.all()
 	# random.shuffle(movies)
+	# for i in movies:
+	# 	print(i.title)
 
 	print(len(movies))
 
 	return render_template(
 		'test.html',
 	 	title='TEST')
+
 
 @movies.route("/searchMovies/", methods=['GET', 'POST'])
 @movies.route("/searchMovies/page=<page>", methods=['GET', 'POST'])
@@ -181,6 +186,38 @@ def seeMovieReview(page = 1):
 	 	emptySearchBox=emptySearchBox)
 
 
+def check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, genres):
+	if "checked" in checked_genres:
+		for j in range(number_of_checked_genres_boxes):
+			random.shuffle(copy_of_indices_of_checked_genres)
+			if names_of_genres[copy_of_indices_of_checked_genres[-1]] in genres:
+				return True
+			else:
+				copy_of_indices_of_checked_genres.remove(copy_of_indices_of_checked_genres[-1])
+
+		return False
+	else:
+		return True
+
+
+def check_movie_year(indices_of_checked_ranges_of_years, number_of_checked_ranges_of_years_boxes, 
+					number_of_different_ranges_of_years, ranges_of_years, year_of_movie):
+	# check if the movie appears in the selected range(s) of years, if any were selected
+	if 0 not in indices_of_checked_ranges_of_years and number_of_checked_ranges_of_years_boxes != 0:
+		for x in range(number_of_checked_ranges_of_years_boxes):
+			years = ranges_of_years[indices_of_checked_ranges_of_years[x]]
+			
+			# check if not the last range was selected
+			if indices_of_checked_ranges_of_years[x] != number_of_different_ranges_of_years-1:
+				if years[0] <= year_of_movie <= years[1]:
+					return True
+			else:
+				if years > year_of_movie:
+					return True
+		return False
+	else:
+		return True
+
 @movies.route("/suggestMeMovies", methods=['GET', 'POST'])
 def suggestMeMovies():
 	# the tuples and lists to save the required data for criteria
@@ -279,17 +316,79 @@ def suggestMeMovies():
 	# set default values if a required movie was not found
 	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = awards = None
 
+	all_movies_in_db = Movies.query.all()
+	length = len(all_movies_in_db)
+
+
+	# to make the algorithm a bit faster I firstly check some movies from the database 
+	# so I could much faster provide a movie let's say when any criteria were selected
+	check_this_number_of_all_movies_in_db = 25
+	random_offset = random.randint(1, length-check_this_number_of_all_movies_in_db)
+	movies = Movies.query.limit(check_this_number_of_all_movies_in_db).offset(random_offset).all()
+	random.shuffle(movies)
+
+	for movie in movies:
+		copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
+
+		if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
+			continue
+
+		found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
+		
+		if not found_corresponding_genre:
+			continue
+
+		found_movie_within_year_range = check_movie_year(
+											indices_of_checked_ranges_of_years, 
+											number_of_checked_ranges_of_years_boxes, 
+											number_of_different_ranges_of_years,
+											ranges_of_years, 
+											movie.year)
+			
+		if not found_movie_within_year_range:
+			i += 1
+			continue
+
+		if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
+			continue
+
+		if movie.rating == "N/A":
+			found = True
+		else:
+			movie.rating = float(movie.rating)
+
+		# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
+		if movie.rating >= chosen_rating and not found:
+			found = True
+
+		if found:
+			id = movie.movie_id
+			movie_title = movie.title
+			genres = movie.genres.split(", ")
+			imdb_rating = movie.rating
+			year_of_movie = movie.year
+			poster_url = movie.poster
+			plot = movie.plot
+			actors = movie.actors
+			directors = movie.directors
+			runtime = movie.runtime
+			trailer = movie.trailer
+			language = movie.language
+			awards = movie.awards
+			break
+
 	# the code which queries the APIs and check if received movies satisfy the criteria
 	while not found and counter < times:
+		print("API")
 		# check if the connection with the API was made
 		try:
 			response = requests.request("GET", url, headers=headers, params=querystring) #, timeout=5 )
 			data = response.json()
-			i = index = 0
 		except:
 			counter += 1
 			continue
 
+		i = 0
 		# go through 20 random movies received from the API and check if they meet the criteria
 		while i < 20 and not found:
 			try:
@@ -297,60 +396,34 @@ def suggestMeMovies():
 				movie = data["movie_results"][i]
 
 				genres = movie["genres"]
-
 				# this is necessary to randomly pick one genre of all genres to not check one genre all the time the first
 				copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
 				
 				id = movie["imdb_id"]
 				year_of_movie = int(movie["year"])
 				movie_title = movie["title"]
-
 				# possible (rarely) to get movies with year = 0, such movies are skipped (inaccurate data)
 				# once I encoutered a movie with any genres and got an error because of that
 				if year_of_movie == 0 or len(genres) == 0:
 					i += 1
 					continue
 
-				found_movie_within_year_range = False
+				found_movie_within_year_range = check_movie_year(
+												indices_of_checked_ranges_of_years, 
+												number_of_checked_ranges_of_years_boxes,
+												number_of_different_ranges_of_years, 
+												ranges_of_years, 
+												year_of_movie)
+				
+				if not found_movie_within_year_range:
+					i += 1
+					continue
 
-				# check if the movie appears in the selected range(s) of years, if any were selected
-				if 0 not in indices_of_checked_ranges_of_years and number_of_checked_ranges_of_years_boxes != 0:
-					for x in range(number_of_checked_ranges_of_years_boxes):
-						years = ranges_of_years[indices_of_checked_ranges_of_years[x]]
-						
-						# check if not the last range was selected
-						if indices_of_checked_ranges_of_years[x] != number_of_different_ranges_of_years-1:
-							if years[0] <= year_of_movie <= years[1]:
-								found_movie_within_year_range = True
-								break
-						else:
-							if years > year_of_movie:
-								found_movie_within_year_range = True
-								break
-
-					# take a new movie if it is not in the right range
-					if not found_movie_within_year_range:
-						i += 1
-						continue
-
-
-				found_corresponding_genre = False
-
-				# check if the movie has any of the selected genre
-				if "checked" in checked_genres:
-					for j in range(number_of_checked_genres_boxes):
-						random.shuffle(copy_of_indices_of_checked_genres)
-						if names_of_genres[copy_of_indices_of_checked_genres[-1]] in genres:
-							index = i
-							found_corresponding_genre = True
-							break
-						else:
-							copy_of_indices_of_checked_genres.remove(copy_of_indices_of_checked_genres[-1])
-            
-					if not found_corresponding_genre:
-						i += 1
-						continue
-
+				found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, genres)
+				
+				if not found_corresponding_genre:
+					i += 1
+					continue
 
 				trailer = movie["youtube_trailer_key"].strip()
 				
@@ -372,7 +445,6 @@ def suggestMeMovies():
 				awards = dictionary["Awards"].strip()
 
 				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
-				# print(check_not_in_db, "A")
 
 				if not check_not_in_db:
 					movie = Movies(movie_id=id, title=movie_title, rating=imdb_rating, poster=poster_url, genres=", ".join(genres),
@@ -384,10 +456,11 @@ def suggestMeMovies():
 				else:
 					movie = check_not_in_db
 
+					# add the trailer to the db if it was not added before
 					if not movie.trailer and trailer:
 						movie.trailer = trailer
-						# print("trailer", movie.trailer)
 						db.session.commit()
+
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
@@ -417,51 +490,33 @@ def suggestMeMovies():
 	movies = Movies.query.all()
 	print(len(movies))
 
-	if not found:
-		# print("AAA")
-		movies = Movies.query.all()
-		# shuffle the list to avoid getting the same movie as the first all the time
-		random.shuffle(movies)
 
-		for movie in movies:
+	if not found:
+		print("DB2")
+		# shuffle the list to avoid getting the same movie as the first all the time
+		random.shuffle(all_movies_in_db)
+
+		for movie in all_movies_in_db:
 			copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
-			found_corresponding_genre = False
 
 			if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
 				continue
 
-			if "checked" in checked_genres:
-				for j in range(number_of_checked_genres_boxes):
-					random.shuffle(copy_of_indices_of_checked_genres)
-					if names_of_genres[copy_of_indices_of_checked_genres[-1]] in movie.genres:
-						found_corresponding_genre = True
-						break
-					else:
-						copy_of_indices_of_checked_genres.remove(copy_of_indices_of_checked_genres[-1])
-        
-				if not found_corresponding_genre:
-					continue
+			found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
+			
+			if not found_corresponding_genre:
+				continue
 
-			found_movie_within_year_range = False
-
-			# check if the movie appears in the selected range(s) of years, if any were selected
-			if 0 not in indices_of_checked_ranges_of_years and number_of_checked_ranges_of_years_boxes != 0:
-				for x in range(number_of_checked_ranges_of_years_boxes):
-					years = ranges_of_years[indices_of_checked_ranges_of_years[x]]
-					
-					# check if not the last range was selected
-					if indices_of_checked_ranges_of_years[x] != number_of_different_ranges_of_years-1:
-						if years[0] <= movie.year <= years[1]:
-							found_movie_within_year_range = True
-							break
-					else:
-						if years > movie.year:
-							found_movie_within_year_range = True
-							break
-
-				# take a new movie if it is not in the right range
-				if not found_movie_within_year_range:
-					continue
+			found_movie_within_year_range = check_movie_year(
+												indices_of_checked_ranges_of_years, 
+												number_of_checked_ranges_of_years_boxes, 
+												number_of_different_ranges_of_years,
+												ranges_of_years, 
+												movie.year)
+				
+			if not found_movie_within_year_range:
+				i += 1
+				continue
 
 			if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
 				continue
@@ -476,6 +531,7 @@ def suggestMeMovies():
 				found = True
 
 			if found:
+				id = movie.movie_id
 				movie_title = movie.title
 				genres = movie.genres.split(", ")
 				imdb_rating = movie.rating
