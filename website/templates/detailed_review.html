@@ -6,84 +6,122 @@
 
 	<!-- CSS styling, to be moved to static style file -->
 	<style>
-	#suggestedMovie{
-		margin-top: 20px;
-	}
 	html {
-    	height: 100%;
+    height: 100%;
+		background: linear-gradient(to bottom right, #DF2D8C, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
   	}
-  	body{
-    	min-height: 100%;
+  body{
+    min-height: 100%;
 		background-size: 100%;
-		background: rgb(46,48,46);
+		background: linear-gradient(to bottom right,  #F75692, 40%, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
 	}
-
 	#mainBody {
 		margin-top: 20px;
 		margin-bottom: 40px;
-		background: rgba(255,255,255,0.5);
 		background-position: center;
-		width: 80%;
+		width: 90%;
 		height: 80%;
 		border-top-right-radius: 10px;
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
 	}
-
+	#poster{
+		display: block;
+		margin-left: 0;
+		margin-top: 0;
+		width: 400px;
+		height: 600px;
+	}
+	#movieDetails {
+		background: rgba(255,255,255,0.5);
+		box-shadow: 5px 5px 22px grey;
+	}
+	#runtime {
+		float: left;
+	}
+	#rating {
+		float: right;
+	}
+	#reviewsSection {
+		background: rgba(255,255,255,0.5);
+		box-shadow: 5px 5px 22px grey;
+	}
 	#footer{
-        right: 0; bottom: 0; left: 0;
-        width: 100%;
-        height: 218px;
-    }
-
-    .btn{
-    	padding: 20px;
+    right: 0; bottom: 0; left: 0;
+    width: 100%;
+    height: 218px;
+  }
+	.btn{
+		padding: 20px;
 		color: white;
-		background: rgb(46,48,46);		
+		background: rgb(46,48,46);
 		margin-top: -15px;
 		border-color: rgb(46,48,46);
 		border: 10px;
-    }
-
+	}
 
 </style>
 
-	<!-- display the animated background -->
-	<canvas id="cas" class='background'style='position:fixed;top:0;z-index:-1'></canvas>
 	<!-- FILM INFORMATION SECTION-->
 	<div id="mainBody" class="container-fluid p-3">
+		{% if not error_message %}
+			<h3><u>{{movie_title}}({{year_of_movie}})</u></h3>
+		{% else %}
+			<h2 class="m-2">{{error_message}}</h2>
+		{% endif %}
 		<div class="row">
 			{% if not error_message %}
-			<div class="col-md-4">
-				<h3>{{movie_title}}({{year_of_movie}})</h3>
+			<div class="col-md-3">
 				<p><img src={{poster}} width="350" id="poster"></p>
 			</div>
-			<div class="col-md-6">
-				<h4>Movie Information: </h4>
-				<p>Ratings: {{imdb_rating}}</p>
-				<p>Duration: {{runtime}}<br>Genres: {{genres}}</p>
+			<div class="col-md-9" id="movieDetails">
 				<br>
-				<p>Director: {{directors}}<br>Writer: {{writer}}</p>
-				<p>{{actors}}</p>
-				<h4>Movie Plot: </h4>
+				<h3><u>MOVIE INFORMATION</u></h3>
+				<div style="clear: both;">
+					<p id="rating">Rating: {{imdb_rating}}</p>
+					<p id="runtime">Duration: {{runtime}}</p>
+				</div>
+				<br> <br>
+				<p>Language: {{language}}</p>
+				<p>Genres: {{genres}}</p>
+				<p>Awards: {{awards}}</p>
+				<br>
+				<h4><u>PLOT</u></h4>
 				<p>{{plot}}</p>
-				<p>{{production}}</p>
-				<p>Language:</p>
-				<p>{{language}}</p>
-				<p>Awards</p>
-				<p>{{awards}}</p>
+				<br>
+				<div class="row">
+					<div class="col-md-3">
+						<p><u>DIRECTORS</u></p>
+						<p>{{directors}}</p>
+					</div>
+					<div class="col-md-3">
+						<p><u>WRITERS</u></p>
+						<p>{{writer}}</p>
+					</div>
+					<div class="col-md-3">
+						<p><u>ACTORS</u></p>
+						<p>{{actors}}</p>
+					</div>
+					<div class="col-md-3">
+						<p><u>PRODUCTION</u></p>
+						<p>{{production}}</p>
+					</div>
+				</div>
 			</div>
+			<br>
 			{% else %}
 				<h2 class="m-2">{{error_message}}</h2>
 			{% endif %}
 		</div>
+		<br>
 
 			<!-- REVIEWS SECTION -->
 		{% if not error_message %}
-		<div class="container-fluid padding">
-			<h3>Reviews</h3>
-			<!-- loop criteria to be replaced with for review in review 
+		<div class="container-fluid padding" id="reviewsSection">
+			<br>
+			<h3><u>REVIEWS</u></h3>
+			<!-- loop criteria to be replaced with for review in review
 			where the reviews are returned from the DB -->
 			{% for i in [0,1,2] %}
 				<div>
@@ -103,6 +141,7 @@
 		</div>
 		{% endif %}
 	</div>
+	<br>
 
 
 {% endblock content %}
