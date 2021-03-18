@@ -15,57 +15,57 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 
 @movies.route("/test/", methods=['GET', 'POST'])
 def test():
-	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
 	
-	# headers = {
-	#     'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-	#     }
+	headers = {
+	    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+	    }
 
-	# for i in range(10):
-	# 	page_number = str(random.randint(1, 200))
-	# 	year = str(random.randint(1990, 2021))
+	for i in range(20):
+		page_number = str(random.randint(1, 200))
+		year = str(random.randint(1990, 2021))
 
-	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
+		querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
-	# 	response = requests.request("GET", url, headers=headers, params=querystring)
-	# 	data = response.json()
+		response = requests.request("GET", url, headers=headers, params=querystring)
+		data = response.json()
 
-	# 	for i in range(20):
-	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
-	# 		try:
-	# 			id = data["movie_results"][i]["imdb_id"]
+		for i in range(20):
+			# IDs.append(data["movie_results"][i]["imdb_id"])
+			try:
+				id = data["movie_results"][i]["imdb_id"]
 
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
-	# 			r = requests.get(respString) 
-	# 			dictionary = r.json()
-	# 			print(dictionary)
+				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+				r = requests.get(respString) 
+				dictionary = r.json()
+				print(dictionary)
 
-	# 			title = dictionary["Title"]
-	# 			imdb_rating = dictionary["imdbRating"]
-	# 			poster_url = dictionary["Poster"].strip()
-	# 			genres = dictionary["Genre"]
-	# 			year = dictionary["Year"]
-	# 			plot = dictionary["Plot"]
-	# 			actors = dictionary["Actors"]
-	# 			directors = dictionary["Director"]
-	# 			runtime = dictionary["Runtime"]
-	# 			language = dictionary["Language"]
-	# 			awards = dictionary["Awards"].strip()
+				title = dictionary["Title"]
+				imdb_rating = dictionary["imdbRating"]
+				poster_url = dictionary["Poster"].strip()
+				genres = dictionary["Genre"]
+				year = dictionary["Year"]
+				plot = dictionary["Plot"]
+				actors = dictionary["Actors"]
+				directors = dictionary["Director"]
+				runtime = dictionary["Runtime"]
+				language = dictionary["Language"]
+				awards = dictionary["Awards"].strip()
 
-	# 			check_not_in_db = Movies.query.filter_by(movie_id=id).first()
+				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
 				
-	# 			if not check_not_in_db:
-	# 				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
-	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
-	# 							language=language, awards=awards)
+				if not check_not_in_db:
+					movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+								year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
+								language=language, awards=awards)
 				
-	# 			db.session.add(movie)
-	# 			db.session.commit()
-	# 		except Exception as e:
-	# 			print(e)
-	# 			break
+				db.session.add(movie)
+				db.session.commit()
+			except Exception as e:
+				print(e)
+				break
 			
 			
 
@@ -319,6 +319,14 @@ def suggestMeMovies():
 	all_movies_in_db = Movies.query.all()
 	length = len(all_movies_in_db)
 
+	blacklisted_movies_ids = list()
+
+	if current_user.is_authenticated:
+		user = User.query.filter_by(username=current_user.username).first()
+		blacklisted_movies = Blacklist.query.filter_by(user_id=user.id).all()
+
+		for movie in blacklisted_movies:
+			blacklisted_movies_ids.append(movie.movie_id)
 
 	# to make the algorithm a bit faster I firstly check some movies from the database 
 	# so I could much faster provide a movie let's say when any criteria were selected
@@ -328,54 +336,64 @@ def suggestMeMovies():
 	random.shuffle(movies)
 
 	for movie in movies:
-		copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
+		try:
+			# check if that movie is not in the blacklist
+			# if it is, then skip this movie
+			if blacklisted_movies_ids:
+				if movie.movie_id in blacklisted_movies_ids:
+					continue
 
-		if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
-			continue
+			copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
 
-		found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
-		
-		if not found_corresponding_genre:
-			continue
+			if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
+				continue
 
-		found_movie_within_year_range = check_movie_year(
-											indices_of_checked_ranges_of_years, 
-											number_of_checked_ranges_of_years_boxes, 
-											number_of_different_ranges_of_years,
-											ranges_of_years, 
-											movie.year)
+			found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
 			
-		if not found_movie_within_year_range:
-			i += 1
-			continue
+			if not found_corresponding_genre:
+				continue
 
-		if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
-			continue
+			found_movie_within_year_range = check_movie_year(
+												indices_of_checked_ranges_of_years, 
+												number_of_checked_ranges_of_years_boxes, 
+												number_of_different_ranges_of_years,
+												ranges_of_years, 
+												movie.year)
+				
+			if not found_movie_within_year_range:
+				i += 1
+				continue
 
-		if movie.rating == "N/A":
-			found = True
-		else:
-			movie.rating = float(movie.rating)
+			if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
+				continue
 
-		# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
-		if movie.rating >= chosen_rating and not found:
-			found = True
+			if movie.rating == "N/A":
+				found = True
+			else:
+				movie.rating = float(movie.rating)
 
-		if found:
-			id = movie.movie_id
-			movie_title = movie.title
-			genres = movie.genres.split(", ")
-			imdb_rating = movie.rating
-			year_of_movie = movie.year
-			poster_url = movie.poster
-			plot = movie.plot
-			actors = movie.actors
-			directors = movie.directors
-			runtime = movie.runtime
-			trailer = movie.trailer
-			language = movie.language
-			awards = movie.awards
-			break
+			# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
+			if not found:
+				if movie.rating >= chosen_rating:
+					found = True
+
+			if found:
+				id = movie.movie_id
+				movie_title = movie.title
+				genres = movie.genres.split(", ")
+				imdb_rating = movie.rating
+				year_of_movie = movie.year
+				poster_url = movie.poster
+				plot = movie.plot
+				actors = movie.actors
+				directors = movie.directors
+				runtime = movie.runtime
+				trailer = movie.trailer
+				language = movie.language
+				awards = movie.awards
+				break
+		except:
+			pass
 
 	# the code which queries the APIs and check if received movies satisfy the criteria
 	while not found and counter < times:
@@ -527,8 +545,9 @@ def suggestMeMovies():
 				movie.rating = float(movie.rating)
 
 			# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
-			if movie.rating >= chosen_rating and not found:
-				found = True
+			if not found:
+				if movie.rating >= chosen_rating:
+					found = True
 
 			if found:
 				id = movie.movie_id
