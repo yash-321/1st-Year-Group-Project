@@ -15,66 +15,76 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 
 @movies.route("/test/", methods=['GET', 'POST'])
 def test():
-	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
+	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
 	
-	headers = {
-	    'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-	    'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-	    }
+	# headers = {
+	#     'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
+	#     }
 
-	for i in range(20):
-		page_number = str(random.randint(1, 200))
-		year = str(random.randint(1990, 2021))
+	# for i in range(50):
+	# 	page_number = str(random.randint(1, 200))
+	# 	year = str(random.randint(1970, 2021))
 
-		querystring = {"type":"get-popular-movies","page":page_number,"year":year}
+	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
-		response = requests.request("GET", url, headers=headers, params=querystring)
-		data = response.json()
+	# 	response = requests.request("GET", url, headers=headers, params=querystring)
+	# 	data = response.json()
 
-		for i in range(20):
-			# IDs.append(data["movie_results"][i]["imdb_id"])
-			try:
-				id = data["movie_results"][i]["imdb_id"]
+	# 	for i in range(20):
+	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
+	# 		try:
+	# 			id = data["movie_results"][i]["imdb_id"]
 
-				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-				# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
-				r = requests.get(respString) 
-				dictionary = r.json()
-				print(dictionary)
+	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
+	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+	# 			r = requests.get(respString) 
+	# 			dictionary = r.json()
+	# 			print(dictionary)
 
-				title = dictionary["Title"]
-				imdb_rating = dictionary["imdbRating"]
-				poster_url = dictionary["Poster"].strip()
-				genres = dictionary["Genre"]
-				year = dictionary["Year"]
-				plot = dictionary["Plot"]
-				actors = dictionary["Actors"]
-				directors = dictionary["Director"]
-				runtime = dictionary["Runtime"]
-				language = dictionary["Language"]
-				awards = dictionary["Awards"].strip()
+	# 			title = dictionary["Title"]
+	# 			imdb_rating = dictionary["imdbRating"]
+	# 			poster_url = dictionary["Poster"].strip()
+	# 			genres = dictionary["Genre"]
+	# 			year = dictionary["Year"]
+	# 			plot = dictionary["Plot"]
+	# 			actors = dictionary["Actors"]
+	# 			directors = dictionary["Director"]
+	# 			runtime = dictionary["Runtime"]
+	# 			language = dictionary["Language"]
+	# 			awards = dictionary["Awards"].strip()
 
-				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
+	# 			check_not_in_db = Movies.query.filter_by(movie_id=id).first()
 				
-				if not check_not_in_db:
-					movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
-								year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
-								language=language, awards=awards)
+	# 			if not check_not_in_db:
+	# 				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
+	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
+	# 							language=language, awards=awards)
 				
-				db.session.add(movie)
-				db.session.commit()
-			except Exception as e:
-				print(e)
-				break
+	# 			db.session.add(movie)
+	# 			db.session.commit()
+	# 		except Exception as e:
+	# 			print(e)
+	# 			break
 			
-			
-
 	# movies = Movies.query.filter_by(year=2020).all()
 	# movies = Movies.query.limit(7000).offset(46).all()
 	movies = Movies.query.all()
 	# random.shuffle(movies)
-	# for i in movies:
-	# 	print(i.title)
+
+	# some statistical analysis which languages are the most common
+	
+	languages = dict()
+	for i in movies:
+		language = i.language.split(", ")
+		for j in language:
+			if j in languages:
+				languages[j] += 1
+			else:
+				languages[j] = 1
+
+	# print(language, end=" | ")
+	print(languages)
 
 	print(len(movies))
 
@@ -218,6 +228,7 @@ def check_movie_year(indices_of_checked_ranges_of_years, number_of_checked_range
 	else:
 		return True
 
+
 @movies.route("/suggestMeMovies", methods=['GET', 'POST'])
 def suggestMeMovies():
 	# the tuples and lists to save the required data for criteria
@@ -230,12 +241,22 @@ def suggestMeMovies():
 	number_of_different_genres = len(names_of_genres)
 	checked_genres = [""]*number_of_different_genres
 
+
 	ratings = (0, 7, 6.5, 6, 5.5, 5, 4.5)
 	ratings_texts = ("Any Ratings", "Rated over 7",
 					"Rated over 6.5","Rated over 6","Rated over 5.5",
 					"Rated over 5", "Rated over 4.5")
 	chosen_rating = 0
 	number_of_different_ratings = len(ratings)
+
+
+	languages_identifiers = (0, 1, 2, 3, 4, 5)
+	languages_texts = ("Any Language", "English",
+					"French","Japanese","Spanish",
+					"German")
+	chosen_language = 0
+	number_of_different_languages = len(languages_identifiers)
+
 
 	ranges_of_years_text = ("All years", "2010 – now", "2000 – 2009", "1990 – 1999",
 							"1980 – 1989", "1960 – 1979", "Older than 1960")
@@ -256,6 +277,9 @@ def suggestMeMovies():
 		chosen_rating = float(request.form.get('Ratings'))
 		session["chosen_rating"] = chosen_rating
 
+		chosen_language = float(request.form.get('Languages'))
+		session["chosen_language"] = chosen_language
+
 		for i in range(number_of_different_genres):
 			if request.form.get(names_of_genres[i]):
 				indices_of_checked_genres.append(i)
@@ -274,16 +298,25 @@ def suggestMeMovies():
 				if ("checked_ranges_of_years" + str(i)) in session:
 					session.pop("checked_ranges_of_years" + str(i), None)
 
+
 	# check if previously some criteria were selected, session is used to get them back
 	for i in range(number_of_different_genres):
 		if ("checked_genres" + str(i)) in session and checked_genres[i] != "checked":
 			checked_genres[i] = "checked"
 			indices_of_checked_genres.append(i)
 
+
 	if "chosen_rating" in session:
 		chosen_rating = session["chosen_rating"]
 	else:
 		chosen_rating = 0
+
+
+	if "chosen_language" in session:
+		chosen_language = session["chosen_language"]
+	else:
+		chosen_language = 0
+
 
 	for i in range(number_of_different_ranges_of_years):
 		if ("checked_ranges_of_years" + str(i)) in session and checked_ranges_of_years[i] != "checked":
@@ -418,6 +451,13 @@ def suggestMeMovies():
 				copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
 				
 				id = movie["imdb_id"]
+
+				# check if that movie is not in the blacklist
+				# if it is, then skip this movie
+				if blacklisted_movies_ids:
+					if id in blacklisted_movies_ids:
+						continue
+
 				year_of_movie = int(movie["year"])
 				movie_title = movie["title"]
 				# possible (rarely) to get movies with year = 0, such movies are skipped (inaccurate data)
@@ -508,13 +548,19 @@ def suggestMeMovies():
 	movies = Movies.query.all()
 	print(len(movies))
 
-
+	# add try except later!
 	if not found:
 		print("DB2")
 		# shuffle the list to avoid getting the same movie as the first all the time
 		random.shuffle(all_movies_in_db)
 
 		for movie in all_movies_in_db:
+			# check if that movie is not in the blacklist
+			# if it is, then skip this movie
+			if blacklisted_movies_ids:
+				if movie.movie_id in blacklisted_movies_ids:
+					continue
+
 			copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
 
 			if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
@@ -582,6 +628,10 @@ def suggestMeMovies():
 		ratings_texts=ratings_texts,
 		chosen_rating=chosen_rating,
 		number_of_different_ratings=number_of_different_ratings,
+		languages_identifiers=languages_identifiers,
+		languages_texts=languages_texts,
+		chosen_language=chosen_language,
+		number_of_different_languages=number_of_different_languages,
 		number_of_different_ranges_of_years=number_of_different_ranges_of_years,
 		ranges_of_years_text=ranges_of_years_text,
 		checked_ranges_of_years=checked_ranges_of_years,
