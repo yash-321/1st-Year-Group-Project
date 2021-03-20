@@ -39,6 +39,7 @@
     padding: 10px;
     border-style: solid;
     color: white;
+    margin-bottom: 10px;
   }
   #suggestbtn:hover{
     background:white;
@@ -66,15 +67,19 @@
   <div class="row-4">
     <div class="col-12">
         <h2 data-text="FilmFlick//">FilmFlick// </h2>
+        <br>
         <h3>Who are we?</h3>
         <h4>We are Team W2, and this is our webapp - FilmFlick.</h4>
         <hr class="linebreak">
+        <br>
         <h4>We designed FilmFlick in order to aid in decreasing the amount of time spent looking for a film to watch. Our back-end team worked incredibly hard to create an algorithm which would both introduce you to something which you may have never otherwise come across, as well as tailoring future results according to your taste. With the press of a button, a new film will be generated and presented to you with all the necessary information which may help you make the decision. </h4>
+        <br>
         <hr class="linebreak">
         <h4 style="padding-bottom: 15px;">Well, it's time for you to try it yourself. We sincerely hope you enjoy our service!</h4>
         <form action="{{ url_for('movies.suggestMeMovies') }}">
           <input id="suggestbtn" type="submit" value="Go to Suggest me movies" />
         </form>
+        <br>
 
     </div>
   </div>
