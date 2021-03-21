@@ -58,6 +58,7 @@
 		box-shadow: 5px 5px 22px grey;
 		margin-top: 20px;
 		margin-left: 20px;
+		animation: fadein 2s;
 	}
 	#runtime {
 		float: left;
@@ -68,9 +69,16 @@
 	#filterSection{
 		margin-top: 20px;
 		margin-left: 20px;
+		animation: fadein 2s;
 	}
 	#posterSection{
 		margin-left: 30px;
+	    animation: fadein 2s;
+	}
+
+	@keyframes fadein {
+	  from { opacity: 0}
+	  to   { opacity: 1}
 	}
 	#poster{
 		display: block;
@@ -86,13 +94,27 @@
 		margin-bottom: 20px;
 		width: 100%;
   	}
-  	p {
-  		font-size: 1.2em;
+  	span {
+  		font-size: 1.3em;
+  	}
+  	h4{
+  		text-decoration: underline;
   	}
   	.row{
   		margin-left: -15px;
   		margin-right: -15px;
   	}
+	#movieDetails::-webkit-scrollbar {
+	    width: 5px;
+	}
+	#movieDetails::-webkit-scrollbar-track {
+	    background: none;
+	}
+	#movieDetails::-webkit-scrollbar-thumb {
+	    background-color: white;
+	    border-radius: 20px;
+	    border: none;
+	}
 
 
 </style>
@@ -110,7 +132,7 @@
 		</div>
 
 		<div class="col-sm-6 pt-3 no-gutters" id="movieSection">
-			<div class="col-sm-12 p-3" id="movieDetails">
+			<div class="col-sm-12 p-3" id="movieDetails" style="overflow-y:auto; height: 700px;">
 				{% if error_message %}
 	          <h2>{{ error_message }}</h2>
 	      {% else %}
@@ -122,24 +144,24 @@
 						</div>
 	          <br> <br>
 	          <h4>Language</h4>
-	          {{language}}
+	          <span>{{language}}</span>
 	          <br> <br>
 	         	<h4>Genres</h4>
 	          {% for genre in genres %}
-	          	{{genre}}
+	          	<span>{{genre}}</span>
 	          {% endfor %}
 	          <br> <br>
 	          <h4>Description</h4>
-	          {{plot}}
+	          <span>{{plot}}</span>
 	           <br> <br>
 	          <h4>Directors</h4>
-	          {{directors}}
+	          <span>{{directors}}</span>
 	          <br> <br>
 	          <h4>Actors</h4>
-	          {{actors}}
+	          <span>{{actors}}</span>
 	         	<br> <br>
 	         	<h4>Awards</h4>
-	        	{{awards}}
+	        	<span>{{awards}}</span>
 	         	<br> <br>
 	      {% endif %}
 			</div>

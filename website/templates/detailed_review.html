@@ -61,6 +61,17 @@
 		border: 10px;
 		width: 200px;
 	}
+	#movieDetails::-webkit-scrollbar {
+	    width: 5px;
+	}
+	#movieDetails::-webkit-scrollbar-track {
+	    background: none;
+	}
+	#movieDetails::-webkit-scrollbar-thumb {
+	    background-color: white;
+	    border-radius: 20px;
+	    border: none;
+	}
 
 </style>
 
@@ -76,7 +87,7 @@
 			<div class="col-md-3">
 				<p><img src={{poster}} width="350" id="poster"></p>
 			</div>
-			<div class="col-md-9" id="movieDetails">
+			<div class="col-md-9" id="movieDetails" style="overflow-y:auto; height: 500px;">
 				<br>
 				<h3><u>MOVIE INFORMATION</u></h3>
 				<div style="clear: both;">
