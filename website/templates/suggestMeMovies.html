@@ -87,7 +87,10 @@
 		width: 100%;
   	}
   	p {
-  		font-size: 1.2em;
+  		font-size: 1.3em;
+  	}
+  	h4{
+  		text-decoration: underline;
   	}
   	.row{
   		margin-left: -15px;
@@ -122,24 +125,24 @@
 						</div>
 	          <br> <br>
 	          <h4>Language</h4>
-	          {{language}}
+	          <p>{{language}}</p>
 	          <br> <br>
 	         	<h4>Genres</h4>
 	          {% for genre in genres %}
-	          	{{genre}}
+	          	<p>{{genre}}</p>
 	          {% endfor %}
 	          <br> <br>
 	          <h4>Description</h4>
-	          {{plot}}
+	          <p>{{plot}}</p>
 	           <br> <br>
 	          <h4>Directors</h4>
-	          {{directors}}
+	          <p>{{directors}}</p>
 	          <br> <br>
 	          <h4>Actors</h4>
-	          {{actors}}
+	          <p>{{actors}}</p>
 	         	<br> <br>
 	         	<h4>Awards</h4>
-	        	{{awards}}
+	        	<p>{{awards}}</p>
 	         	<br> <br>
 	      {% endif %}
 			</div>
