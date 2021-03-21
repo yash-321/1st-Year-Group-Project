@@ -25,6 +25,7 @@
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
 		border-bottom-right-radius: 10px;
+		animation: fadein 1.5s;
 	}
 	#poster{
 		display: block;
@@ -71,6 +72,10 @@
 	    background-color: white;
 	    border-radius: 20px;
 	    border: none;
+	}
+	@keyframes fadein {
+	  from { opacity: 0}
+	  to   { opacity: 1}
 	}
 
 </style>

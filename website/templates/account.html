@@ -54,6 +54,9 @@
     max-width: 100%;
     overflow-x: hidden;
   }
+  #myReviews{
+    animation: fadein 1.5s;
+  }
   .linebreak{
     border-top: 8px solid white;
     border-radius: 5px;
@@ -134,6 +137,10 @@
     background-color: white;
     border-radius: 20px;
     border: none;
+  }
+  @keyframes fadein {
+    from { opacity: 0}
+    to   { opacity: 1}
   }
 </style>
 <section>

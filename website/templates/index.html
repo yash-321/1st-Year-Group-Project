@@ -46,6 +46,9 @@
     border:6px solid;
     color: #FF8870;
   }
+  #textvertical{
+    animation: fadein 1.5s;
+  }
 
   .linebreak{
     border-top: 8px solid white;
@@ -62,6 +65,11 @@
       width:100%;
     }
   }
+  @keyframes fadein {
+    from { opacity: 0}
+    to   { opacity: 1}
+  }
+
 </style>
 <div class="container" id="textvertical">
   <div class="row-4">
