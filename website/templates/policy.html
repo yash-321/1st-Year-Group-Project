@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block content %}   
+    <head>
+        <style>
+           
+              /* Styles for the content section */
+              
+              .content {
+                width: 77%;
+                margin: 50px auto;
+                font-family: 'Merriweather', serif;
+                font-size: 17px;
+                color: #010f35fd;
+                line-height: 1.9;
+              }
+              @media (min-width: 500px) {
+                .content {
+                  width: 43%;
+                }
+                #button {
+                  margin: 30px;
+                }
+              }
+              .content h1 {
+                margin-bottom: -10px;
+                color: rgb(1, 39, 12);
+                line-height: 1.5;
+                text-shadow: 5px 5px 15px rgba(65, 1, 38, 0.925);
+                font-size: 60px;
+              }
+              .content h2 {
+                font-style: italic;
+                color: #e011c5;
+                text-shadow: 3px 3px 5px pink;
+              }
+
+              #myBtn {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                right: 30px;
+                z-index: 99;
+                border: none;
+                outline: none;
+                background-color: #beca10;
+                color: white;
+                cursor: pointer;
+                padding: 15px;
+                border-radius: 10px;
+              }
+              
+              #myBtn:hover {
+                background-color: #F75692;
+              }
+              .content span{
+                font-weight:bolder;
+                color: brown;
+              }
+
+              body{
+                min-height: 100%;
+                background: linear-gradient(to bottom right, #FF8870 50%, #F75692 50%); background-repeat: no-repeat; background-size: 100% 100%;
+            }
+        </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+         <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">
+
+    
+    </head>
+    <body>
+        <button onclick="topFunction()" id="myBtn" title="back top">Back to Top</button>
+
+
+        <!-- Some content to fill up the page -->
+        <div class="content">
+          <h1>Privacy policy</h1>
+          <h2>1.Introduction</h2>
+          <p>1.1	We are committed to safeguarding the privacy of our website visitors and service users.</p>
+          <p>1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data.</p>
+          <p>1.3	In this policy, "we", "us" and "our" refer to FilmFlick.</p>
+          <h2>2.	Credit</h2>
+          <p>2.1	This document was created using a template from Docular (https://seqlegal.com/free-legal-documents/privacy-policy).</p>
+          <h2>3.	The personal data that we collect</h2>
+          <p>3.1	In this Section 3 we have set out the general categories of personal data that we process.</p>
+          <p>3.2	We may process your "account data". The account data may [include your account identifier, name, account creation and modification dates, website settings].</p>
+          <p>3.3	We may process [information contained in or relating to any reviews that you post in our website] ("communication data"). The communication data may include [the communication content and metadata associated with the communication].</p>
+          <h2>4.	Purposes of processing and legal bases</h2>
+          <p>4.1	In this Section 4, we have set out the purposes for which we may process personal data and the legal bases of the processing.</p>
+          <p>4.2	<span>Operations</span> - We may process [your personal data] for [the purposes of operating our website, providing our services,]. The legal basis for this processing is [our legitimate interests, namely [the proper administration of our website, services and business]] OR [the performance of a contract between you and us and/or taking steps, at your request, to enter into such a contract].</p>
+          <p>4.3	<span>Publications</span> - We may process [account data] for [the purposes of publishing such data on our website and elsewhere through our services in accordance with your express instructions]. The legal basis for this processing is [consent] OR [our legitimate interests, namely [the publication of content in the ordinary course of our operations]] OR [the performance of a contract between you and us and/or taking steps, at your request, to enter into such a contract] OR [[specify basis]].</p>
+          <p>4.4	<span>Relationships and communications </span>- We may process [contact data, account data and/or communication data] for [the purposes of managing our relationships, communicating with you]. The legal basis for this processing is [our legitimate interests, namely [communications with our website visitors, service users, individual customers and customer personnel, the maintenance of relationships, and the proper administration of our website, services and business]] OR [[specify basis]].</p>
+          <p>4.5	<span>Research and analysis</span> - We may process [usage data and/or transaction data] for [the purposes of researching and analysing the use of our website and services, as well as researching and analysing other interactions with our business]. The legal basis for this processing is [consent] OR [our legitimate interests, namely [monitoring, supporting, improving and securing our website, services and business generally]].</p>
+          <p>4.6	<span>Record keeping</span> - We may process [your personal data] for [the purposes of creating and maintaining our databases, back-up copies of our databases and our business records generally]. The legal basis for this processing is our legitimate interests, namely [ensuring that we have access to all the information we need to properly and efficiently run our business in accordance with this policy].</p>
+          <p>4.7	<span>Security</span> - We may process [your personal data] for [the purposes of security and the prevention of fraud and other criminal activity]. The legal basis of this processing is our legitimate interests, namely [the protection of our website, services and business, and the protection of others].</p>
+          <p>4.8	<span>Insurance and risk management</span> - We may process [your personal data] where necessary for [the purposes of obtaining or maintaining insurance coverage, managing risks and/or obtaining professional advice]. The legal basis for this processing is our legitimate interests, namely [the proper protection of our business against risks].</p>
+          <p>4.9	<span>Legal claims</span> - We may process [your personal data] where necessary for [the establishment, exercise or defence of legal claims, whether in court proceedings or in an administrative or out-of-court procedure]. The legal basis for this processing is our legitimate interests, namely [the protection and assertion of our legal rights, your legal rights and the legal rights of others].</p>
+          <p>4.10	<span>Legal compliance and vital interests</span> - We may also process your personal data where such processing is necessary for compliance with a legal obligation to which we are subject or in order to protect your vital interests or the vital interests of another natural person.</p>
+          <h2>5.	Providing your personal data to others</h2>
+          <p>5.1	We may disclose [your personal data] to [our insurers and/or professional advisers] insofar as reasonably necessary for the purposes of [obtaining or maintaining insurance coverage, managing risks, obtaining professional advice].</p>
+          <p>5.2	[Your personal data held in our website database] OR  will be stored on the servers of our hosting services providers[ identified at [URL]].</p>
+          <p>5.3	In addition to the specific disclosures of personal data set out in this Section 5, we may disclose your personal data where such disclosure is necessary for compliance with a legal obligation to which we are subject, or in order to protect your vital interests or the vital interests of another natural person. We may also disclose your personal data where such disclosure is necessary for the establishment, exercise, or defence of legal claims, whether in court proceedings or in an administrative or out-of-court procedure.</p>
+          <h2>6.	International transfers of your personal data</h2>
+          <p>6.1	In this Section 6, we provide information about the circumstances in which your personal data may be transferred to [countries outside the United Kingdom and the European Economic Area (EEA)].</p>
+          <p>6.2	The hosting facilities for our website are situated in [England].[ The competent data protection authorities have made an "adequacy decision" with respect to [the data protection laws of each of these countries].][ Transfers to each of these countries will be protected by appropriate safeguards, namely [the use of standard data protection clauses adopted or approved by the competent data protection authorities, a copy of which you can obtain from [source]].]</p>
+          <p>6.3	You acknowledge that [personal data that you submit for publication through our website or services] may be available, via the internet, around the world. We cannot prevent the use (or misuse) of such personal data by others.</p>
+          <h2>7.	Retaining and deleting personal data</h2>
+          <p>7.1	This Section 7 sets out our data retention policies and procedures, which are designed to help ensure that we comply with our legal obligations in relation to the retention and deletion of personal data.</p>
+          <p>7.2	Personal data that we process for any purpose or purposes shall not be kept for longer than is necessary for that purpose or those purposes.</p>
+          <p>7.3	We will retain your personal data as follows:
+            (a)	[account data will be retained for a minimum period of [1 year] following the date of closure of the relevant account, and for a maximum period of [2 years] following that date];
+            (b)	[communication data will be retained for a minimum period of [1 year] following the date of the communication in question, and for a maximum period of [2 years] following that date];
+            (c)	[usage data will be retained for [1 year] following the date of collection]; 
+            </p>
+          <p>7.4	Notwithstanding the other provisions of this Section 7, we may retain your personal data where such retention is necessary for compliance with a legal obligation to which we are subject, or in order to protect your vital interests or the vital interests of another natural person.</p>
+          <h2>8.	Your rights</h2>
+          <p>8.1	In this Section 8, we have listed the rights that you have under data protection law.</p>
+          <p>8.2	Your principal rights under data protection law are:
+            (a)	the right to access - you can ask for copies of your personal data;
+            (b)	the right to rectification - you can ask us to rectify inaccurate personal data and to complete incomplete personal data;
+            (c)	the right to erasure - you can ask us to erase your personal data;
+            (d)	the right to restrict processing - you can ask us to restrict the processing of your personal data;
+            (e)	the right to object to processing - you can object to the processing of your personal data;
+            (f)	the right to data portability - you can ask that we transfer your personal data to another organisation or to you;
+            (g)	the right to complain to a supervisory authority - you can complain about our processing of your personal data; and
+            (h)	the right to withdraw consent - to the extent that the legal basis of our processing of your personal data is consent, you can withdraw that consent.
+            </p>
+          <p>8.3	These rights are subject to certain limitations and exceptions. You can learn more about the rights of data subjects by visiting https://ico.org.uk/for-organisations/guide-to-data-protection/guide-to-the-general-data-protection-regulation-gdpr/individual-rights/.</p>
+          <p>8.4	You may exercise any of your rights in relation to your personal data [by written notice to us, using the contact details set out below].</p>
+          <h2>9.	About cookies</h2>
+          <p>9.1	A cookie is a file containing an identifier (a string of letters and numbers) that is sent by a web server to a web browser and is stored by the browser. The identifier is then sent back to the server each time the browser requests a page from the server.</p>
+          <p>9.2	Cookies may be either "persistent" cookies or "session" cookies: a persistent cookie will be stored by a web browser and will remain valid until its set expiry date, unless deleted by the user before the expiry date; a session cookie, on the other hand, will expire at the end of the user session, when the web browser is closed.</p>
+          <p>9.3	Cookies may not contain any information that personally identifies a user, but personal data that we store about you may be linked to the information stored in and obtained from cookies.</p>
+          <h2>10.	Cookies used by our service providers</h2>
+          <p>10.1	Our service providers use cookies and those cookies may be stored on your computer when you visit our website.</p>
+          <p>10.2	We use Google Analytics. Google Analytics gathers information about the use of our website by means of cookies. The information gathered is used to create reports about the use of our website. You can find out more about Google's use of information by visiting https://www.google.com/policies/privacy/partners/ and you can review Google's privacy policy at https://policies.google.com/privacy.[ The relevant cookies are: [identify cookies].]</p>
+          <h2>11.	Managing cookies</h2>
+          <p>11.1	Most browsers allow you to refuse to accept cookies and to delete cookies. The methods for doing so vary from browser to browser, and from version to version. You can however obtain up-to-date information about blocking and deleting cookies via these links:
+            (a)	https://support.google.com/chrome/answer/95647 (Chrome);
+            (b)	https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences (Firefox);
+            (c)	https://help.opera.com/en/latest/security-and-privacy/ (Opera);
+            (d)	https://support.microsoft.com/en-gb/help/17442/windows-internet-explorer-delete-manage-cookies (Internet Explorer);
+            (e)	https://support.apple.com/en-gb/guide/safari/manage-cookies-and-website-data-sfri11471/mac (Safari); and
+            (f)	https://privacy.microsoft.com/en-us/windows-10-microsoft-edge-and-privacy (Edge).
+            </p>
+          <p>11.2	Blocking all cookies will have a negative impact upon the usability of many websites.</p>
+          <p>11.3	If you block cookies, you will not be able to use all the features on our website.</p>
+          <h2>12.	Amendments</h2>
+          <p>12.1	We may update this policy from time to time by publishing a new version on our website</p>
+          <p>12.2	You should check this page occasionally to ensure you are happy with any changes to this policy.</p>
+          <h2>13.	Our details</h2>
+          <p>13.1	This website is owned and operated by W2GROUP	.</p>
+          <p>14.2	You can contact us:by email, using <span>azizserin313@yahoo.com</span></p>
+
+        </div>
+
+    </body>
+    <script>
+ 
+        window.onscroll = function() {scrollFunction()};
+         
+        function scrollFunction() {console.log(121);
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("myBtn").style.display = "block";
+            } else {
+                document.getElementById("myBtn").style.display = "none";
+            }
+        }
+         
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+        </script>
+{% endblock content %}
