@@ -36,7 +36,7 @@ class Blacklist(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(50), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	movie_id = db.Column(db.String(20), nullable=False)
+	movie_id = db.Column(db.String(20), nullable=False) 
 	poster = db.Column(db.String(200))
 
 class Whitelist(db.Model):

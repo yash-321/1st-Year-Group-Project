@@ -78,3 +78,8 @@ class UpdateNameForm(FlaskForm):
 	new_display_name = StringField('Enter your new display name', validators=[DataRequired()])
 
 	submit_change_n = SubmitField('Submit Changes', validators=[DataRequired()])
+
+class ReviewForm(FlaskForm):
+	title = StringField('Title', validators=[DataRequired()])
+	content = StringField('Content', validators=[DataRequired()])
+	submit_review = SubmitField('Publish')

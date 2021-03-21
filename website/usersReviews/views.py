@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, flash, redirect, session, request
 from flask_login import login_user, current_user, logout_user, login_required
-from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm, UpdateNameForm
+from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm, UpdateNameForm, ReviewForm
 from website import db, bcrypt
 from website.models import User, Whitelist, Blacklist
 import requests
@@ -215,6 +215,22 @@ def detailed_review(movie_id):
 	else:
 		error_message = "The movie was not found! Try again!"
 
+	#code for reviews
+
+	form = ReviewForm()
+	if current_user.is_authenticated:
+		if form.validate_on_submit():
+
+			review = Review(title=form.title.data, data=form.content.data, rating=5.0, author=author, movie_id=movie_id)
+			db.session.add(review)
+			db.session.commit()
+			flash('Your review has been created!', 'success')
+			return redirect(url_for('home'))
+	else:
+		flash(f'Login required to write reviews!', 'danger')
+
+
+
 	return render_template(
 		'detailed_review.html',
 		title='Movie Reviews',
@@ -232,4 +248,5 @@ def detailed_review(movie_id):
 		language=language,
 		awards=awards,
 		production=production,
-		writer=writer)
+		writer=writer,
+		form=form)

@@ -142,7 +142,7 @@
 						</div>
 						<div class="well text-center">
 							<div class="col-md-4">
-								<button type="submit" name="writereviewbtn" class="btn btn-primary" id="writereviewbtn">Write Review</button>
+								<button type="submit" name="writereviewbtn" class="btn btn-primary" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
 							</div>
 						</div>
 					</div>
@@ -155,6 +155,61 @@
 			{% endif %}
 		</div>
 		<br>
+		<!-- pop-up for reviews -->
+		<form class="form-signin" method="POST" action="">
+			{{ form.hidden_tag() }}
+		<div id="write_reviews" class="modal fade">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+							<div class="modal-header">
+									<h4 class="modal-title text-xs-center">New Review</h4>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="col-lg-7 px-2 pt-2">
+										<fieldset class="form-group">
+												{{ form.title.label}}
+												{% if form.title.errors %}
+														{{ form.title }}
+														<div class="invalid-feedback">
+															{% for error in form.title.errors %}
+																	<span> {{ error}} </span>
+															{% endfor %}
+														</div>
+														{% else %}
+															{{ form.title}}
+															{% endif %}
+										</fieldset>
+									</div>
+								</div>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="col-lg-7 px-2 pt-2">
+										<fieldset class="form-group">
+												{{ form.content.label}}
+												{% if form.content.errors %}
+														{{ form.content }}
+														<div class="invalid-feedback">
+															{% for error in form.content.errors %}
+																	<span> {{ error}} </span>
+															{% endfor %}
+														</div>
+														{% else %}
+															{{ form.content}}
+															{% endif %}
+										</fieldset>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+									{{ form.submit_review(class="btn btn-outline-info")}}
+							</div>
+
+								</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			</form>
 
 			<!-- REVIEWS SECTION -->
 		{% if not error_message %}
