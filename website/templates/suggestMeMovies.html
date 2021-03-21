@@ -35,7 +35,7 @@
 	}
 
 	.btn{
-	  	color:white;
+	  color:white;
 		padding: 10px;
 		background: rgb(46,48,46);
 		margin-bottom: 15px;
@@ -43,6 +43,16 @@
 		border: 10px;
 		width: 100%;
 	  }
+	#movieFilter {
+		color: black;
+		background: #DCDCDC;
+	}
+	@media (min-width: 768px) {
+	  .modal-xl {
+	    width: 90%;
+	   max-width:1200px;
+	  }
+	}
 	#movieSection{
 		background: rgba(255,255,255,0.65);
 		box-shadow: 5px 5px 22px grey;
@@ -81,7 +91,7 @@
   	}
   	.row{
   		margin-left: -15px;
-  		margin-right: -15px; 
+  		margin-right: -15px;
   	}
 
 
@@ -149,112 +159,82 @@
 			<div class="row">
 				<button type="submit" name="writereviewbtn" class="btn btn-primary" id="writereviewbtn">Write Review</button>
 				<button type="submit" name="movieprofilebtn" class="btn btn-primary" id="movieprofilebtn"><a href="/detailedReview/ID={{movie_id}}">View Movie Profile</a></button>
+					<!-- pop-up window for movie filter -->
+				<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filter" id="movieFilter">Generation Filters</button>
+				<form action="suggestMeMovies" method="POST" id="formSuggestMovie">
+					<div class="modal fade" id="filter" role="dialog">
+				    <div class="modal-dialog modal-xl">
+
+				      <!-- Modal content-->
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <h4 class="modal-title w-100 text-center">Generation Filters</h4>
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				        </div>
+				        <div class="modal-body">
+				          <div class="row">
+										<div class="col-md-3">
+											<h4>Genres</h4>
+											<br>
+											{% for i in range(number_of_different_genres//2) %}
+					              <div class="container">
+					                <div class="row">
+					                  <div class=" col-6 ">
+					                    <label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
+					                    <input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}} style="float:right"><br/>
+					                  </div>
+					                  <div class=" col-6 ">
+					                    <label for="{{names_of_genres[i+number_of_different_genres//2]}}">{{names_of_genres[i+number_of_different_genres//2]}}</label>
+					                     <input type="checkbox" name="{{names_of_genres[i+number_of_different_genres//2]}}" id="{{names_of_genres[i+number_of_different_genres//2]}}" value="{{names_of_genres[i+number_of_different_genres//2]}}" {{checked_genres[i+number_of_different_genres//2]}} style="float:right"><br/>
+					                  </div>
+					                </div>
+					              </div>
+					          	{% endfor %}
+										</div>
+
+										<div class="col-md-3">
+											<h4>Ratings</h4>
+											<br>
+											{% for i in range(number_of_different_ratings) %}
+		                    {% if ratings[i] == chosen_rating %}
+			                    <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
+			                    <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked style="float:right"><br/>
+		                    {% else %}
+			                    <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
+			                    <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" style="float:right"><br/>
+		                    {% endif %}
+			                {% endfor %}
+										</div>
+
+										<div class="col-md-3">
+											<h4>Languages</h4>
+											<br>
+											{% for i in range(number_of_different_languages) %}
+		                    {% if languages_identifiers[i] == chosen_language %}
+			                    <label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
+			                    <input type="radio" name="Languages" id="{{languages_texts[i]}}" value="{{languages_identifiers[i]}}" checked style="float:right"><br/>
+		                    {% else %}
+			                    <label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
+			                    <input type="radio" name="Languages" id="{{languages_texts[i]}}" value="{{languages_identifiers[i]}}" style="float:right"><br/>
+		                    {% endif %}
+		                	{% endfor %}
+										</div>
+
+										<div class="col-md-3">
+											<h4>Range of Years</h4>
+											<br>
+											{% for i in range(number_of_different_ranges_of_years) %}
+					            	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
+					              <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}} style="float:right"><br/>
+					          	{% endfor %}
+										</div>
+									</div>
+				        </div>
+							</div>
+						</div>
+					</div>
+				</form>
 			</div>
-
-			<!-- pop-up window for movie filter -->
-			<form action="suggestMeMovies" method="POST" id="formSuggestMovie">
-				<div class="accordion" id="accordionExample">
-
-					<div class="card">
-					    <div class="card-header" id="headingOne">
-					      <h2 class="mb-0">
-					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-					          <h3><b>Genres</b></h3>
-					        </button>
-					      </h2>
-					    </div>
-					     <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" >
-					      <div class="card-body">
-					        {% for i in range(number_of_different_genres//2) %}
-					        	<div class="container">
-					        		<div class="row">
-					        			<div class=" col-6 ">
-					        				<label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
-						        			<input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}} style="float:right"><br/>
-					        			</div>
-					        			<div class=" col-6 ">
-					        				<label for="{{names_of_genres[i+number_of_different_genres//2]}}">{{names_of_genres[i+number_of_different_genres//2]}}</label>
-						       				 <input type="checkbox" name="{{names_of_genres[i+number_of_different_genres//2]}}" id="{{names_of_genres[i+number_of_different_genres//2]}}" value="{{names_of_genres[i+number_of_different_genres//2]}}" {{checked_genres[i+number_of_different_genres//2]}} style="float:right"><br/>
-					        			</div>
-					        		</div>
-					        	</div>
-					    	{% endfor %}
-					      </div>
-					    </div>
-					</div>
-
-
-					<div class="card">
-					    <div class="card-header" id="headingTwo">
-					      <h2 class="mb-0">
-					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-					          <h3><b>Ratings</b></h3>
-					        </button>
-					      </h2>
-					    </div>
-					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" >
-					      <div class="card-body">
-					      	{% for i in range(number_of_different_ratings) %}
-		                      {% if ratings[i] == chosen_rating %}
-		                      <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
-		                      <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" checked style="float:right"><br/>
-		                      {% else %}
-		                      <label for="{{ratings_texts[i]}}">{{ratings_texts[i]}}</label>
-		                      <input type="radio" name="Ratings" id="{{ratings_texts[i]}}" value="{{ratings[i]}}" style="float:right"><br/>
-		                      {% endif %}
-		                  {% endfor %}
-					      </div>
-					    </div>
-					</div>
-
-
-					<div class="card">
-					    <div class="card-header" id="headingFour">
-					      <h2 class="mb-0">
-					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-					          <h3><b>Languages</b></h3>
-					        </button>
-					      </h2>
-					    </div>
-					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" >
-					      <div class="card-body">
-					      	{% for i in range(number_of_different_languages) %}
-		                      {% if languages_identifiers[i] == chosen_language %}
-		                      <label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
-		                      <input type="radio" name="Languages" id="{{languages_texts[i]}}" value="{{languages_identifiers[i]}}" checked style="float:right"><br/>
-		                      {% else %}
-		                      <label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
-		                      <input type="radio" name="Languages" id="{{languages_texts[i]}}" value="{{languages_identifiers[i]}}" style="float:right"><br/>
-		                      {% endif %}
-		                  {% endfor %}
-					      </div>
-					    </div>
-					</div>
-
-
-					<div class="card">
-					    <div class="card-header" id="headingThree">
-					      <h2 class="mb-0">
-					        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-					          <h3><b>Ranges of Years</b></h3>
-					        </button>
-					      </h2>
-					    </div>
-					    <!-- use class-"collapse show" to open the criteria box after refreshing the page-->
-					    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" >
-					      <div class="card-body">
-					        {% for i in range(number_of_different_ranges_of_years) %}
-						    	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
-						        <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}} style="float:right"><br/>
-					    	{% endfor %}
-					      </div>
-					    </div>
-					</div>
-				</div>
-			</form>
 
       <form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
       	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
