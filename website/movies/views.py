@@ -22,7 +22,7 @@ def test():
 	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	#     }
 
-	# for i in range(50):
+	# for i in range(10):
 	# 	page_number = str(random.randint(1, 200))
 	# 	year = str(random.randint(1970, 2021))
 
@@ -32,7 +32,6 @@ def test():
 	# 	data = response.json()
 
 	# 	for i in range(20):
-	# 		# IDs.append(data["movie_results"][i]["imdb_id"])
 	# 		try:
 	# 			id = data["movie_results"][i]["imdb_id"]
 
@@ -250,10 +249,9 @@ def suggestMeMovies():
 	number_of_different_ratings = len(ratings)
 
 
-	languages_identifiers = (0, 1, 2, 3, 4, 5)
+	languages_identifiers = (0, 1, 2, 3, 4)
 	languages_texts = ("Any Language", "English",
-					"French","Japanese","Spanish",
-					"German")
+					"French","Japanese","Spanish")
 	chosen_language = 0
 	number_of_different_languages = len(languages_identifiers)
 
@@ -277,7 +275,7 @@ def suggestMeMovies():
 		chosen_rating = float(request.form.get('Ratings'))
 		session["chosen_rating"] = chosen_rating
 
-		chosen_language = float(request.form.get('Languages'))
+		chosen_language = int(request.form.get('Languages'))
 		session["chosen_language"] = chosen_language
 
 		for i in range(number_of_different_genres):
@@ -347,11 +345,12 @@ def suggestMeMovies():
 	counter, times = 0, 3
 
 	# set default values if a required movie was not found
-	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = awards = None
+	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = awards = id = None
 
 	all_movies_in_db = Movies.query.all()
 	length = len(all_movies_in_db)
 
+	# get the blacklisted movies if a user is logged in
 	blacklisted_movies_ids = list()
 
 	if current_user.is_authenticated:
@@ -363,11 +362,12 @@ def suggestMeMovies():
 
 	# to make the algorithm a bit faster I firstly check some movies from the database 
 	# so I could much faster provide a movie let's say when any criteria were selected
-	check_this_number_of_all_movies_in_db = 25
+	check_this_number_of_all_movies_in_db = 20
 	random_offset = random.randint(1, length-check_this_number_of_all_movies_in_db)
 	movies = Movies.query.limit(check_this_number_of_all_movies_in_db).offset(random_offset).all()
 	random.shuffle(movies)
 
+	print("DB1")
 	for movie in movies:
 		try:
 			# check if that movie is not in the blacklist
@@ -380,6 +380,11 @@ def suggestMeMovies():
 
 			if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
 				continue
+
+			# check if a movie has a chosen language
+			if chosen_language != 0:
+				if languages_texts[chosen_language] not in movie.language:
+					continue
 
 			found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
 			
@@ -394,7 +399,6 @@ def suggestMeMovies():
 												movie.year)
 				
 			if not found_movie_within_year_range:
-				i += 1
 				continue
 
 			if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
@@ -425,8 +429,9 @@ def suggestMeMovies():
 				language = movie.language
 				awards = movie.awards
 				break
-		except:
-			pass
+		except Exception as e:
+			print(e)
+
 
 	# the code which queries the APIs and check if received movies satisfy the criteria
 	while not found and counter < times:
@@ -445,24 +450,25 @@ def suggestMeMovies():
 			try:
 				# a shortcut, otherwise I'd have needed to use this line every time I wanted to take data from the 'data'
 				movie = data["movie_results"][i]
-
 				genres = movie["genres"]
 				# this is necessary to randomly pick one genre of all genres to not check one genre all the time the first
 				copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
 				
 				id = movie["imdb_id"]
-
+				
 				# check if that movie is not in the blacklist
 				# if it is, then skip this movie
 				if blacklisted_movies_ids:
 					if id in blacklisted_movies_ids:
+						i += 1
 						continue
 
 				year_of_movie = int(movie["year"])
 				movie_title = movie["title"]
+
 				# possible (rarely) to get movies with year = 0, such movies are skipped (inaccurate data)
 				# once I encoutered a movie with any genres and got an error because of that
-				if year_of_movie == 0 or len(genres) == 0:
+				if year_of_movie == 0 or len(genres) == 0 or genres == None:
 					i += 1
 					continue
 
@@ -493,13 +499,13 @@ def suggestMeMovies():
 				r = requests.get(respString) #, timeout=1)
 				dictionary = r.json()
 
+				language = dictionary["Language"]
 				poster_url = dictionary["Poster"].strip()
 				imdb_rating = dictionary["imdbRating"]
 				plot = dictionary["Plot"]
 				actors = dictionary["Actors"]
 				directors = dictionary["Director"]
 				runtime = dictionary["Runtime"]
-				language = dictionary["Language"]
 				awards = dictionary["Awards"].strip()
 
 				check_not_in_db = Movies.query.filter_by(movie_id=id).first()
@@ -519,6 +525,11 @@ def suggestMeMovies():
 						movie.trailer = trailer
 						db.session.commit()
 
+				# check if a movie has a chosen language
+				if chosen_language != 0:
+					if languages_texts[chosen_language] not in language:
+						i += 1
+						continue
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
@@ -540,7 +551,8 @@ def suggestMeMovies():
 
 				i += 1
 
-			except:
+			except Exception as e:
+				print("A", e)
 				i += 1
 
 		counter += 1
@@ -548,69 +560,75 @@ def suggestMeMovies():
 	movies = Movies.query.all()
 	print(len(movies))
 
-	# add try except later!
 	if not found:
-		print("DB2")
-		# shuffle the list to avoid getting the same movie as the first all the time
-		random.shuffle(all_movies_in_db)
+		try:
+			print("DB2")
+			# shuffle the list to avoid getting the same movie as the first all the time
+			random.shuffle(all_movies_in_db)
 
-		for movie in all_movies_in_db:
-			# check if that movie is not in the blacklist
-			# if it is, then skip this movie
-			if blacklisted_movies_ids:
-				if movie.movie_id in blacklisted_movies_ids:
+			for movie in all_movies_in_db:
+				# check if that movie is not in the blacklist
+				# if it is, then skip this movie
+				if blacklisted_movies_ids:
+					if movie.movie_id in blacklisted_movies_ids:
+						continue
+
+				copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
+
+				# check if a movie has a chosen language
+				if chosen_language != 0:
+					if languages_texts[chosen_language] not in movie.language:
+						continue
+
+				if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
 					continue
 
-			copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
-
-			if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
-				continue
-
-			found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
-			
-			if not found_corresponding_genre:
-				continue
-
-			found_movie_within_year_range = check_movie_year(
-												indices_of_checked_ranges_of_years, 
-												number_of_checked_ranges_of_years_boxes, 
-												number_of_different_ranges_of_years,
-												ranges_of_years, 
-												movie.year)
+				found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
 				
-			if not found_movie_within_year_range:
-				i += 1
-				continue
+				if not found_corresponding_genre:
+					continue
 
-			if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
-				continue
+				found_movie_within_year_range = check_movie_year(
+													indices_of_checked_ranges_of_years, 
+													number_of_checked_ranges_of_years_boxes, 
+													number_of_different_ranges_of_years,
+													ranges_of_years, 
+													movie.year)
+					
+				if not found_movie_within_year_range:
+					continue
 
-			if movie.rating == "N/A":
-				found = True
-			else:
-				movie.rating = float(movie.rating)
+				if movie.rating == "N/A" and chosen_rating != 0 or movie.poster == "" or movie.poster == "N/A":
+					continue
 
-			# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
-			if not found:
-				if movie.rating >= chosen_rating:
+				if movie.rating == "N/A":
 					found = True
+				else:
+					movie.rating = float(movie.rating)
 
-			if found:
-				id = movie.movie_id
-				movie_title = movie.title
-				genres = movie.genres.split(", ")
-				imdb_rating = movie.rating
-				year_of_movie = movie.year
-				poster_url = movie.poster
-				plot = movie.plot
-				actors = movie.actors
-				directors = movie.directors
-				runtime = movie.runtime
-				trailer = movie.trailer
-				language = movie.language
-				awards = movie.awards
-				break
+				# if the rating meets the given criteria, so it means the movie was found, as it is checked the last
+				if not found:
+					if movie.rating >= chosen_rating:
+						found = True
 
+				if found:
+					id = movie.movie_id
+					movie_title = movie.title
+					genres = movie.genres.split(", ")
+					imdb_rating = movie.rating
+					year_of_movie = movie.year
+					poster_url = movie.poster
+					plot = movie.plot
+					actors = movie.actors
+					directors = movie.directors
+					runtime = movie.runtime
+					trailer = movie.trailer
+					language = movie.language
+					awards = movie.awards
+					break
+
+		except Exception as e:
+			print(e)
 
 	if not found:
 		error_message = "Please try again!"
