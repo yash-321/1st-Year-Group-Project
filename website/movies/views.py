@@ -117,44 +117,60 @@ def seeMovieReview(page = 1):
 			# if nothing was typed when do not query the API
 			session.pop("search", None)
 
+
 	emptySearchBox = False
 		
 	# if anything was typed in the search bar when query the API to get movies by keyword
 	# otherwise, query the other API to receive 5 random popular movies
 	if "search" in session:
 		try:
+			number_of_movies = 20
+
+			pages = list()
+			page = int(page)
+
+			pages.append(page*2-1)
+			pages.append(page*2)
+
 			search_result = session["search"]
-			respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2&page=' + str(page) 
-			r = requests.get(respString) 
-			dictionary = r.json()
 
-			if dictionary['Response'] == 'True':
-				data = dictionary["Search"]
-				number_of_movies = len(data)
-				for movie in data:
-					titles.append(movie['Title'])
-					years.append(movie['Year'])
-					IDs.append(movie['imdbID'])
-					types.append(movie['Type'])
-					posters.append(movie['Poster'])
-			else:
-				error_message = "Try again! None movies were found..."
+			for i in range(2):
+				respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2&page=' + str(pages[i]) 
+				r = requests.get(respString) 
+				dictionary = r.json()
 
-		except:
+				if dictionary['Response'] == 'True':
+					data = dictionary["Search"]
+					for movie in data:
+						titles.append(movie['Title'])
+						years.append(movie['Year'])
+						IDs.append(movie['imdbID'])
+						posters.append(movie['Poster'])
+				else:
+					error_message = "Try again! None movies were found..."
+
+		except Exception as e:
+			print(e)
 			error_message = "Try again! None movies were found..."
 	else:
 		try:
 			emptySearchBox = True
-			number_of_movies = 5
+			number_of_movies = 20
+
+			# random_offset = random.randint(1, length-number_of_movies)
+			# movies = Movies.query.limit(number_of_movies).offset(random_offset).all()
+			# random.shuffle(movies)
 
 			search_result = ""
 
 			movies = Movies.query.filter_by(year=2020).all()
 			number = len(movies)
 
-			chose_movies = False
+			found_movies = False
 
-			while not chose_movies:
+			# to make sure the loop terminates
+			counter = 0
+			while not found_movies and counter < 100:
 				try:
 					num = random.randint(1, number)
 					movie = movies[num]
@@ -165,21 +181,26 @@ def seeMovieReview(page = 1):
 						IDs.append(movie.movie_id)
 						posters.append(movie.poster)
 
-					if len(titles) == 5:
-						chose_movies = True
-				except:
-					pass
+					if len(titles) == number_of_movies:
+						found_movies = True
+				
+				except Exception as e:
+					pritn(e)
 
-		except:
+				counter += 1
+
+		except Exception as e:
 			error_message = "Try again! None movies were found..."
+			pritn(e)
 
-	# validate if page data type is not string
+
+	# validate if page data type is not a string
 	try:
 		page = int(page)
 	except:
 		error_message = "Try again! Invalid page number was provided!"
 
-	print(error_message)
+
 	return render_template(
 		'seeMovieReview.html',
 	 	title='Search Movies',
@@ -188,7 +209,6 @@ def seeMovieReview(page = 1):
 	 	titles=titles,
 	 	years=years,
 	 	IDs=IDs,
-	 	types=types,
 	 	posters=posters,
 	 	error_message=error_message,
 	 	page=page,
