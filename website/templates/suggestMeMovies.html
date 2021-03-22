@@ -57,7 +57,7 @@
 		background: rgba(255,255,255,0.65);
 		box-shadow: 5px 5px 22px grey;
 		margin-top: 20px;
-		margin-left: 20px;
+		margin-left: 30px;
 		animation: fadein 1.5s;
 	}
 	#runtime {
@@ -68,12 +68,12 @@
 	}
 	#filterSection{
 		margin-top: 20px;
-		margin-left: 20px;
+		margin-left: 40px;
 		animation: fadein 1.5s;
 	}
 	#posterSection{
-		margin-left: 30px;
-	    animation: fadein 1.5s;
+		margin-left: 50px;
+	  animation: fadein 1.5s;
 	}
 
 	@keyframes fadein {
@@ -88,22 +88,22 @@
 		height: 100%;
 	}
 	#trailer{
-	    display: block;
-	    margin-left: auto;
-	    margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 		margin-bottom: 20px;
 		width: 100%;
   	}
-  	span {
-  		font-size: 1.3em;
-  	}
-  	h4{
-  		text-decoration: underline;
-  	}
-  	.row{
-  		margin-left: -15px;
-  		margin-right: -15px;
-  	}
+	span {
+		font-size: 1.3em;
+	}
+	h4{
+		text-decoration: underline;
+	}
+	.row{
+		margin-left: -15px;
+		margin-right: -15px;
+	}
 	#movieDetails::-webkit-scrollbar {
 	    width: 5px;
 	}
@@ -153,7 +153,7 @@
 	          <br> <br>
 	          <h4>Description</h4>
 	          <span>{{plot}}</span>
-	           <br> <br>
+	          <br> <br>
 	          <h4>Directors</h4>
 	          <span>{{directors}}</span>
 	          <br> <br>
@@ -195,17 +195,17 @@
 				        </div>
 				        <div class="modal-body">
 				          <div class="row">
-										<div class="col-md-3">
+										<div class="col-md-4">
 											<h4>Genres</h4>
 											<br>
 											{% for i in range(number_of_different_genres//2) %}
 					              <div class="container">
 					                <div class="row">
-					                  <div class=" col-6 ">
+					                  <div class="col-md-6">
 					                    <label for="{{names_of_genres[i]}}">{{names_of_genres[i]}}</label>
 					                    <input type="checkbox" name="{{names_of_genres[i]}}" id="{{names_of_genres[i]}}" value="{{names_of_genres[i]}}" {{checked_genres[i]}} style="float:right"><br/>
 					                  </div>
-					                  <div class=" col-6 ">
+					                  <div class="col-md-6">
 					                    <label for="{{names_of_genres[i+number_of_different_genres//2]}}">{{names_of_genres[i+number_of_different_genres//2]}}</label>
 					                     <input type="checkbox" name="{{names_of_genres[i+number_of_different_genres//2]}}" id="{{names_of_genres[i+number_of_different_genres//2]}}" value="{{names_of_genres[i+number_of_different_genres//2]}}" {{checked_genres[i+number_of_different_genres//2]}} style="float:right"><br/>
 					                  </div>
@@ -214,7 +214,7 @@
 					          	{% endfor %}
 										</div>
 
-										<div class="col-md-3">
+										<div class="col-md-2">
 											<h4>Ratings</h4>
 											<br>
 											{% for i in range(number_of_different_ratings) %}
@@ -263,17 +263,17 @@
       	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
       	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
 				<div class="row">
-					<div class="col-md-3">
+					<div class="col-md-3 no-gutters">
 						<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
 		        	<i class="fa fa-heart" aria-hidden="true"></i>
 		      	</button>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-3 no-gutters">
 						<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
 		        	<i class="fa fa-times" aria-hidden="true"></i>
 		      	</button>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-6 no-gutters">
 						<button form="formSuggestMovie" type="submit" name="generatebtn" class="btn btn-primary" id="generatebtn">Generate!</button>
 					</div>
 				</div>
