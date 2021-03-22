@@ -35,8 +35,8 @@ def test():
 	# 		try:
 	# 			id = data["movie_results"][i]["imdb_id"]
 
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630'
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae'
+	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630&plot=full'
+	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae&plot=full'
 	# 			r = requests.get(respString) 
 	# 			dictionary = r.json()
 	# 			print(dictionary)
