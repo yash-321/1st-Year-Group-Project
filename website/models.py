@@ -36,7 +36,7 @@ class Blacklist(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(50), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-	movie_id = db.Column(db.String(20), nullable=False) 
+	movie_id = db.Column(db.String(20), nullable=False)
 	poster = db.Column(db.String(200))
 
 class Whitelist(db.Model):
@@ -51,7 +51,7 @@ class Review(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	movie_id = db.Column(db.String(20), nullable=False)
 	title = db.Column(db.String(50), nullable=False)
-	data = db.Column(db.String(10000), nullable=False)
+	data = db.Column(db.Text, nullable=False)
 	date = db.Column(db.DateTime(timezone=True), default=datetime.now())
 	rating = db.Column(db.Float, nullable=False)
 	spoiler_tag = db.Column(db.Boolean)

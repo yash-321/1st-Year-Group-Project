@@ -6,11 +6,11 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from website.models import User
 
 class RegistrationForm(FlaskForm):
-	username = StringField('Username', validators=[DataRequired(), Length(min=3, max=15)])
+	username = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)])
 
 	display_name = StringField('Display Name', validators=[DataRequired(), Length(min=3, max=15)])
 
-	password= PasswordField('Password', validators=[DataRequired()])
+	password= PasswordField('Password', validators=[DataRequired(), Length(min=7, max=30)])
 
 	confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
 
@@ -81,5 +81,5 @@ class UpdateNameForm(FlaskForm):
 
 class ReviewForm(FlaskForm):
 	title = StringField('Title', validators=[DataRequired()])
-	content = StringField('Content', validators=[DataRequired()])
+	content = TextAreaField('Content', validators=[DataRequired()])
 	submit_review = SubmitField('Publish')

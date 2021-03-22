@@ -145,11 +145,6 @@
 				      	</button>
 							</div>
 						</div>
-						<div class="well text-center">
-							<div class="col-md-4">
-								<button type="submit" name="writereviewbtn" class="btn btn-primary" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
-							</div>
-						</div>
 					</div>
 				</form>
 				<br>
@@ -160,18 +155,23 @@
 			{% endif %}
 		</div>
 		<br>
+		<div class="well text-center">
+			<div class="col-md-4">
+				<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
+			</div>
+		</div>
 		<!-- pop-up for reviews -->
-		<form class="form-signin" method="POST" action="">
+		<form class="form-group form-group-lg" method="POST" action="">
 			{{ form.hidden_tag() }}
 		<div id="write_reviews" class="modal fade">
-			<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-dialog modal-lg" role="dialog">
 					<div class="modal-content">
 							<div class="modal-header">
-									<h4 class="modal-title text-xs-center">New Review</h4>
+									<h4 class="modal-title text-xs-center">{{movie_title}} ({{year_of_movie}})</h4>
 							</div>
-							<div class="modal-body">
+							<div class="w-100 p-3 h-100 d-inline-block">
 								<div class="form-group">
-									<div class="col-lg-7 px-2 pt-2">
+									<div class="col-xs-4">
 										<fieldset class="form-group">
 												{{ form.title.label}}
 												{% if form.title.errors %}
@@ -190,8 +190,8 @@
 							</div>
 							<div class="modal-body">
 								<div class="form-group">
-									<div class="col-lg-7 px-2 pt-2">
-										<fieldset class="form-group">
+									<div class="col-xs-9">
+										<fieldset class="form-group" id="exampleFormControlTextarea1" rows="3">
 												{{ form.content.label}}
 												{% if form.content.errors %}
 														{{ form.content }}

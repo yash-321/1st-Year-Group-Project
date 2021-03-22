@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, url_for, flash, redirect, session,
 from flask_login import login_user, current_user, logout_user, login_required
 from website.usersReviews.account_forms import RegistrationForm, LoginForm, ForgotPasswordForm, UpdateQuestionsForm, UpdatePasswordForm, UpdateNameForm, ReviewForm
 from website import db, bcrypt
-from website.models import User, Whitelist, Blacklist
+from website.models import User, Whitelist, Blacklist, Review
 import requests
 
 usersReviews = Blueprint('usersReviews', __name__)
@@ -117,7 +117,7 @@ def account():
 		blacklist=blacklist)
 
 
-@usersReviews.route("/removeMovie", methods=['POST'])
+@usersReviews.route("/removeMovie", methods=['GET', 'POST'])
 def removeMovie():
 	data = request.form.to_dict()
 	user = User.query.filter_by(username=current_user.username).first()
@@ -140,7 +140,7 @@ def writeReviews(movie_id):
 	return render_template('writeReview.html', title='Write A Review')
 
 
-@usersReviews.route("/detailedReview/ID=<movie_id>")
+@usersReviews.route("/detailedReview/ID=<movie_id>", methods=['GET', 'POST'])
 def detailed_review(movie_id):
 	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
@@ -221,11 +221,11 @@ def detailed_review(movie_id):
 	if current_user.is_authenticated:
 		if form.validate_on_submit():
 
-			review = Review(title=form.title.data, data=form.content.data, rating=5.0, author=author, movie_id=movie_id)
+			review = Review(title=form.title.data, data=form.content.data, rating=5.0, user_id=current_user.display_name, movie_id=movie_id)
 			db.session.add(review)
 			db.session.commit()
 			flash('Your review has been created!', 'success')
-			return redirect(url_for('home'))
+			return redirect(url_for('misc.home'))
 	else:
 		flash(f'Login required to write reviews!', 'danger')
 
