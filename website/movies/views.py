@@ -22,9 +22,9 @@ def test():
 	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	#     }
 
-	# for i in range(10):
+	# for i in range(15):
 	# 	page_number = str(random.randint(1, 200))
-	# 	year = str(random.randint(1970, 2021))
+	# 	year = str(random.randint(1960, 2021))
 
 	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
 
@@ -35,8 +35,8 @@ def test():
 	# 		try:
 	# 			id = data["movie_results"][i]["imdb_id"]
 
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630&plot=full'
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae&plot=full'
+	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630&plot=full'
+	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae&plot=full'
 	# 			r = requests.get(respString) 
 	# 			dictionary = r.json()
 	# 			print(dictionary)
