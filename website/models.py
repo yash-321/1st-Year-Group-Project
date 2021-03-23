@@ -53,8 +53,8 @@ class Review(db.Model):
 	title = db.Column(db.String(50), nullable=False)
 	data = db.Column(db.Text, nullable=False)
 	date = db.Column(db.DateTime(timezone=True), default=datetime.now())
-	rating = db.Column(db.Float, nullable=False)
-	spoiler_tag = db.Column(db.Boolean)
+	rating = db.Column(db.String(70), nullable=False)
+	spoiler_tag = db.Column(db.String(20))
 
 class Movies(db.Model):
 	movie_id = db.Column(db.String(20), primary_key=True, unique=True)

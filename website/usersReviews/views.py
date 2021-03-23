@@ -67,6 +67,7 @@ def logout():
 @usersReviews.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
+	reviews = Review.query.filter_by(user_id=current_user.username).all()
 	questions_form = UpdateQuestionsForm()
 	password_form = UpdatePasswordForm()
 	name_form = UpdateNameForm()
@@ -114,7 +115,8 @@ def account():
 		form2=password_form,
 		form3=name_form,
 		whitelist=whitelist,
-		blacklist=blacklist)
+		blacklist=blacklist,
+		reviews=reviews)
 
 
 @usersReviews.route("/removeMovie", methods=['GET', 'POST'])
@@ -142,6 +144,8 @@ def writeReviews(movie_id):
 
 @usersReviews.route("/detailedReview/ID=<movie_id>", methods=['GET', 'POST'])
 def detailed_review(movie_id):
+	reviews = Review.query.filter_by(movie_id=movie_id).all()
+
 	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
 	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full'
@@ -219,15 +223,17 @@ def detailed_review(movie_id):
 
 	form = ReviewForm()
 	if current_user.is_authenticated:
-		if form.validate_on_submit():
-
-			review = Review(title=form.title.data, data=form.content.data, rating=5.0, user_id=current_user.display_name, movie_id=movie_id)
-			db.session.add(review)
-			db.session.commit()
-			flash('Your review has been created!', 'success')
-			return redirect(url_for('misc.home'))
+		author = current_user.username
 	else:
-		flash(f'Login required to write reviews!', 'danger')
+		author = "Guest"
+
+	if form.validate_on_submit():
+		review = Review(title=form.title.data, data=form.content.data, rating=movie_title, user_id=author, movie_id=movie_id)
+		db.session.add(review)
+		db.session.commit()
+		flash('Your review has been created!', 'success')
+		return redirect(url_for('misc.home'))
+
 
 
 
@@ -249,4 +255,5 @@ def detailed_review(movie_id):
 		awards=awards,
 		production=production,
 		writer=writer,
-		form=form)
+		form=form,
+		reviews=reviews)
