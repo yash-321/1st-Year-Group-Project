@@ -28,6 +28,7 @@
 	}
 	.card {
 		background: white;
+		height:relative;
 		width: 95%;
 		margin-top: 20px;
 	}
@@ -36,7 +37,7 @@
 		margin-top: 20px;
 		margin-right: 10px;
 		margin-bottom: 10px;
-		height:relative;
+		height:430px;
 		width: 90%;
 	}
 	@keyframes fadein {
@@ -63,20 +64,66 @@
 <!-- List of popular movies and their top reviews -->
 <div class="container-fluid p-3" id="searchPage">
 	{% if not error_message %}
-		{% for i in range(number_of_movies) %}
-			<div class="row" id="popularReviews">
-				{% for j in range(4) %}
-					<div class="col-md-3 no-gutters" id="popularMoviePosters">
-						<div class="card mx-auto">
-							<div class="well text-center">
-								<img src={{posters[i]}} id="poster">
-				        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
-							</div>
-						</div>
+		<div class="row" id="popularReviews">
+		{% for i in range(0,4) %}
+			<div class="col-md-3 no-gutters" id="popularMoviePosters">
+				<div class="card mx-auto">
+					<div class="well text-center">
+						<img src={{posters[i]}} id="poster">
+		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 					</div>
-				{% endfor %}
+				</div>
 			</div>
 		{% endfor %}
+		</div>
+		<div class="row" id="popularReviews">
+		{% for i in range(4,8) %}
+			<div class="col-md-3 no-gutters" id="popularMoviePosters">
+				<div class="card mx-auto">
+					<div class="well text-center">
+						<img src={{posters[i]}} id="poster">
+		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div class="row" id="popularReviews">
+		{% for i in range(8,12) %}
+			<div class="col-md-3 no-gutters" id="popularMoviePosters">
+				<div class="card mx-auto">
+					<div class="well text-center">
+						<img src={{posters[i]}} id="poster">
+		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div class="row" id="popularReviews">
+		{% for i in range(12,16) %}
+			<div class="col-md-3 no-gutters" id="popularMoviePosters">
+				<div class="card mx-auto">
+					<div class="well text-center">
+						<img src={{posters[i]}} id="poster">
+		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div class="row" id="popularReviews">
+		{% for i in range(16,20) %}
+			<div class="col-md-3 no-gutters" id="popularMoviePosters">
+				<div class="card mx-auto">
+					<div class="well text-center">
+						<img src={{posters[i]}} id="poster">
+		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
 		<br>
 	  	{% if not emptySearchBox %}
 			<nav aria-label="Pagination">
