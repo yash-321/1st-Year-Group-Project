@@ -13,6 +13,7 @@ movies = Blueprint('movies', __name__)
 app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
+
 @movies.route("/test/", methods=['GET', 'POST'])
 def test():
 	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
@@ -22,7 +23,7 @@ def test():
 	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	#     }
 
-	# for i in range(15):
+	# for i in range(40):
 	# 	page_number = str(random.randint(1, 200))
 	# 	year = str(random.randint(1960, 2021))
 
