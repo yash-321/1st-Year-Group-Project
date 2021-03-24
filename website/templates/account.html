@@ -68,7 +68,7 @@
     border-radius: 5px;
   }
 
-/* css for whitelist cards */
+/* css for white/blacklist cards */
   a {
     text-decoration: none;
     color: inherit;
@@ -82,7 +82,7 @@
     background: #ffffff;
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 280px;
+    max-width: 27%;
     margin: 2em;
     border-radius: 10px;
     display: inline-block;
@@ -98,6 +98,10 @@
     border-top-right-radius: 10px;
   }
 
+  .header-icon-container {
+    position: relative;
+  }
+
   .movie-card:hover {
     -webkit-transform: scale(1.03);
             transform: scale(1.03);
@@ -109,15 +113,18 @@
     margin: 0;
   }
 
-  .movie-content-header, .movie-info {
-    display: table;
+  .movie-content-header {
     width: 100%;
+    overflow: hidden;
   }
 
   .movie-title {
     font-size: 24px;
     margin: 0;
-    display: table-cell;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    white-space: nowrap;
   }
 
   .fa-times {
@@ -132,7 +139,6 @@
     background-repeat: no-repeat;
     border: none;
     margin-right: 5px;
-    margin-top: 5px;
   }
   .page::-webkit-scrollbar {
     width: 5px;
@@ -152,8 +158,8 @@
 <div class="container">
   <ul class="menu" id="menu" >
     <li><a data-page="myReviews" href="#" style="color: white;"><h3>  My Reviews  </h3> </a></li>
-    <li><a data-page="myWhitelist" href="#" style="color: white;"><h3>  Whitelist  </h3> </a></li>
-    <li><a data-page="myBlacklist" href="#" style="color: white;"><h3>  Blacklist  </h3> </a></li>
+    <li><a data-page="myWhitelist" href="#" style="color: white;"><h3>  Liked  </h3> </a></li>
+    <li><a data-page="myBlacklist" href="#" style="color: white;"><h3>  Disliked  </h3> </a></li>
     <li><a data-page="mySettings" href="#" style="color: white;"><h3>  Settings  </h3> </a></li>
 </ul>
 
@@ -180,19 +186,21 @@
     <div id="myWhitelist" style="overflow-y:auto; height:700px;" class="page hide" data-page="myWhitelist">
         <div class="row">
             <div class="col-12 pt-3">
-                <h1> Whitelisted Films </h1>
+                <h1> Liked Films </h1>
                 <hr class="linebreak">
                 {% if whitelist %}
                   {% for movie in whitelist %}
                     <div class="movie-card" id="W{{ movie.id }}">
                       <div class="movie-header" style="background: url({{ movie.poster }})">
-                        <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormW{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your whitelist?')">
-                          <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
-                          <input type="hidden" name="buttonpressed" id="buttonpressed" value="whitelist">
-                          <button form="removeMovieFormW{{ movie.id }}" class="deleteButton" type="submit">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                          </button>
-                        </form>
+                        <div class="header-icon-container">
+                          <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormW{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your liked movies?')">
+                            <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
+                            <input type="hidden" name="buttonpressed" id="buttonpressed" value="whitelist">
+                            <button form="removeMovieFormW{{ movie.id }}" class="deleteButton" type="submit">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                          </form>
+                        </div>
                       </div><!--movie-header-->
                       <div class="movie-content">
                         <div class="movie-content-header">
@@ -204,7 +212,7 @@
                     </div><!--movie-card-->
                   {% endfor %}
                 {% else %}
-                  <h3>There are no movies in your Whitelist</h3>
+                  <h3>There are no movies in your Liked list</h3>
                 {% endif %}
               <hr class="linebreak">
             </div>
@@ -213,19 +221,21 @@
     <div id="myBlacklist" style="overflow-y:auto; height:700px;" class="page hide" data-page="myBlacklist">
         <div class="row">
             <div class="col-12 pt-3">
-                <h1> Blacklisted Films </h1>
+                <h1> Disliked Films </h1>
                 <hr class="linebreak">
                 {% if blacklist %}
                   {% for movie in blacklist %}
                     <div class="movie-card" id="B{{ movie.id }}">
                       <div class="movie-header" style="background: url({{ movie.poster }})">
-                        <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormB{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your blacklist?')">
-                          <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
-                          <input type="hidden" name="buttonpressed" id="buttonpressed" value="blacklist">
-                          <button form="removeMovieFormB{{ movie.id }}" class="deleteButton" type="submit">
-                            <i class="fa fa-times" aria-hidden="true"></i>
-                          </button>
-                        </form>
+                        <div class="header-icon-container">
+                          <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormB{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your disliked movies?')">
+                            <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
+                            <input type="hidden" name="buttonpressed" id="buttonpressed" value="blacklist">
+                            <button form="removeMovieFormB{{ movie.id }}" class="deleteButton" type="submit">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                          </form>
+                        </div>
                       </div><!--movie-header-->
                       <div class="movie-content">
                         <div class="movie-content-header">
@@ -237,7 +247,7 @@
                     </div><!--movie-card-->
                   {% endfor %}
                 {% else %}
-                  <h3>There are no movies in your Blacklist</h3>
+                  <h3>There are no movies in your Disliked List</h3>
                 {% endif %}
 <hr class="linebreak">
             </div>
