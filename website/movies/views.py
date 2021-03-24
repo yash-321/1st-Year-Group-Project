@@ -23,7 +23,7 @@ def test():
 	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	#     }
 
-	# for i in range(40):
+	# for i in range(30):
 	# 	page_number = str(random.randint(1, 200))
 	# 	year = str(random.randint(1960, 2021))
 
@@ -158,13 +158,15 @@ def seeMovieReview(page = 1):
 			emptySearchBox = True
 			number_of_movies = 20
 
-			# random_offset = random.randint(1, length-number_of_movies)
-			# movies = Movies.query.limit(number_of_movies).offset(random_offset).all()
-			# random.shuffle(movies)
+			this_year = datetime.now().year
+			print(this_year)
 
 			search_result = ""
 
-			movies = Movies.query.filter_by(year=2020).all()
+			# get this and last two years movies
+			this_years_movies = Movies.query.filter_by(year=this_year).all()
+			movies = Movies.query.filter_by(year=this_year-1).all()
+			movies += this_years_movies + Movies.query.filter_by(year=this_year-2).all()
 			number = len(movies)
 
 			found_movies = False
@@ -186,13 +188,13 @@ def seeMovieReview(page = 1):
 						found_movies = True
 				
 				except Exception as e:
-					pritn(e)
+					print(e)
 
 				counter += 1
 
 		except Exception as e:
 			error_message = "Try again! None movies were found..."
-			pritn(e)
+			print(e)
 
 
 	# validate if page data type is not a string
