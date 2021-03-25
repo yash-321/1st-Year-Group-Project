@@ -4,6 +4,7 @@ from website.usersReviews.account_forms import RegistrationForm, LoginForm, Forg
 from website import db, bcrypt
 from website.models import User, Whitelist, Blacklist, Review
 import requests
+from sqlalchemy.exc import IntegrityError
 
 usersReviews = Blueprint('usersReviews', __name__)
 
@@ -224,8 +225,10 @@ def detailed_review(movie_id):
 	form = ReviewForm()
 	if current_user.is_authenticated:
 		author = current_user.username
+		display = current_user.display_name
 	else:
 		author = "Guest"
+		display = 'Guest'
 
 	if form.validate_on_submit():
 		review = Review(title=form.title.data, data=form.content.data, rating=movie_title, user_id=author, movie_id=movie_id)

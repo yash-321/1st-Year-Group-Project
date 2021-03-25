@@ -169,17 +169,26 @@
         <div class="row">
             <div class="col-12 pt-3">
                 <h1> My Reviews </h1>
-                <p> Wall-E: "Another out-of-this-world Pixar picture. And this time that label applies to the setting, too, as a lonely little robot named WALL-E finds and follows the lovely EVE across the universe." </p>
+                {% for review in reviews%}
                 <hr class="linebreak">
-                <p>Review
-</p>
-<hr class="linebreak">
-<p>Review
-</p>
-<hr class="linebreak">
-<p>Review
-</p>
-<hr class="linebreak">
+                <div>
+        					<div class="row">
+        						<div class="col-md-4">
+        							<h4>{{review.title}}</h4>
+                      <p><a href="/detailedReview/ID={{review.movie_id}}">{{review.rating}}</a></p>
+        						</div>
+        						<div class="col-md-8">
+        							<p>{{review.date.date()}}</p>
+        						</div>
+        					</div>
+                  <p>{{review.user_id}}</p>
+        					<p>{{review.data}}</p>
+        				</div>
+        			{% endfor %}
+                <hr class="linebreak">
+
+
+
             </div>
         </div>
     </div>
