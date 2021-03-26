@@ -178,17 +178,39 @@
                       <p><a href="/detailedReview/ID={{review.movie_id}}">{{review.rating}}</a></p>
         						</div>
         						<div class="col-md-8">
-        							<p>{{review.date.date()}}</p>
+        							<small>{{review.date.date()}}</small>
         						</div>
         					</div>
                   <p>{{review.user_id}}</p>
         					<p>{{review.data}}</p>
+                  <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                  <a class="btn btn-secondary btn-sm m-1" href="{{url_for('usersReviews.writeReviews', review_id=review.id)}}">Update</a>
+
+                  <!-- Delete Review -->
+                  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                	  <div class="modal-dialog" role="document">
+                	    <div class="modal-content">
+                	      <div class="modal-header">
+                	        <h5 class="modal-title" id="deleteModalLabel">Confirm</h5>
+                	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                	          <span aria-hidden="true">&times;</span>
+                	        </button>
+                	      </div>
+                	      <div class="modal-body">
+                	        Are you sure you want to delete this post?
+                	      </div>
+                	      <div class="modal-footer">
+                	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                	        <form action="{{ url_for('usersReviews.delete_review', review_id=review.id)}}" method="POST">
+                	        	<input class="btn btn-danger" type="submit" value="Delete">
+                	        </form>
+                	      </div>
+                	    </div>
+                	  </div>
+                	</div>
         				</div>
         			{% endfor %}
                 <hr class="linebreak">
-
-
-
             </div>
         </div>
     </div>

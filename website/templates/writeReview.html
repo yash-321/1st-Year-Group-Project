@@ -6,71 +6,207 @@
 
 	<!-- CSS styling, to be moved to static style file -->
 	<style>
-	#suggestedMovie{
-		margin-top: 20px;
-	}
-	html {
-    	height: 100%;
-  	}
-  	body{
-    	min-height: 100%;
-		background-size: 100%;
-		background: rgb(46,48,46);
-	}
+	    @font-face {
+	    font-family: 'ProximaNovaBold';
+	    src: url(../static/Proxima_Nova_Bold.otf);
+	    font-style: normal;
+	    font-weight: 100;
+	  }
+	  *{
+	    font-family: ProximaNovaBold;
+	  }
+	  html {
+	    height: 100%;
+	    background-image: linear-gradient(to right, white, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
 
-	#mainBody {
-		margin-top: 20px;
-		margin-bottom: 40px;
-		background: rgba(255,255,255,0.5);
-		background-position: center;
-		width: 80%;
-		height: 80%;
-		border-top-right-radius: 10px;
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
-		border-bottom-right-radius: 10px;
-	}
+	  }
+	  body{
+	    background: linear-gradient(to bottom right, #F75692 50%, #FF8870 50%); background-repeat: no-repeat; background-size: 100% 100%;
+	    min-height: 100%;
+	  }
+	  .hide {
+	      display: none;
+	  }
+	  .menu {
+	    margin-top: 50px;
+	    list-style: none;
 
-	#footer{
-        right: 0; bottom: 0; left: 0;
-        width: 100%;
-        height: 218px;
-    }
+	  }
+	  #pages {
+	    min-height: 100%;
+	    color: #323232;
+	  }
+	  .container{
+	    margin-top: 50px;
+	    height: 100%;
 
-    .btn{
-    	padding: 20px;
-		color: white;
-		background: rgb(46,48,46);		
-		margin-top: -15px;
-		border-color: rgb(46,48,46);
-		border: 10px;
-    }
+	  }
+	  .page {
+	    padding-left: 10px; padding-right: 10px;
+	  }
+	  .menu li{
+	    display: inline-block;
+	    padding-left: 10px;
+	  }
 
+	  .row {
+	    background: rgb(255,255,255,0.7);
+	  }
+	  #footer {
+	    right: 0px; bottom: 0px; left: 0px;
+	    width: 100%;
+	    height: 218px;
+	  }
+	  section{
+	    padding-bottom: 218px;
+	  }
+	  label{
+	    display: block;
+	  }
+	  #myReviews, #myWhitelist, #myBlacklist{
+	    max-width: 100%;
+	    overflow-x: hidden;
+	  }
+	  .linebreak{
+	    border-top: 8px solid white;
+	    border-radius: 5px;
+	  }
 
-</style>
+	/* css for white/blacklist cards */
+	  a {
+	    text-decoration: none;
+	    color: inherit;
+	  }
+
+	  a:hover {
+	    color: #6ABCEA;
+	  }
+
+	  .movie-card {
+	    background: #ffffff;
+	    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
+	    width: 100%;
+	    max-width: 27%;
+	    margin: 2em;
+	    border-radius: 10px;
+	    display: inline-block;
+	  }
+
+	  .movie-header {
+	    padding: 0;
+	    margin: 0;
+	    height: 367px;
+	    width: 100%;
+	    display: block;
+	    border-top-left-radius: 10px;
+	    border-top-right-radius: 10px;
+	  }
+
+	  .header-icon-container {
+	    position: relative;
+	  }
+
+	  .movie-card:hover {
+	    -webkit-transform: scale(1.03);
+	            transform: scale(1.03);
+	    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+	  }
+
+	  .movie-content {
+	    padding: 18px 18px 24px 18px;
+	    margin: 0;
+	  }
+
+	  .movie-content-header {
+	    width: 100%;
+	    overflow: hidden;
+	  }
+
+	  .movie-title {
+	    font-size: 24px;
+	    margin: 0;
+	    overflow: hidden;
+	    text-overflow: ellipsis;
+	    width: 100%;
+	    white-space: nowrap;
+	  }
+
+	  .fa-times {
+	    color: red;
+	  }
+
+	  .deleteButton {
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    background-color: transparent;
+	    background-repeat: no-repeat;
+	    border: none;
+	    margin-right: 5px;
+	  }
+	  .page::-webkit-scrollbar {
+	    width: 5px;
+	  }
+	  .page::-webkit-scrollbar-track {
+	    background: none;
+	  }
+	  .page::-webkit-scrollbar-thumb {
+	    background-color: white;
+	    border-radius: 20px;
+	    border: none;
+	  }
+	</style>
 
 
 	<!-- FILM INFORMATION SECTION-->
 	<div id="mainBody" class="container-fluid p-3">
-		<div class="row">
-			<div class="col-md-4">
-				<h3>Movie Title (Year released)</h3>
-				<p>Movie poster to be inserted here</p>
+		<form class="form-signin" method="POST" action=" ">
+			{{ form.hidden_tag() }}
+			<div class="form-row">
+				<div class="col-lg-7">
+					<div class="w-100 p-3 h-100 d-inline-block">
+		<fieldset class="form-group">
+					{{ form.title.label }}
+					{% if form.title.errors %}
+							{{ form.title(class="input-field")}}
+							<div class="invalid-feedback">
+							 {% for error in form.title.errors %}
+								<span>{{ error }} </span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.title }}
+						{% endif %}
+			</fieldset>
+				</div>
 			</div>
-			<div class="col-md-6">
-				<p>Ratings: 10/10</p>
-				<h4>Movie Information:</h4>
-				<p>Age rating: rating here<br>Duration: 2 hours<br>Genre: Action</p>
-				<br>
-				<p>Director: Director's name<br>Writer: Writer's name</p>
-				<p>Cast</p>
-				<h4>Movie Plot:</h4>
-				<p>Insert movie plot here</p>
-				<p>Production company credits here</p>
 			</div>
-		</div>
+			<div class="form-row">
+				<div class="col-lg-7">
+			 <div class="input-field">
+				 <fieldset class="form-group">
+							{{ form.content.label}}
+							{% if form.content.errors %}
+									{{ form.content }}
+									<div class="invalid-feedback">
+										{% for error in form.content.errors %}
+												<span> {{ error}} </span>
+										{% endfor %}
+									</div>
+									{% else %}
+										{{ form.content}}
+										{% endif %}
+					</fieldset>
+
+				</div>
+		 <!-- login button -->
+				<div >
+						{{ form.submit_review (class="submit-btn mt-3 mb-5")}}
+			</div>
 		<br>
-	    <p>entry box generated from flask would be here with a submission button.</p>
 	</div>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
 {% endblock content %}

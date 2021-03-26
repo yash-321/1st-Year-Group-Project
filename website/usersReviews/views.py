@@ -119,6 +119,15 @@ def account():
 		blacklist=blacklist,
 		reviews=reviews)
 
+@usersReviews.route("/account/<int:review_id>/delete", methods=['POST'])
+@login_required
+def delete_review(review_id):
+	review = Review.query.get_or_404(review_id)
+	db.session.delete(review)
+	db.session.commit()
+	flash('Your review has been deleted!', 'success')
+	return redirect(url_for('usersReviews.account'))
+
 
 @usersReviews.route("/removeMovie", methods=['GET', 'POST'])
 def removeMovie():
@@ -138,9 +147,21 @@ def removeMovie():
 
 
 #reviews routes
-@usersReviews.route("/writeReview/ID=<movie_id>")
-def writeReviews(movie_id):
-	return render_template('writeReview.html', title='Write A Review')
+@usersReviews.route("/writeReview/<int:review_id>/update", methods=['GET', 'POST'])
+@login_required
+def writeReviews(review_id):
+	review = Review.query.get_or_404(review_id)
+	form = ReviewForm()
+	if form.validate_on_submit():
+		review.title = form.title.data
+		review.data = form.content.data
+		db.session.commit()
+		flash('Your review has been updated!', 'success')
+		return redirect(url_for('usersReviews.account', review_id=review_id))
+	elif request.method == 'GET':
+		form.title.data = review.title
+		form.content.data = review.data
+	return render_template('writeReview.html', title='Update Review', form=form)
 
 
 @usersReviews.route("/detailedReview/ID=<movie_id>", methods=['GET', 'POST'])
