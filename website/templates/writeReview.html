@@ -6,15 +6,6 @@
 
 	<!-- CSS styling, to be moved to static style file -->
 	<style>
-	    @font-face {
-	    font-family: 'ProximaNovaBold';
-	    src: url(../static/Proxima_Nova_Bold.otf);
-	    font-style: normal;
-	    font-weight: 100;
-	  }
-	  *{
-	    font-family: ProximaNovaBold;
-	  }
 	  html {
 	    height: 100%;
 	    background-image: linear-gradient(to right, white, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
@@ -23,6 +14,18 @@
 	  body{
 	    background: linear-gradient(to bottom right, #F75692 50%, #FF8870 50%); background-repeat: no-repeat; background-size: 100% 100%;
 	    min-height: 100%;
+	  }
+	  #mainBody {
+		margin-top: 20px;
+		margin-bottom: 40px;
+		background-position: center;
+		width: 90%;
+		height: 80%;
+		border-top-right-radius: 10px;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		animation: fadein 1.5s;
 	  }
 	  .hide {
 	      display: none;
@@ -155,32 +158,51 @@
 	    border-radius: 20px;
 	    border: none;
 	  }
+	  /*styling for form box */
+	  #movieDetails::-webkit-scrollbar {
+	      width: 5px;
+		}
+		#movieDetails::-webkit-scrollbar-track {
+	      background: none;
+		}
+		#movieDetails::-webkit-scrollbar-thumb {
+	      background-color: white;
+	      border-radius: 20px;
+	      border: none;
+		}
+		@keyframes fadein {
+		  from { opacity: 0}
+	  	  to   { opacity: 1}
+		}
 	</style>
 
 
 	<!-- FILM INFORMATION SECTION-->
 	<div id="mainBody" class="container-fluid p-3">
+		<div class="col-md-9" id="movieDetails" style="overflow-y:auto; height: 500px;">
 		<form class="form-signin" method="POST" action=" ">
 			{{ form.hidden_tag() }}
-			<div class="form-row">
-				<div class="col-lg-7">
-					<div class="w-100 p-3 h-100 d-inline-block">
-		<fieldset class="form-group">
-					{{ form.title.label }}
-					{% if form.title.errors %}
-							{{ form.title(class="input-field")}}
-							<div class="invalid-feedback">
-							 {% for error in form.title.errors %}
-								<span>{{ error }} </span>
-								{% endfor %}
-							</div>
-						{% else %}
-							{{ form.title }}
-						{% endif %}
-			</fieldset>
+			
+				<div class="form-row">
+					<div class="col-lg-7">
+						<div class="w-100 p-3 h-100 d-inline-block">
+							<fieldset class="form-group">
+								{{ form.title.label }}
+								{% if form.title.errors %}
+									{{ form.title(class="input-field")}}
+									<div class="invalid-feedback">
+										{% for error in form.title.errors %}
+											<span>{{ error }} </span>
+										{% endfor %}
+									</div>
+								{% else %}
+									{{ form.title }}
+								{% endif %}
+							</fieldset>
+						</div>
+					</div>
 				</div>
-			</div>
-			</div>
+
 			<div class="form-row">
 				<div class="col-lg-7">
 			 <div class="input-field">
@@ -204,6 +226,10 @@
 						{{ form.submit_review (class="submit-btn mt-3 mb-5")}}
 			</div>
 		<br>
+	</div>
+	</div>
+	</form>
+	</div>
 	</div>
 
 
