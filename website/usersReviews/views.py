@@ -4,6 +4,7 @@ from website.usersReviews.account_forms import RegistrationForm, LoginForm, Forg
 from website import db, bcrypt
 from website.models import User, Whitelist, Blacklist, Review
 import requests
+from sqlalchemy.exc import IntegrityError
 
 usersReviews = Blueprint('usersReviews', __name__)
 
@@ -67,6 +68,7 @@ def logout():
 @usersReviews.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
+	reviews = Review.query.filter_by(user_id=current_user.username).all()
 	questions_form = UpdateQuestionsForm()
 	password_form = UpdatePasswordForm()
 	name_form = UpdateNameForm()
@@ -114,7 +116,17 @@ def account():
 		form2=password_form,
 		form3=name_form,
 		whitelist=whitelist,
-		blacklist=blacklist)
+		blacklist=blacklist,
+		reviews=reviews)
+
+@usersReviews.route("/account/<int:review_id>/delete", methods=['POST'])
+@login_required
+def delete_review(review_id):
+	review = Review.query.get_or_404(review_id)
+	db.session.delete(review)
+	db.session.commit()
+	flash('Your review has been deleted!', 'success')
+	return redirect(url_for('usersReviews.account'))
 
 
 @usersReviews.route("/removeMovie", methods=['GET', 'POST'])
@@ -135,13 +147,27 @@ def removeMovie():
 
 
 #reviews routes
-@usersReviews.route("/writeReview/ID=<movie_id>")
-def writeReviews(movie_id):
-	return render_template('writeReview.html', title='Write A Review')
+@usersReviews.route("/writeReview/<int:review_id>/update", methods=['GET', 'POST'])
+@login_required
+def writeReviews(review_id):
+	review = Review.query.get_or_404(review_id)
+	form = ReviewForm()
+	if form.validate_on_submit():
+		review.title = form.title.data
+		review.data = form.content.data
+		db.session.commit()
+		flash('Your review has been updated!', 'success')
+		return redirect(url_for('usersReviews.account', review_id=review_id))
+	elif request.method == 'GET':
+		form.title.data = review.title
+		form.content.data = review.data
+	return render_template('writeReview.html', title='Update Review', form=form)
 
 
 @usersReviews.route("/detailedReview/ID=<movie_id>", methods=['GET', 'POST'])
 def detailed_review(movie_id):
+	reviews = Review.query.filter_by(movie_id=movie_id).all()
+
 	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
 	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full'
@@ -219,15 +245,19 @@ def detailed_review(movie_id):
 
 	form = ReviewForm()
 	if current_user.is_authenticated:
-		if form.validate_on_submit():
-
-			review = Review(title=form.title.data, data=form.content.data, rating=5.0, user_id=current_user.display_name, movie_id=movie_id)
-			db.session.add(review)
-			db.session.commit()
-			flash('Your review has been created!', 'success')
-			return redirect(url_for('misc.home'))
+		author = current_user.username
+		display = current_user.display_name
 	else:
-		flash(f'Login required to write reviews!', 'danger')
+		author = "Guest"
+		display = 'Guest'
+
+	if form.validate_on_submit():
+		review = Review(title=form.title.data, data=form.content.data, rating=movie_title, user_id=author, movie_id=movie_id)
+		db.session.add(review)
+		db.session.commit()
+		flash('Your review has been created!', 'success')
+		return redirect(url_for('misc.home'))
+
 
 
 
@@ -249,4 +279,5 @@ def detailed_review(movie_id):
 		awards=awards,
 		production=production,
 		writer=writer,
-		form=form)
+		form=form,
+		reviews=reviews)

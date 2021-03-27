@@ -63,7 +63,7 @@ class UpdateQuestionsForm(FlaskForm):
 
 	question_3 = StringField('What is your favourite food?', validators=[DataRequired()])
 
-	submit_change_q = SubmitField('Submit Changes', validators=[DataRequired()])
+	submit_change_q = SubmitField('Submit Changes', validators=[DataRequired()]) 
 
 class UpdatePasswordForm(FlaskForm):
 
