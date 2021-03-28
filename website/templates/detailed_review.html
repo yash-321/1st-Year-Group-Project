@@ -77,13 +77,38 @@
 	  from { opacity: 0}
 	  to   { opacity: 1}
 	}
+/*=====some font style =====*/
+	h4{
+		font-style: italic;
+		color: #e011c5;
+		text-shadow: 3px 3px 5px pink;
+	}
 
+	h3{
+		margin-bottom: -10px;
+		color: rgb(1, 39, 12);
+		line-height: 1.5;
+		font-size: 40px;
+	}
+
+	.rating{
+		color:red;
+	}
+
+	.ltitle{
+		color:#e011c5;
+	}
+
+	.reviews{
+		font-size: 40px;
+	}
+/*======================*/
 </style>
 
 	<!-- FILM INFORMATION SECTION-->
 	<div id="mainBody" class="container-fluid p-3">
 		{% if not error_message %}
-			<h3><u>{{movie_title}} ({{year_of_movie}})</u></h3>
+			<h3>{{movie_title}} ({{year_of_movie}})</h3>
 		{% else %}
 			<h2 class="m-2">{{error_message}}</h2>
 		{% endif %}
@@ -97,9 +122,9 @@
 			</div>
 			<div class="col-md-9" id="movieDetails" style="overflow-y:auto; height: 500px;">
 				<br>
-				<h3><u>MOVIE INFORMATION</u></h3>
+				<h4>MOVIE INFORMATION</h4>
 				<div style="clear: both;">
-					<p id="rating">Rating: {{imdb_rating}}</p>
+					<p class ='rating'id="rating">Rating: {{imdb_rating}}</p>
 					<p id="runtime">Duration: {{runtime}}</p>
 				</div>
 				<br> <br>
@@ -107,24 +132,24 @@
 				<p>Genres: {{genres}}</p>
 				<p>Awards: {{awards}}</p>
 				<br>
-				<h4><u>PLOT</u></h4>
+				<h4>PLOT</h4>
 				<p>{{plot}}</p>
 				<br>
 				<div class="row">
 					<div class="col-md-3">
-						<p><u>DIRECTORS</u></p>
+						<p class='ltitle'>DIRECTORS</p>
 						<p>{{directors}}</p>
 					</div>
 					<div class="col-md-3">
-						<p><u>WRITERS</u></p>
+						<p class='ltitle'>WRITERS</p>
 						<p>{{writer}}</p>
 					</div>
 					<div class="col-md-3">
-						<p><u>ACTORS</u></p>
+						<p class='ltitle'>ACTORS</p>
 						<p>{{actors}}</p>
 					</div>
 					<div class="col-md-3">
-						<p><u>PRODUCTION</u></p>
+						<p class='ltitle'>PRODUCTION</p>
 						<p>{{production}}</p>
 					</div>
 				</div>
@@ -221,7 +246,7 @@
 		{% if not error_message %}
 		<div class="container-fluid padding" id="reviewsSection">
 			<br>
-			<h3><u>REVIEWS</u></h3>
+			<h4 class='reviews'>REVIEWS</h4>
 			<!-- loop criteria to be replaced with for review in review
 			where the reviews are returned from the DB -->
 			{% for review in reviews%}
