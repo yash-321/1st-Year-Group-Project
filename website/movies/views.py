@@ -36,8 +36,8 @@ def test():
 	# 		try:
 	# 			id = data["movie_results"][i]["imdb_id"]
 
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630&plot=full'
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae&plot=full'
+	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630&plot=full'
+	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae&plot=full'
 	# 			r = requests.get(respString) 
 	# 			dictionary = r.json()
 	# 			print(dictionary)
@@ -139,7 +139,7 @@ def seeMovieReview(page = 1):
 				respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2&page=' + str(pages[i]) 
 				r = requests.get(respString) 
 				dictionary = r.json()
-
+				print(dictionary)
 				if dictionary['Response'] == 'True':
 					data = dictionary["Search"]
 					for movie in data:
@@ -199,7 +199,8 @@ def seeMovieReview(page = 1):
 	# validate if page data type is not a string
 	try:
 		page = int(page)
-	except:
+	except Exception as e:
+		print(e)
 		error_message = "Try again! Invalid page number was provided!"
 
 
@@ -249,8 +250,24 @@ def check_movie_year(indices_of_checked_ranges_of_years, number_of_checked_range
 	else:
 		return True
 
-def check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres, chosen_language,
-						languages_texts, checked_genres, number_of_checked_genres_boxes, names_of_genres,
+
+def check_movie_language(languages_texts, number_of_checked_language_boxes, 
+					number_of_different_languages, indices_of_checked_languages, movie_language):
+	# check if the movie is in the selected language(s), if any were selected
+	if 0 not in indices_of_checked_languages and number_of_checked_language_boxes != 0:
+		for x in range(number_of_checked_language_boxes):
+			language = languages_texts[indices_of_checked_languages[x]]
+			if language in movie_language:
+				return True
+
+		return False
+	else:
+		return True
+
+
+def check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
+						languages_texts, number_of_checked_language_boxes, number_of_different_languages, 
+						indices_of_checked_languages, checked_genres, number_of_checked_genres_boxes, names_of_genres,
 						indices_of_checked_ranges_of_years, number_of_checked_ranges_of_years_boxes, 
 						number_of_different_ranges_of_years, ranges_of_years, chosen_rating):
 
@@ -265,10 +282,11 @@ def check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
 	if movie.year == 0 or movie.genres == "" or type(movie.year) == str:
 		return False
 
-	# check if a movie has a chosen language
-	if chosen_language != 0:
-		if languages_texts[chosen_language] not in movie.language:
-			return False
+	found_language = check_movie_language(languages_texts, number_of_checked_language_boxes, 
+					number_of_different_languages, indices_of_checked_languages, movie.language)
+
+	if not found_language:
+		return False
 
 	found_corresponding_genre = check_genres(checked_genres, number_of_checked_genres_boxes, copy_of_indices_of_checked_genres, names_of_genres, movie.genres)
 	
@@ -315,8 +333,10 @@ def suggestMeMovies():
 	languages_identifiers = (0, 1, 2, 3, 4)
 	languages_texts = ("Any Language", "English",
 					"French","Japanese","Spanish")
-	chosen_language = 0
+					
 	number_of_different_languages = len(languages_identifiers)
+	indices_of_checked_languages = []
+	checked_languages = [""]*number_of_different_languages
 
 
 	ranges_of_years_text = ("All years", "2010 – now", "2000 – 2009", "1990 – 1999",
@@ -338,9 +358,6 @@ def suggestMeMovies():
 		chosen_rating = float(request.form.get('Ratings'))
 		session["chosen_rating"] = chosen_rating
 
-		chosen_language = int(request.form.get('Languages'))
-		session["chosen_language"] = chosen_language
-
 		for i in range(number_of_different_genres):
 			if request.form.get(names_of_genres[i]):
 				indices_of_checked_genres.append(i)
@@ -358,6 +375,15 @@ def suggestMeMovies():
 			else:
 				if ("checked_ranges_of_years" + str(i)) in session:
 					session.pop("checked_ranges_of_years" + str(i), None)
+		
+		for i in range(number_of_different_languages):
+			if request.form.get(languages_texts[i]):
+				indices_of_checked_languages.append(i)
+				checked_languages[i] = "checked"
+				session["checked_languages" + str(i)] = "checked"
+			else:
+				if ("checked_languages" + str(i)) in session:
+					session.pop("checked_languages" + str(i), None)
 
 
 	# check if previously some criteria were selected, session is used to get them back
@@ -373,16 +399,16 @@ def suggestMeMovies():
 		chosen_rating = 0
 
 
-	if "chosen_language" in session:
-		chosen_language = session["chosen_language"]
-	else:
-		chosen_language = 0
-
-
 	for i in range(number_of_different_ranges_of_years):
 		if ("checked_ranges_of_years" + str(i)) in session and checked_ranges_of_years[i] != "checked":
 			checked_ranges_of_years[i] = "checked"
 			indices_of_checked_ranges_of_years.append(i)
+			
+
+	for i in range(number_of_different_languages):
+		if ("checked_languages" + str(i)) in session and checked_languages[i] != "checked":
+			checked_languages[i] = "checked"
+			indices_of_checked_languages.append(i)
 
 
 	# ----------------- the actual algorithm starts here -----------------
@@ -402,6 +428,7 @@ def suggestMeMovies():
 
 	number_of_checked_genres_boxes = len(indices_of_checked_genres)
 	number_of_checked_ranges_of_years_boxes = len(indices_of_checked_ranges_of_years)
+	number_of_checked_language_boxes = len(indices_of_checked_languages)
 	found = False
 
 	# determine how many films should the algorithm check (if times = 1, then 20 are checked)
@@ -433,8 +460,9 @@ def suggestMeMovies():
 	print("DB1")
 	for movie in movies:
 		try:
-			valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres, chosen_language,
-						languages_texts, checked_genres, number_of_checked_genres_boxes, names_of_genres,
+			valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
+						languages_texts, number_of_checked_language_boxes, number_of_different_languages, 
+						indices_of_checked_languages, checked_genres, number_of_checked_genres_boxes, names_of_genres,
 						indices_of_checked_ranges_of_years, number_of_checked_ranges_of_years_boxes, 
 						number_of_different_ranges_of_years, ranges_of_years, chosen_rating)
 
@@ -477,7 +505,8 @@ def suggestMeMovies():
 		try:
 			response = requests.request("GET", url, headers=headers, params=querystring) #, timeout=5 )
 			data = response.json()
-		except:
+		except Exception as e:
+			print(e)
 			counter += 1
 			continue
 
@@ -562,11 +591,12 @@ def suggestMeMovies():
 						movie.trailer = trailer
 						db.session.commit()
 
-				# check if a movie has a chosen language
-				if chosen_language != 0:
-					if languages_texts[chosen_language] not in language:
-						i += 1
-						continue
+				found_language = check_movie_language(languages_texts, number_of_checked_language_boxes, 
+													number_of_different_languages, indices_of_checked_languages, language)
+
+				if not found_language:
+					i += 1
+					continue
 
 				# it is possible to get "N/A" so it cannot be converted to a float at first
 				# check if the connection was made with the API
@@ -599,10 +629,11 @@ def suggestMeMovies():
 		print("DB2")
 		for movie in movies:
 			try:
-				valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres, chosen_language,
-							languages_texts, checked_genres, number_of_checked_genres_boxes, names_of_genres,
-							indices_of_checked_ranges_of_years, number_of_checked_ranges_of_years_boxes, 
-							number_of_different_ranges_of_years, ranges_of_years, chosen_rating)
+				valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
+						languages_texts, number_of_checked_language_boxes, number_of_different_languages, 
+						indices_of_checked_languages, checked_genres, number_of_checked_genres_boxes, names_of_genres,
+						indices_of_checked_ranges_of_years, number_of_checked_ranges_of_years_boxes, 
+						number_of_different_ranges_of_years, ranges_of_years, chosen_rating)
 
 				if not valid_movie:
 					continue
@@ -649,8 +680,9 @@ def suggestMeMovies():
 			for movie in all_movies_in_db:
 				# check if that movie is not in the blacklist
 				# if it is, then skip this movie
-				valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres, chosen_language,
-						languages_texts, checked_genres, number_of_checked_genres_boxes, names_of_genres,
+				valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
+						languages_texts, number_of_checked_language_boxes, number_of_different_languages, 
+						indices_of_checked_languages, checked_genres, number_of_checked_genres_boxes, names_of_genres,
 						indices_of_checked_ranges_of_years, number_of_checked_ranges_of_years_boxes, 
 						number_of_different_ranges_of_years, ranges_of_years, chosen_rating)
 
@@ -704,7 +736,8 @@ def suggestMeMovies():
 		number_of_different_ratings=number_of_different_ratings,
 		languages_identifiers=languages_identifiers,
 		languages_texts=languages_texts,
-		chosen_language=chosen_language,
+		indices_of_checked_languages=indices_of_checked_languages,
+		checked_languages=checked_languages,
 		number_of_different_languages=number_of_different_languages,
 		number_of_different_ranges_of_years=number_of_different_ranges_of_years,
 		ranges_of_years_text=ranges_of_years_text,

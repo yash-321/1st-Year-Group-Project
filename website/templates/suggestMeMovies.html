@@ -241,26 +241,23 @@
 											<h4>Languages</h4>
 											<br>
 											{% for i in range(number_of_different_languages) %}
-		                    {% if languages_identifiers[i] == chosen_language %}
-			                    <label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
-			                    <input type="radio" name="Languages" id="{{languages_texts[i]}}" value="{{languages_identifiers[i]}}" checked style="float:right"><br/>
-		                    {% else %}
-			                    <label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
-			                    <input type="radio" name="Languages" id="{{languages_texts[i]}}" value="{{languages_identifiers[i]}}" style="float:right"><br/>
-		                    {% endif %}
-		                	{% endfor %}
+											<label for="{{languages_texts[i]}}">{{languages_texts[i]}}</label>
+											<input type="checkbox" name="{{languages_texts[i]}}" id="{{languages_texts[i]}}"
+													value="{{languages_texts[i]}}" {{checked_languages[i]}} style="float:right"><br/>
+											{% endfor %}
 										</div>
 
 										<div class="col-md-3">
 											<h4>Range of Years</h4>
 											<br>
 											{% for i in range(number_of_different_ranges_of_years) %}
-					            	<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
-					              <input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}" value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}} style="float:right"><br/>
-					          	{% endfor %}
+											<label for="{{ranges_of_years_text[i]}}">{{ranges_of_years_text[i]}}</label>
+											<input type="checkbox" name="{{ranges_of_years_text[i]}}" id="{{ranges_of_years_text[i]}}"
+													value="{{ranges_of_years_text[i]}}" {{checked_ranges_of_years[i]}} style="float:right"><br/>
+											{% endfor %}
 										</div>
 									</div>
-				        </div>
+				        		</div>
 							</div>
 						</div>
 					</div>
