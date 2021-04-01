@@ -35,7 +35,7 @@
 		height: 100%;
 	}
 	#movieDetails {
-		background: rgba(255,255,255,0.5);
+		background: rgba(255,255,255);
 		box-shadow: 5px 5px 22px grey;
 	}
 	#runtime {
@@ -45,7 +45,7 @@
 		float: right;
 	}
 	#reviewsSection {
-		background: rgba(255,255,255,0.5);
+		background: rgba(255,255,255);
 		box-shadow: 5px 5px 22px grey;
 	}
 	#footer{
@@ -69,9 +69,12 @@
 	    background: none;
 	}
 	#movieDetails::-webkit-scrollbar-thumb {
-	    background-color: white;
+	    background-color: grey;
 	    border-radius: 20px;
 	    border: none;
+	}
+	span {
+		font-size: 1.3em;
 	}
 	@keyframes fadein {
 	  from { opacity: 0}
@@ -79,9 +82,9 @@
 	}
 /*=====some font style =====*/
 	h4{
-		font-style: italic;
-		color: #e011c5;
-		text-shadow: 3px 3px 5px pink;
+		text-decoration: underline;
+		color: #323232;
+
 	}
 
 	h3{
@@ -115,7 +118,7 @@
 		<div class="row">
 			{% if not error_message %}
 			<div class="col-md-3">
-				<p><img src={{poster}} width="350" id="poster"></p>
+				<span><img src={{poster}} width="350" id="poster"></span>
 				<div class="col-md-4">
 					<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
 				</div>
@@ -124,33 +127,40 @@
 				<br>
 				<h4>MOVIE INFORMATION</h4>
 				<div style="clear: both;">
-					<p class ='rating'id="rating">Rating: {{imdb_rating}}</p>
-					<p id="runtime">Duration: {{runtime}}</p>
+					<span class ='rating'id="rating">Rating: {{imdb_rating}}</span>
+					<span id="runtime">Duration: {{runtime}}</span>
 				</div>
 				<br> <br>
-				<p>Language: {{language}}</p>
-				<p>Genres: {{genres}}</p>
-				<p>Awards: {{awards}}</p>
+				<span>Language: {{language}}</span>
+				<br>
+				<span>Genres: {{genres}}</span>
+				<br>
+				<span>Awards: {{awards}}</span>
+				<br>
 				<br>
 				<h4>PLOT</h4>
-				<p>{{plot}}</p>
-				<br>
+				<span>{{plot}}</span>
+				<br><br><br>
 				<div class="row">
 					<div class="col-md-3">
-						<p class='ltitle'>DIRECTORS</p>
-						<p>{{directors}}</p>
+						<span class='ltitle'>DIRECTORS</span>
+						<br>
+						<span>{{directors}}</span>
 					</div>
 					<div class="col-md-3">
-						<p class='ltitle'>WRITERS</p>
-						<p>{{writer}}</p>
+						<span class='ltitle'>WRITERS</span>
+						<br>
+						<span>{{writer}}</span>
 					</div>
 					<div class="col-md-3">
-						<p class='ltitle'>ACTORS</p>
-						<p>{{actors}}</p>
+						<span class='ltitle'>ACTORS</span>
+						<br>
+						<span>{{actors}}</span>
 					</div>
 					<div class="col-md-3">
-						<p class='ltitle'>PRODUCTION</p>
-						<p>{{production}}</p>
+						<span class='ltitle'>PRODUCTION</span>
+						<br>
+						<span>{{production}}</span>
 					</div>
 				</div>
 				<br>
@@ -254,13 +264,13 @@
 					<div class="row">
 						<div class="col-md-4">
 							<h4>{{review.title}}</h4>
-							<p>{{review.user_id}}</p>
+							<span>{{review.user_id}}</span>
 						</div>
 						<div class="col-md-8">
 							<small>{{review.date.date()}}</small>
 						</div>
 					</div>
-					<p>{{review.data}}</p>
+					<span>{{review.data}}</span>
 				</div>
 			{% endfor %}
 		</div>

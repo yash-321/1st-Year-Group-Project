@@ -99,6 +99,9 @@
         border-top-left-radius: 30px;
         border-bottom-left-radius: 30px;
       }
+      h1 {
+        color: white;
+      }
       @media (max-width: 1000px){
         #leftimagediv {
           display: none;
@@ -141,7 +144,8 @@
           </div>
           <div class="col-lg-7 px-5 pt-5">
             <h1 class="font-weight-bold py-3">FilmFlick</h1>
-            <h4>Sign up for a new account</h4>
+            <h2>Sign up for a new account</h2>
+            <br>
             <form class="form-signin" method="POST" action="">
               {{ form.hidden_tag() }}
               <!-- username input field -->
