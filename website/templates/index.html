@@ -69,9 +69,19 @@
     from { opacity: 0}
     to   { opacity: 1}
   }
+  @media (prefers-color-scheme: dark){
+    .container.dark-scheme {background: #323232; color: #F8F9FA;}
+    .container h2 {color: #323232}
+    .container h2:before {color: #F8F9FA;}
+    body {background-color: #323232; color: #F8F9FA;}
+    #footer {color: black;}
+    .linebreak {    border-top: 8px solid grey; border-radius: 5px;}
+    #suggestbtn:hover{color: black; background: grey;}
+  }
+
 
 </style>
-<div class="container" id="textvertical">
+<div class="container dark-scheme" id="textvertical">
   <div class="row-4">
     <div class="col-12">
         <h2 data-text="FilmFlick//">FilmFlick// </h2>
@@ -88,9 +98,10 @@
           <input id="suggestbtn" type="submit" value="Go to Suggest me movies" />
         </form>
         <br>
-
     </div>
   </div>
 </div>
+
+
 
 {% endblock content %}
