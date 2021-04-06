@@ -21,10 +21,6 @@
 		background-position: center;
 		width: 90%;
 		height: 80%;
-		border-top-right-radius: 10px;
-		border-top-left-radius: 10px;
-		border-bottom-left-radius: 10px;
-		border-bottom-right-radius: 10px;
 		animation: fadein 1.5s;
 	}
 	#poster{
@@ -34,19 +30,19 @@
 		width: 100%;
 		height: 100%;
 	}
-	#movieDetails {
+	#movieDetails, #reviewsSection {
 		background: rgba(255,255,255);
 		box-shadow: 5px 5px 22px grey;
+		border-top-left-radius: 10px;
+		border-bottom-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-bottom-right-radius: 10px;
 	}
 	#runtime {
 		float: left;
 	}
 	#rating {
 		float: right;
-	}
-	#reviewsSection {
-		background: rgba(255,255,255);
-		box-shadow: 5px 5px 22px grey;
 	}
 	#footer{
     right: 0; bottom: 0; left: 0;
@@ -57,12 +53,12 @@
 		padding: 10px;
 		color: white;
 		background: rgb(46,48,46);
-		margin-top: -15px;
+		margin-top: 5px;
 		border-color: rgb(46,48,46);
 		border: 10px;
 		width: 200px;
 	}
-	#movieDetails::-webkit-scrollbar {
+	/* #movieDetails::-webkit-scrollbar {
 	    width: 5px;
 	}
 	#movieDetails::-webkit-scrollbar-track {
@@ -72,7 +68,7 @@
 	    background-color: grey;
 	    border-radius: 20px;
 	    border: none;
-	}
+	} */
 	span {
 		font-size: 1.3em;
 	}
@@ -84,24 +80,19 @@
 	h4{
 		text-decoration: underline;
 		color: #323232;
-
 	}
-
 	h3{
 		margin-bottom: -10px;
 		color: rgb(1, 39, 12);
 		line-height: 1.5;
 		font-size: 40px;
 	}
-
 	.rating{
 		color:red;
 	}
-
 	.ltitle{
 		color:#e011c5;
 	}
-
 	.reviews{
 		font-size: 40px;
 	}
@@ -115,15 +106,13 @@
 		{% else %}
 			<h2 class="m-2">{{error_message}}</h2>
 		{% endif %}
+		<br>
 		<div class="row">
 			{% if not error_message %}
 			<div class="col-md-3">
 				<span><img src={{poster}} width="350" id="poster"></span>
-				<div class="col-md-4">
-					<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
-				</div>
 			</div>
-			<div class="col-md-9" id="movieDetails" style="overflow-y:auto; height: 500px;">
+			<div class="col-md-9" id="movieDetails">
 				<br>
 				<h4>MOVIE INFORMATION</h4>
 				<div style="clear: both;">
@@ -164,28 +153,6 @@
 					</div>
 				</div>
 				<br>
-				<form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
-					<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
-					<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
-					<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
-					<div class="row">
-						<div class="col-md-4">
-							<div class="well text-center">
-								<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
-				        	<i class="fa fa-heart" aria-hidden="true"></i>
-				      	</button>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="well text-center">
-								<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
-				        	<i class="fa fa-times" aria-hidden="true"></i>
-				      	</button>
-							</div>
-						</div>
-					</div>
-				</form>
-				<br>
 			</div>
 			<br>
 			{% else %}
@@ -193,88 +160,125 @@
 			{% endif %}
 		</div>
 		<br>
-		<div class="well text-center">
 
-		</div>
-		<!-- pop-up for reviews -->
-		<form class="form-group form-group-lg" method="POST" action="">
-			{{ form.hidden_tag() }}
-		<div id="write_reviews" class="modal fade">
-			<div class="modal-dialog modal-lg" role="dialog">
-					<div class="modal-content">
-							<div class="modal-header">
-									<h4 class="modal-title text-xs-center">{{movie_title}} ({{year_of_movie}})</h4>
-							</div>
-							<div class="w-100 p-3 h-100 d-inline-block">
-								<div class="form-group">
-									<div class="col-xs-4">
-										<fieldset class="form-group">
-												{{ form.title.label}}
-												{% if form.title.errors %}
-														{{ form.title }}
-														<div class="invalid-feedback">
-															{% for error in form.title.errors %}
-																	<span> {{ error}} </span>
-															{% endfor %}
-														</div>
-														{% else %}
-															{{ form.title}}
-															{% endif %}
-										</fieldset>
-									</div>
+		<div class="row">
+			<div class="col-md-3">
+				<form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
+					<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
+					<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
+					<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
+					<div class="well text-center">
+						<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
+							<i class="fa fa-heart" aria-hidden="true"></i>
+						</button>
+						<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+					</div>
+				</form>
+				<div class="well text-center">
+					<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
+				</div>
+				<!-- write reviews pop up window -->
+				<form class="form-group form-group-lg" method="POST" action="">
+					{{ form.hidden_tag() }}
+					<div id="write_reviews" class="modal fade">
+						<div class="modal-dialog modal-lg" role="dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title w-100 text-center">{{movie_title}} ({{year_of_movie}})</h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
 								</div>
-							</div>
-							<div class="modal-body">
-								<div class="form-group">
-									<div class="col-xs-9">
-										<fieldset class="form-group" id="exampleFormControlTextarea1" rows="3">
-												{{ form.content.label}}
-												{% if form.content.errors %}
-														{{ form.content }}
-														<div class="invalid-feedback">
-															{% for error in form.content.errors %}
-																	<span> {{ error}} </span>
-															{% endfor %}
-														</div>
+								<div class="modal-body">
+									<div class="container">
+									 <div class="row">
+										 <div class="form-group">
+											 <fieldset class="form-group">
+												 <div class="col-md-3">
+												 	{{ form.title.label}}
+												 </div>
+												 <div class="col-md-9">
+													 {% if form.title.errors %}
+														 {{ form.title }}
+														 <div class="invalid-feedback">
+															 {% for error in form.title.errors %}
+															 		<span> {{ error}} </span>
+															 {% endfor %}
+														 </div>
+													 {% else %}
+														 {{ form.title}}
+														 {% endif %}
+												</div>
+											 </fieldset>
+										 </div>
+									 </div>
+								 	</div>
+									<!-- <div class="w-100 p-3 h-100 d-inline-block"> -->
+									<div class="container">
+										<div class="row">
+											<div class="form-group">
+												<fieldset class="form-group" id="exampleFormControlTextarea1" rows="3">
+													<div class="col-md-3">
+														{{ form.content.label}}
+													</div>
+													<div class="col-md-9">
+														{% if form.content.errors %}
+															{{ form.content }}
+															<div class="invalid-feedback">
+																{% for error in form.content.errors %}
+																		<span> {{ error}} </span>
+																{% endfor %}
+															</div>
 														{% else %}
 															{{ form.content}}
 															{% endif %}
-										</fieldset>
+													</div>
+												</fieldset>
+											</div>
+										</div>
+									</div>
+									<div class="container">
+										<div class="row">
+											<div class="col-md-3">
+												<div class="form-group">
+														{{ form.submit_review(class="btn btn-outline-info")}}
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="form-group">
-									{{ form.submit_review(class="btn btn-outline-info")}}
-							</div>
-
-								</div><!-- /.modal-content -->
+							</div><!-- /.modal-content -->
 						</div><!-- /.modal-dialog -->
-			</div><!-- /.modal -->
-			</form>
+					</div><!-- /.modal -->
+				</form>
+			</div>
 
 			<!-- REVIEWS SECTION -->
-		{% if not error_message %}
-		<div class="container-fluid padding" id="reviewsSection">
-			<br>
-			<h4 class='reviews'>REVIEWS</h4>
-			<!-- loop criteria to be replaced with for review in review
-			where the reviews are returned from the DB -->
-			{% for review in reviews%}
-				<div>
-					<div class="row">
-						<div class="col-md-4">
-							<h4>{{review.title}}</h4>
-							<span>{{review.user_id}}</span>
+			<div class="col-md-9 no-gutters">
+				{% if not error_message %}
+				<div class="container-fluid padding" id="reviewsSection">
+					<br>
+					<h4 class='reviews'>REVIEWS</h4>
+					<!-- loop criteria to be replaced with for review in review
+					where the reviews are returned from the DB -->
+					{% for review in reviews%}
+						<div>
+							<div class="row">
+								<div class="col-md-4">
+									<h4>{{review.title}}</h4>
+									<span>{{review.user_id}}</span>
+								</div>
+								<div class="col-md-8">
+									<small>{{review.date.date()}}</small>
+								</div>
+							</div>
+							<span>{{review.data}}</span>
 						</div>
-						<div class="col-md-8">
-							<small>{{review.date.date()}}</small>
-						</div>
-					</div>
-					<span>{{review.data}}</span>
+					{% endfor %}
 				</div>
-			{% endfor %}
+				{% endif %}
+			</div>
 		</div>
-		{% endif %}
 	</div>
 	<br>
 
