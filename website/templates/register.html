@@ -130,6 +130,30 @@
         }
 
       }
+      .form-group[data-error] .input-field{
+        border-color: #c92432;
+        color: #c92432;
+        background: #fffafa;
+      }
+      #securitybtn[data-error] .input-field{
+        color: black;
+      }
+      /*.form-group[data-error]::after {
+        content: attr(data-error);
+      }*/
+      ::placeholder{
+        font-family: 'ProximaNovaBold';
+        src: url(../static/Proxima_Nova_Bold.otf);
+        font-style: normal;
+        font-weight: 100;
+        font-size: 0.8em;
+      }
+      #securitybtn{
+        font-family: 'ProximaNovaBold';
+        src: url(../static/Proxima_Nova_Bold.otf);
+        font-style: normal;
+        font-weight: 100;
+      }
 
 
 
@@ -151,7 +175,7 @@
               <!-- username input field -->
               <div class="form-row">
                 <div class="col-lg-7">
-                  <fieldset class="form-group">
+                  <fieldset class="form-group" data-error="error">
                   {{ form.username.label }}
                   {% if form.username.errors %}
                       {{ form.username(class="input-field")}}
@@ -166,9 +190,9 @@
                 </div>
               </div>
               <!-- displayname input field -->
-              <div class="form-row">
+              <div class="form-row" >
                 <div class="col-lg-7">
-                  <fieldset class="form-group">
+                  <fieldset class="form-group" data-error="error">
                   {{ form.display_name.label }}
                   {% if form.display_name.errors %}
                       {{ form.display_name(class="input-field")}}
@@ -186,11 +210,11 @@
               <!-- password input field -->
               <div class="form-row">
                 <div class="col-lg-7">
-                  <fieldset class="form-group">
-                  <div class="input-field">
+                  <fieldset class="form-group" data-error="error">
+                  <div>
                       {{ form.password.label}}
                       {% if form.password.errors %}
-                          {{ form.password }}
+                          {{ form.password(class="input-field") }}
                           <div class="invalid-feedback">
                             {% for error in form.password.errors %}
                                 <span> {{ error}} </span>
@@ -203,11 +227,11 @@
                           <!-- confirm password input field -->
                           <div class="form-row">
                             <div class="col">
-                              <fieldset class="form-group">
-                              <div class="input-field" style="padding-top: 15px;">
+                              <fieldset class="form-group" data-error="error">
+                              <div style="padding-top: 15px;">
                                   {{ form.confirm_password.label}}
                                   {% if form.confirm_password.errors %}
-                                      {{ form.confirm_password }}
+                                      {{ form.confirm_password(class="input-field") }}
                                       <div class="invalid-feedback">
                                         {% for error in form.confirm_password.errors %}
                                             <span> {{ error }} </span>
@@ -220,7 +244,7 @@
                           <!-- buttons for security questions -->
                           <div class="form-row" style="height: 80px; margin-left: 2px;">
 
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#security_questions">
+                                <button id="securitybtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#security_questions">
                                   Security Questions
                                 </button>
                               </div>
@@ -238,7 +262,7 @@
                                         <fieldset class="form-group">
                                             {{ form.question_1.label}}
                                             {% if form.question_1.errors %}
-                                                {{ form.question_1 }}
+                                                {{ form.question_1(class=input-field) }}
                                                 <div class="invalid-feedback">
                                                   {% for error in form.question_1.errors %}
                                                       <span> {{ error}} </span>
@@ -251,10 +275,10 @@
                             <div class="form-group">
 						                <div class="col-lg-7 px-2 pt-2">
 						                  <fieldset class="form-group">
-						                  <div class="input-field">
+						                  <div>
 						                      {{ form.question_2.label}}
 						                      {% if form.question_2.errors %}
-						                          {{ form.question_2 }}
+						                          {{ form.question_2(class="input-field") }}
 						                          <div class="invalid-feedback">
 						                            {% for error in form.question_2.errors %}
 						                                <span> {{ error}} </span>
@@ -266,11 +290,11 @@
 						                          </div>
 						            <div class="form-group">
 						                <div class="col-lg-7 px-2 pt-2">
-						                  <fieldset class="form-group" style="margin-left: -8px;">
-						                  <div class="input-field">
+						                  <fieldset class="form-group" style="margin-left: -8px; margin-top: 10px;">
+						                  <div>
 						                      {{ form.question_3.label}}
 						                      {% if form.question_3.errors %}
-						                          {{ form.question_3 }}
+						                          {{ form.question_3(class="input-field") }}
 						                          <div class="invalid-feedback">
 						                            {% for error in form.question_3.errors %}
 						                                <span> {{ error}} </span>
@@ -307,6 +331,11 @@
         </div>
       </div>
     </section>
+    <script>
+      document.querySelectorAll('.form-group[data-error] .input-field').forEach(inpEl => {
+        inpEl.addEventListener('input-field', () => inpEl.parentElement.removeAttribute('data-error'));
+      });
+    </script>
 
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
