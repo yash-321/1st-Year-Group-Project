@@ -15,7 +15,7 @@
   }
 	body{
 	  	min-height: 100%;
-	  	background: linear-gradient(to bottom right, #FF8870 50%, #F75692 50%); background-repeat: no-repeat; background-size: 100% 100%;
+	  	background-image: url("../static/spotifyr1.png");
 	}
 
 	#footer{
@@ -33,15 +33,22 @@
 	.card {
 		width: 100%;
 	}
+	a {
+		color: black;
+	}
 
 	.btn{
 	  color:white;
 		padding: 10px;
 		background: rgb(46,48,46);
 		margin-bottom: 15px;
-		border-color: rgb(46,48,46);
-		border: 10px;
+		border-color: white;
+		border: 2px;
 		width: 100%;
+	    font-family: 'ProximaNovaBold';
+	    src: url(../static/Proxima_Nova_Bold.otf);
+	    font-style: normal;
+	    font-weight: 100;
 	  }
 	#movieFilter {
 		color: black;
@@ -55,7 +62,7 @@
 	}
 	#movieSection{
 		border-radius: 17px;
-		background: rgba(255,255,255);
+		background: #E2E2E2;
 		box-shadow: 5px 5px 22px grey;
 		margin-top: 20px;
 		margin-left: 30px;
@@ -125,6 +132,14 @@
 		line-height: 1.5;
 		font-size: 40px;
 	}	
+	#whitelistbtn, #blacklistbtn, #generatebtn {
+		border-style: solid;
+		border-color: white;
+	}
+	#movieprofilebtn{
+		background: #DCDCDC;
+	}
+
 </style>
 
 <div class="container-fluid" id="suggestedMovie">
