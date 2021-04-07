@@ -4,7 +4,7 @@ from website.usersReviews.account_forms import RegistrationForm, LoginForm, Forg
 from website import db, bcrypt
 from website.models import User, Whitelist, Blacklist, Review
 import requests
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import exc
 
 usersReviews = Blueprint('usersReviews', __name__)
 
@@ -16,16 +16,21 @@ def register():
 		return redirect(url_for('misc.home'))
 	form = RegistrationForm()
 	if form.validate_on_submit():
-		hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-		hq_1 = bcrypt.generate_password_hash(form.question_1.data).decode('utf-8')
-		hq_2 = bcrypt.generate_password_hash(form.question_2.data).decode('utf-8')
-		hq_3 = bcrypt.generate_password_hash(form.question_3.data).decode('utf-8')
-		user = User(username= form.username.data, display_name=form.display_name.data, password=hashed_password,
-					question_1 = hq_1, question_2 = hq_2, question_3 = hq_3)
-		db.session.add(user)
-		db.session.commit()
-		flash(f'Your account has been created! You are able to login now.', 'success')
-		return redirect(url_for('usersReviews.login'))
+		try:
+			hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+			hq_1 = bcrypt.generate_password_hash(form.question_1.data).decode('utf-8')
+			hq_2 = bcrypt.generate_password_hash(form.question_2.data).decode('utf-8')
+			hq_3 = bcrypt.generate_password_hash(form.question_3.data).decode('utf-8')
+			user = User(username= form.username.data, display_name=form.display_name.data, password=hashed_password,
+						question_1 = hq_1, question_2 = hq_2, question_3 = hq_3)
+			db.session.add(user)
+			db.session.commit()
+			flash(f'Your account has been created! You are able to login now.', 'success')
+			return redirect(url_for('usersReviews.login'))
+		except exc.IntegrityError:
+			flash(f'Username exists, please choose a different one!', 'danger')
+			# return redirect(url_for('usersReviews.register'))
+			return redirect(url_for('usersReviews.register'))
 	return render_template('register.html', title='Register', form=form)
 
 
