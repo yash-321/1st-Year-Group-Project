@@ -172,6 +172,7 @@ def writeReviews(review_id):
 @usersReviews.route("/detailedReview/ID=<movie_id>", methods=['GET', 'POST'])
 def detailed_review(movie_id):
 	reviews = Review.query.filter_by(movie_id=movie_id).all()
+	user = User.query.filter_by(username=current_user.username).first()
 
 	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
@@ -263,6 +264,17 @@ def detailed_review(movie_id):
 		flash('Your review has been created!', 'success')
 		return redirect(url_for('misc.home'))
 
+	if user:
+		white = Whitelist.query.filter_by(movie_id=movie_id, user_id=user.id).first()
+		if white:
+			whitebtn = "red"
+		else:
+			whitebtn = "white"
+		black = Blacklist.query.filter_by(movie_id=movie_id, user_id=user.id).first()
+		if black:
+			blackbtn = "black"
+		else:
+			blackbtn = "white"
 
 
 
@@ -285,4 +297,6 @@ def detailed_review(movie_id):
 		production=production,
 		writer=writer,
 		form=form,
-		reviews=reviews)
+		reviews=reviews,
+		whitebtn=whitebtn,
+		blackbtn=blackbtn)
