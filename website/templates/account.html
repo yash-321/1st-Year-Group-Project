@@ -236,34 +236,55 @@
     <div id="myWhitelist" style="overflow-y:auto; height:700px;" class="page hide" data-page="myWhitelist">
         <div class="row">
             <div class="col-12 pt-3">
-                <h1> Liked Films </h1>
-                <hr class="linebreak">
-                {% if whitelist %}
-                  {% for movie in whitelist %}
-                    <div class="movie-card" id="W{{ movie.id }}">
-                      <div class="movie-header" style="background: url({{ movie.poster }})">
-                        <div class="header-icon-container">
-                          <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormW{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your liked movies?')">
+              <h1> Liked Films </h1>
+              <hr class="linebreak">
+              {% if whitelist %}
+                {% for movie in whitelist %}
+                  <div class="movie-card" id="W{{ movie.id }}">
+                    <div class="movie-header" style="background: url({{ movie.poster }})">
+                      <div class="header-icon-container">      
+                        <button type="button" data-toggle="modal" data-target="#deleteMovieW{{ movie.id }}" class="deleteButton">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div><!--movie-header-->
+                    <div class="movie-content">
+                      <div class="movie-content-header">
+                        <a href="/detailedReview/ID={{ movie.movie_id }}">
+                          <h3 class="movie-title">{{ movie.title }}</h3>
+                        </a>
+                      </div>
+                    </div><!--movie-content-->
+                  </div><!--movie-card-->
+
+                  <!-- Delete Movie -->
+                  <div class="modal fade" id="deleteMovieW{{ movie.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalW{{ movie.id }}Title" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteModalW{{ movie.id }}Title">Confirm</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure you want to remove {{ movie.title }} from your liked list?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <form method="post" action="{{ url_for('usersReviews.removeMovie') }}">
                             <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
                             <input type="hidden" name="buttonpressed" id="buttonpressed" value="whitelist">
-                            <button form="removeMovieFormW{{ movie.id }}" class="deleteButton" type="submit">
-                              <i class="fa fa-times" aria-hidden="true"></i>
-                            </button>
+                            <input class="btn btn-danger" type="submit" value="Remove">
                           </form>
                         </div>
-                      </div><!--movie-header-->
-                      <div class="movie-content">
-                        <div class="movie-content-header">
-                          <a href="/detailedReview/ID={{ movie.movie_id }}">
-                            <h3 class="movie-title">{{ movie.title }}</h3>
-                          </a>
-                        </div>
-                      </div><!--movie-content-->
-                    </div><!--movie-card-->
-                  {% endfor %}
-                {% else %}
-                  <h3>There are no movies in your Liked list</h3>
-                {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <h3>There are no movies in your Liked list</h3>
+              {% endif %}
               <hr class="linebreak">
             </div>
         </div>
@@ -271,35 +292,56 @@
     <div id="myBlacklist" style="overflow-y:auto; height:700px;" class="page hide" data-page="myBlacklist">
         <div class="row">
             <div class="col-12 pt-3">
-                <h1> Disliked Films </h1>
-                <hr class="linebreak">
-                {% if blacklist %}
-                  {% for movie in blacklist %}
-                    <div class="movie-card" id="B{{ movie.id }}">
-                      <div class="movie-header" style="background: url({{ movie.poster }})">
-                        <div class="header-icon-container">
-                          <form method="post" action="{{ url_for('usersReviews.removeMovie') }}" id="removeMovieFormB{{ movie.id }}" onsubmit="return confirm('Do you want to remove this movie from your disliked movies?')">
+              <h1> Disliked Films </h1>
+              <hr class="linebreak">
+              {% if blacklist %}
+                {% for movie in blacklist %}
+                  <div class="movie-card" id="B{{ movie.id }}">
+                    <div class="movie-header" style="background: url({{ movie.poster }})">
+                      <div class="header-icon-container">
+                        <button type="button" data-toggle="modal" data-target="#deleteMovieB{{ movie.id }}" class="deleteButton">
+                          <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div><!--movie-header-->
+                    <div class="movie-content">
+                      <div class="movie-content-header">
+                        <a href="/detailedReview/ID={{ movie.movie_id }}">
+                          <h3 class="movie-title">{{ movie.title }}</h3>
+                        </a>
+                      </div>
+                    </div><!--movie-content-->
+                  </div><!--movie-card-->
+
+                  <!-- Delete Movie -->
+                  <div class="modal fade" id="deleteMovieB{{ movie.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalB{{ movie.id }}Title" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteModalB{{ movie.id }}Title">Confirm</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure you want to remove {{ movie.title }} from your disliked list?
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <form method="post" action="{{ url_for('usersReviews.removeMovie') }}">
                             <input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie.movie_id }}">
                             <input type="hidden" name="buttonpressed" id="buttonpressed" value="blacklist">
-                            <button form="removeMovieFormB{{ movie.id }}" class="deleteButton" type="submit">
-                              <i class="fa fa-times" aria-hidden="true"></i>
-                            </button>
+                            <input class="btn btn-danger" type="submit" value="Remove">
                           </form>
                         </div>
-                      </div><!--movie-header-->
-                      <div class="movie-content">
-                        <div class="movie-content-header">
-                          <a href="/detailedReview/ID={{ movie.movie_id }}">
-                            <h3 class="movie-title">{{ movie.title }}</h3>
-                          </a>
-                        </div>
-                      </div><!--movie-content-->
-                    </div><!--movie-card-->
-                  {% endfor %}
-                {% else %}
-                  <h3>There are no movies in your Disliked List</h3>
-                {% endif %}
-<hr class="linebreak">
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% else %}
+                <h3>There are no movies in your Disliked List</h3>
+              {% endif %}
+              <hr class="linebreak">
             </div>
         </div>
     </div>
