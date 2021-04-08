@@ -21,8 +21,10 @@ login_manager.login_message_category = 'info'
 from website.usersReviews.views import usersReviews
 from website.movies.views import movies
 from website.misc.views import misc
+from website.errors.views import errors
 
 app.register_blueprint(usersReviews)
 app.register_blueprint(movies)
 app.register_blueprint(misc)
+app.register_blueprint(errors)
 

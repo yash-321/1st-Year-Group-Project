@@ -23,7 +23,7 @@ def test():
 	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	#     }
 
-	# for i in range(90):
+	# for i in range(120):
 	# 	page_number = str(random.randint(1, 200))
 	# 	year = str(random.randint(1960, 2021))
 
@@ -67,10 +67,7 @@ def test():
 	# 			print(e)
 	# 			break
 			
-	# movies = Movies.query.filter_by(year=2020).all()
-	# movies = Movies.query.limit(7000).offset(46).all()
 	movies = Movies.query.all()
-	# random.shuffle(movies)
 
 	# some statistical analysis which languages are the most common
 	
@@ -83,7 +80,6 @@ def test():
 			else:
 				languages[j] = 1
 
-	# print(language, end=" | ")
 	print(languages)
 
 	print(len(movies))
@@ -139,7 +135,6 @@ def seeMovieReview(page = 1):
 				respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2&page=' + str(pages[i]) 
 				r = requests.get(respString) 
 				dictionary = r.json()
-				print(dictionary)
 				if dictionary['Response'] == 'True':
 					data = dictionary["Search"]
 					for movie in data:
@@ -457,7 +452,6 @@ def suggestMeMovies():
 	movies = Movies.query.limit(check_this_number_of_all_movies_in_db).offset(random_offset).all()
 	random.shuffle(movies)
 
-	print("DB1")
 	for movie in movies:
 		try:
 			valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
@@ -500,7 +494,6 @@ def suggestMeMovies():
 
 	# the code which queries the APIs and check if received movies satisfy the criteria
 	while not found and counter < times:
-		print("API")
 		# check if the connection with the API was made
 		try:
 			response = requests.request("GET", url, headers=headers, params=querystring) #, timeout=5 )
@@ -626,7 +619,7 @@ def suggestMeMovies():
 		random_offset = random.randint(1, length-check_this_number_of_all_movies_in_db)
 		movies = Movies.query.limit(check_this_number_of_all_movies_in_db).offset(random_offset).all()
 		random.shuffle(movies)
-		print("DB2")
+		
 		for movie in movies:
 			try:
 				valid_movie = check_db_for_movie(movie, blacklisted_movies_ids, indices_of_checked_genres,
@@ -669,11 +662,9 @@ def suggestMeMovies():
 		counter += 1
     
 	movies = Movies.query.all()
-	print(len(movies))
 
 	if not found:
 		try:
-			print("DB3")
 			# shuffle the list to avoid getting the same movie as the first all the time
 			random.shuffle(all_movies_in_db)
 
