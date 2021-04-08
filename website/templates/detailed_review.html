@@ -29,6 +29,7 @@
 		margin-top: 0;
 		width: 100%;
 		height: 100%;
+		border-radius: 17px;
 	}
 	#movieDetails, #reviewsSection {
 		background: #DCDCDC;
@@ -54,9 +55,12 @@
 		color: white;
 		background: rgb(46,48,46);
 		margin-top: 5px;
-		border-color: rgb(46,48,46);
 		border: 10px;
 		width: 200px;
+		font-family: 'ProximaNovaBold';
+		src: url(../static/Proxima_Nova_Bold.otf);
+		font-style: normal;
+		font-weight: 100;
 	}
 	/* #movieDetails::-webkit-scrollbar {
 	    width: 5px;
@@ -87,19 +91,38 @@
 		line-height: 1.5;
 		font-size: 40px;
 	}
-	.rating{
-		color:red;
-	}
 	.ltitle{
 		color:#e011c5;
 	}
 	.reviews{
 		font-size: 40px;
 	}
-	#whitelistbtn, #blacklistbtn, #writereviewbtn {
-		border-style: solid;
+	#title {
+		margin-bottom: 5px;
+	}
+	#whitelistbtn, #blacklistbtn{
+		background: rgb(46,48,46);
 		border-color: white;
+		border-style: solid;
 		border-width: 2px;
+		color: white;
+		font-family: 'ProximaNovaBold';
+		src: url(../static/Proxima_Nova_Bold.otf);
+		font-style: normal;
+		font-weight: 100;
+		width: 90%
+	}
+	#writereviewbtn {
+		background: #DCDCDC;
+		border-color: #DCDCDC;
+		border-style: solid;
+		border-width: 2px;
+		color: black;
+		font-family: 'ProximaNovaBold';
+		src: url(../static/Proxima_Nova_Bold.otf);
+		font-style: normal;
+		font-weight: 100;
+		width: 98%;
 	}
 /*======================*/
 </style>
@@ -107,11 +130,10 @@
 	<!-- FILM INFORMATION SECTION-->
 	<div id="mainBody" class="container-fluid p-3">
 		{% if not error_message %}
-			<h3>{{movie_title}} ({{year_of_movie}})</h3>
+			<h3 id="title">{{movie_title}} ({{year_of_movie}})</h3>
 		{% else %}
 			<h2 class="m-2">{{error_message}}</h2>
 		{% endif %}
-		<br>
 		<div class="row">
 			{% if not error_message %}
 			<div class="col-md-3">
@@ -121,7 +143,7 @@
 				<br>
 				<h4>MOVIE INFORMATION</h4>
 				<div style="clear: both;">
-					<span class ='rating'id="rating">Rating: {{imdb_rating}}</span>
+					<span id ="rating">Rating: {{imdb_rating}}</span>
 					<span id="runtime">Duration: {{runtime}}</span>
 				</div>
 				<br> <br>
@@ -169,21 +191,25 @@
 		<div class="row">
 			<div class="col-md-3">
 				<form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
-					<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
-					<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
-					<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
-					<div class="well text-center">
-						<button form="saveMovieForm" type="submit" name="whitelistbtn" style="color: {{whitebtn}}" class="btn btn-primary" id="whitelistbtn">
-							<i class="fa fa-heart" aria-hidden="true"></i>
-						</button>
-						<button form="saveMovieForm" type="submit" name="blacklistbtn" style="color: {{blackbtn}}" class="btn btn-primary" id="blacklistbtn">
-							<i class="fa fa-times" aria-hidden="true"></i>
-						</button>
+	      	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
+	      	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
+	      	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
+					<div class="row">
+						<div class="col-md-3 no-gutters">
+							<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
+			        	<i class="fa fa-heart" aria-hidden="true"></i>
+			      	</button>
+						</div>
+						<div class="col-md-3 no-gutters">
+							<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
+			        	<i class="fa fa-times" aria-hidden="true"></i>
+			      	</button>
+						</div>
+						<div class="col-md-6 no-gutters">
+							<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
+						</div>
 					</div>
-				</form>
-				<div class="well text-center">
-					<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
-				</div>
+	  		</form>
 				<!-- write reviews pop up window -->
 				<form class="form-group form-group-lg" method="POST" action="">
 					{{ form.hidden_tag() }}
@@ -246,7 +272,7 @@
 										<div class="row">
 											<div class="col-md-3">
 												<div class="form-group">
-														{{ form.submit_review(class="btn btn-outline-info")}}
+														{{ form.submit_review(class="btn")}}
 												</div>
 											</div>
 										</div>
