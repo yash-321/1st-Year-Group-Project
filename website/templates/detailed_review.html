@@ -62,17 +62,6 @@
 		font-style: normal;
 		font-weight: 100;
 	}
-	/* #movieDetails::-webkit-scrollbar {
-	    width: 5px;
-	}
-	#movieDetails::-webkit-scrollbar-track {
-	    background: none;
-	}
-	#movieDetails::-webkit-scrollbar-thumb {
-	    background-color: grey;
-	    border-radius: 20px;
-	    border: none;
-	} */
 	span {
 		font-size: 1.3em;
 	}
@@ -110,7 +99,7 @@
 		src: url(../static/Proxima_Nova_Bold.otf);
 		font-style: normal;
 		font-weight: 100;
-		width: 90%
+		width: 70px;
 	}
 	#writereviewbtn {
 		background: #DCDCDC;
@@ -190,26 +179,24 @@
 
 		<div class="row">
 			<div class="col-md-3">
-				<form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
-	      	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
-	      	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
-	      	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
-					<div class="row">
-						<div class="col-md-3 no-gutters">
-							<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
-			        	<i class="fa fa-heart" aria-hidden="true"></i>
-			      	</button>
-						</div>
-						<div class="col-md-3 no-gutters">
-							<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
-			        	<i class="fa fa-times" aria-hidden="true"></i>
-			      	</button>
-						</div>
-						<div class="col-md-6 no-gutters">
-							<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
-						</div>
+				<div class="row">
+					<div class="col-md-6">
+						<form method="post" action="{{ url_for('movies.save_movie') }}" id="saveMovieForm">
+			      	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
+			      	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
+			      	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
+								<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
+				        	<i class="fa fa-heart" aria-hidden="true"></i>
+				      	</button>
+								<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
+				        	<i class="fa fa-times" aria-hidden="true"></i>
+				      	</button>
+			  		</form>
 					</div>
-	  		</form>
+					<div class="col-md-6 no-gutters">
+						<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
+					</div>
+				</div>
 				<!-- write reviews pop up window -->
 				<form class="form-group form-group-lg" method="POST" action="">
 					{{ form.hidden_tag() }}
