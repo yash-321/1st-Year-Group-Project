@@ -1,193 +1,83 @@
 {% extends "base.html" %}
 {% block content %}
 
-	<!-- Link to the animated background -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<!-- Link to the animated background -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
-	<!-- CSS styling, to be moved to static style file -->
-	<style>
-	  html {
-	    height: 100%;
-	    background-image: linear-gradient(to right, white, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
-
-	  }
-	  body{
-	    background: linear-gradient(to bottom right, #F75692 50%, #FF8870 50%); background-repeat: no-repeat; background-size: 100% 100%;
-	    min-height: 100%;
-	  }
-	  #mainBody {
+<style>
+  html {
+    height: 100%;
+    background: linear-gradient(to bottom right, #DF2D8C, #FF8870); background-repeat: no-repeat; background-size: 100% 100%;
+  }
+  body{
+		min-height: 100%;
+		background-image: url("../static/spotifyr1.png"); background-repeat: no-repeat;
+    background-color: #F8F9FA;background-size: 100% 100%;
+  }
+	@font-face {
+    font-family: 'ProximaNovaBold';
+    src: url(../static/Proxima_Nova_Bold.otf);
+    font-style: normal;
+    font-weight: 100;
+  }
+	@keyframes fadein {
+	  from { opacity: 0}
+  	to   { opacity: 1}
+	}
+	#footer{
+    right: 0; bottom: 0; left: 0;
+    width: 100%;
+    height: 218px;
+	}
+	span {
+		font-size: 1.3em;
+	}
+	#updateReviews {
 		margin-top: 20px;
 		margin-bottom: 40px;
 		background-position: center;
 		width: 90%;
 		height: 80%;
-		border-top-right-radius: 10px;
+		animation: fadein 1.5s;
+		background: #DCDCDC;
+		box-shadow: 5px 5px 22px grey;
 		border-top-left-radius: 10px;
 		border-bottom-left-radius: 10px;
+		border-top-right-radius: 10px;
 		border-bottom-right-radius: 10px;
-		animation: fadein 1.5s;
-	  }
-	  .hide {
-	      display: none;
-	  }
-	  .menu {
-	    margin-top: 50px;
-	    list-style: none;
+	}
+	.form-row {
+		margin-left: 30px;
+		margin-top: 30px;
+	}
+	.btn {
+		padding: 10px;
+		color: white;
+		background: rgb(46,48,46);
+		margin-top: 5px;
+		border: 10px;
+		width: 200px;
+		font-family: 'ProximaNovaBold';
+		src: url(../static/Proxima_Nova_Bold.otf);
+		font-style: normal;
+		font-weight: 100;
+	}
+	.input-field {
+		width: 300px;
+	}
+</style>
 
-	  }
-	  #pages {
-	    min-height: 100%;
-	    color: #323232;
-	  }
-	  .container{
-	    margin-top: 50px;
-	    height: 100%;
-
-	  }
-	  .page {
-	    padding-left: 10px; padding-right: 10px;
-	  }
-	  .menu li{
-	    display: inline-block;
-	    padding-left: 10px;
-	  }
-
-	  .row {
-	    background: rgb(255,255,255,0.7);
-	  }
-	  #footer {
-	    right: 0px; bottom: 0px; left: 0px;
-	    width: 100%;
-	    height: 218px;
-	  }
-	  section{
-	    padding-bottom: 218px;
-	  }
-	  label{
-	    display: block;
-	  }
-	  #myReviews, #myWhitelist, #myBlacklist{
-	    max-width: 100%;
-	    overflow-x: hidden;
-	  }
-	  .linebreak{
-	    border-top: 8px solid white;
-	    border-radius: 5px;
-	  }
-
-	/* css for white/blacklist cards */
-	  a {
-	    text-decoration: none;
-	    color: inherit;
-	  }
-
-	  a:hover {
-	    color: #6ABCEA;
-	  }
-
-	  .movie-card {
-	    background: #ffffff;
-	    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
-	    width: 100%;
-	    max-width: 27%;
-	    margin: 2em;
-	    border-radius: 10px;
-	    display: inline-block;
-	  }
-
-	  .movie-header {
-	    padding: 0;
-	    margin: 0;
-	    height: 367px;
-	    width: 100%;
-	    display: block;
-	    border-top-left-radius: 10px;
-	    border-top-right-radius: 10px;
-	  }
-
-	  .header-icon-container {
-	    position: relative;
-	  }
-
-	  .movie-card:hover {
-	    -webkit-transform: scale(1.03);
-	            transform: scale(1.03);
-	    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
-	  }
-
-	  .movie-content {
-	    padding: 18px 18px 24px 18px;
-	    margin: 0;
-	  }
-
-	  .movie-content-header {
-	    width: 100%;
-	    overflow: hidden;
-	  }
-
-	  .movie-title {
-	    font-size: 24px;
-	    margin: 0;
-	    overflow: hidden;
-	    text-overflow: ellipsis;
-	    width: 100%;
-	    white-space: nowrap;
-	  }
-
-	  .fa-times {
-	    color: red;
-	  }
-
-	  .deleteButton {
-	    position: absolute;
-	    top: 0;
-	    right: 0;
-	    background-color: transparent;
-	    background-repeat: no-repeat;
-	    border: none;
-	    margin-right: 5px;
-	  }
-	  .page::-webkit-scrollbar {
-	    width: 5px;
-	  }
-	  .page::-webkit-scrollbar-track {
-	    background: none;
-	  }
-	  .page::-webkit-scrollbar-thumb {
-	    background-color: white;
-	    border-radius: 20px;
-	    border: none;
-	  }
-	  /*styling for form box */
-	  #movieDetails::-webkit-scrollbar {
-	      width: 5px;
-		}
-		#movieDetails::-webkit-scrollbar-track {
-	      background: none;
-		}
-		#movieDetails::-webkit-scrollbar-thumb {
-	      background-color: white;
-	      border-radius: 20px;
-	      border: none;
-		}
-		@keyframes fadein {
-		  from { opacity: 0}
-	  	  to   { opacity: 1}
-		}
-	</style>
-
-
-	<!-- FILM INFORMATION SECTION-->
-	<div id="mainBody" class="container-fluid p-3">
-		<div class="col-md-9" id="movieDetails" style="overflow-y:auto; height: 500px;">
+<div class="container-fluid" id="updateReviews">
+	<div class="row" id="fieldSection" style="overflow-y:auto; height: 500px;">
 		<form class="form-signin" method="POST" action=" ">
 			{{ form.hidden_tag() }}
-			
 				<div class="form-row">
-					<div class="col-lg-7">
-						<div class="w-100 p-3 h-100 d-inline-block">
-							<fieldset class="form-group">
+					<div class="container">
+						<fieldset class="form-group">
+							<div class="row">
 								{{ form.title.label }}
+							</div>
+							<div class="row">
 								{% if form.title.errors %}
 									{{ form.title(class="input-field")}}
 									<div class="invalid-feedback">
@@ -198,17 +88,20 @@
 								{% else %}
 									{{ form.title }}
 								{% endif %}
-							</fieldset>
-						</div>
+							</div>
+						</fieldset>
 					</div>
 				</div>
 
-			<div class="form-row">
-				<div class="col-lg-7">
-			 <div class="input-field">
-				 <fieldset class="form-group">
-							{{ form.content.label}}
-							{% if form.content.errors %}
+				<div class="form-row">
+					<div class="container">
+					 <div class="input-field">
+						 <fieldset class="form-group">
+							 <div class="row">
+								{{ form.content.label}}
+							</div>
+							<div class="row">
+								{% if form.content.errors %}
 									{{ form.content }}
 									<div class="invalid-feedback">
 										{% for error in form.content.errors %}
@@ -218,21 +111,23 @@
 									{% else %}
 										{{ form.content}}
 										{% endif %}
-					</fieldset>
-
+								</div>
+							</fieldset>
+						</div>
+					</div>
 				</div>
-		 <!-- login button -->
-				<div >
-						{{ form.submit_review (class="submit-btn mt-3 mb-5")}}
-			</div>
-		<br>
-	</div>
-	</div>
-	</form>
-	</div>
-	</div>
 
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								{{ form.submit_review (class="submit-btn mt-3 mb-5")}}
+							</div>
+						</div>
+					</div>
+				</div>
+		</form>
+	</div>
+</div>
 
 {% endblock content %}

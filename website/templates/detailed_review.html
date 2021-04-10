@@ -69,7 +69,6 @@
 	  from { opacity: 0}
 	  to   { opacity: 1}
 	}
-/*=====some font style =====*/
 	h4{
 		text-decoration: underline;
 		color: #323232;
@@ -113,7 +112,6 @@
 		font-weight: 100;
 		width: 98%;
 	}
-/*======================*/
 </style>
 
 	<!-- FILM INFORMATION SECTION-->
@@ -197,79 +195,74 @@
 						<button type="submit" name="writereviewbtn" class="btn btn-primary" data-toggle="modal" data-target='#write_reviews' id="writereviewbtn">Write Review</button>
 					</div>
 				</div>
-				<!-- write reviews pop up window -->
-				<form class="form-group form-group-lg" method="POST" action="">
-					{{ form.hidden_tag() }}
-					<div id="write_reviews" class="modal fade">
-						<div class="modal-dialog modal-lg" role="dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title w-100 text-center">{{movie_title}} ({{year_of_movie}})</h4>
-									<button type="button" class="close" data-dismiss="modal">&times;</button>
-								</div>
-								<div class="modal-body">
-									<div class="container">
-									 <div class="row">
-										 <div class="form-group">
-											 <fieldset class="form-group">
-												 <div class="col-md-3">
-												 	{{ form.title.label}}
-												 </div>
-												 <div class="col-md-9">
-													 {% if form.title.errors %}
-														 {{ form.title }}
-														 <div class="invalid-feedback">
-															 {% for error in form.title.errors %}
-															 		<span> {{ error}} </span>
-															 {% endfor %}
-														 </div>
-													 {% else %}
-														 {{ form.title}}
-														 {% endif %}
-												</div>
-											 </fieldset>
-										 </div>
-									 </div>
-								 	</div>
-									<!-- <div class="w-100 p-3 h-100 d-inline-block"> -->
-									<div class="container">
-										<div class="row">
-											<div class="form-group">
-												<fieldset class="form-group" id="exampleFormControlTextarea1" rows="3">
-													<div class="col-md-3">
-														{{ form.content.label}}
-													</div>
-													<div class="col-md-9">
-														{% if form.content.errors %}
-															{{ form.content }}
-															<div class="invalid-feedback">
-																{% for error in form.content.errors %}
-																		<span> {{ error}} </span>
-																{% endfor %}
-															</div>
-														{% else %}
-															{{ form.content}}
-															{% endif %}
-													</div>
-												</fieldset>
-											</div>
-										</div>
-									</div>
-									<div class="container">
-										<div class="row">
-											<div class="col-md-3">
-												<div class="form-group">
-														{{ form.submit_review(class="btn")}}
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div><!-- /.modal-content -->
-						</div><!-- /.modal-dialog -->
-					</div><!-- /.modal -->
-				</form>
 			</div>
+			<!-- write reviews pop up window -->
+			<form class="form-group form-group-lg" method="POST" action="">
+				{{ form.hidden_tag() }}
+				<div id="write_reviews" class="modal fade">
+					<div class="modal-dialog modal-lg" role="dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title w-100 text-center">{{movie_title}} ({{year_of_movie}})</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<div class="container">
+									 <div class="form-group">
+										 <fieldset class="form-group">
+											 <div class="row">
+											 	{{ form.title.label}}
+											 </div>
+											 <div class="row">
+												 {% if form.title.errors %}
+													 {{ form.title }}
+													 <div class="invalid-feedback">
+														 {% for error in form.title.errors %}
+														 		<span> {{ error}} </span>
+														 {% endfor %}
+													 </div>
+												 {% else %}
+													 {{ form.title}}
+													 {% endif %}
+											</div>
+										 </fieldset>
+									 </div>
+							 	</div>
+								<div class="container">
+									<div class="form-group">
+										<fieldset class="form-group" id="exampleFormControlTextarea1" rows="3">
+											<div class="row">
+												{{ form.content.label}}
+											</div>
+											<div class="row">
+												{% if form.content.errors %}
+													{{ form.content }}
+													<div class="invalid-feedback">
+														{% for error in form.content.errors %}
+																<span> {{ error}} </span>
+														{% endfor %}
+													</div>
+												{% else %}
+													{{ form.content}}
+													{% endif %}
+											</div>
+										</fieldset>
+									</div>
+								</div>
+								<div class="container">
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group">
+													{{ form.submit_review(class="btn")}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			</form>
 
 			<!-- REVIEWS SECTION -->
 			<div class="col-md-9 no-gutters">
