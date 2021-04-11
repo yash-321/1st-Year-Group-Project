@@ -191,10 +191,10 @@
 			      	<input type="hidden" name="currentMovieID" id="currentMovieID" value="{{ movie_id }}">
 			      	<input type="hidden" name="currentMovieTitle" id="currentMovieTitle" value="{{ movie_title }}">
 			      	<input type="hidden" name="currentMoviePoster" id="currentMoviePoster" value="{{ poster }}">
-								<button form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
+								<button style="color: {{ whitebtn }}" form="saveMovieForm" type="submit" name="whitelistbtn" class="btn btn-primary" id="whitelistbtn">
 				        	<i class="fa fa-heart" aria-hidden="true"></i>
 				      	</button>
-								<button form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
+								<button style="color: {{ blackbtn }}" form="saveMovieForm" type="submit" name="blacklistbtn" class="btn btn-primary" id="blacklistbtn">
 				        	<i class="fa fa-times" aria-hidden="true"></i>
 				      	</button>
 			  		</form>
