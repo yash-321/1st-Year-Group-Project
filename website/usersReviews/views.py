@@ -128,10 +128,11 @@ def account():
 @login_required
 def delete_review(review_id):
 	review = Review.query.get_or_404(review_id)
-	db.session.delete(review)
-	db.session.commit()
-	flash('Your review has been deleted!', 'success')
-	return redirect(url_for('usersReviews.account'))
+	if current_user.user_id == review.user_id:
+		db.session.delete(review)
+		db.session.commit()
+		flash('Your review has been deleted!', 'success')
+		return redirect(url_for('usersReviews.account'))
 
 
 @usersReviews.route("/removeMovie", methods=['GET', 'POST'])
@@ -157,22 +158,25 @@ def removeMovie():
 def writeReview(review_id):
 	review = Review.query.get_or_404(review_id)
 	form = ReviewForm()
-	if form.validate_on_submit():
+	if form.validate_on_submit() and (current_user.username == review.user_id):
 		review.title = form.title.data
 		review.data = form.content.data
 		db.session.commit()
 		flash('Your review has been updated!', 'success')
 		return redirect(url_for('usersReviews.account', review_id=review_id))
-	elif request.method == 'GET':
+	elif request.method == 'GET' and current_user.username == review.user_id:
 		form.title.data = review.title
 		form.content.data = review.data
+	else:
+		flash('Unauthorized access', 'danger')
+		return redirect(url_for('misc.home'))
 	return render_template('writeReview.html', title='Update Review', form=form)
 
 
 @usersReviews.route("/detailedReview/ID=<movie_id>", methods=['GET', 'POST'])
 def detailed_review(movie_id):
 	reviews = Review.query.filter_by(movie_id=movie_id).all()
-	
+
 
 	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
@@ -264,7 +268,7 @@ def detailed_review(movie_id):
 		flash('Your review has been created!', 'success')
 		return redirect(url_for('misc.home'))
 
-	if current_user.is_authenticated:	
+	if current_user.is_authenticated:
 		user = User.query.filter_by(username=current_user.username).first()
 		if user:
 			white = Whitelist.query.filter_by(movie_id=movie_id, user_id=user.id).first()
