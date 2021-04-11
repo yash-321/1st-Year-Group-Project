@@ -2,7 +2,7 @@
 {% block content %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 <style>
-    @font-face {
+  @font-face {
     font-family: 'ProximaNovaBold';
     src: url(../static/Proxima_Nova_Bold.otf);
     font-style: normal;
@@ -46,6 +46,12 @@
   }
   #myReviews {
     animation: fadein 1.5s;
+  }
+  #myReviews a,p{
+    color: black;
+  }
+  #myReviews a:hover{
+    color: #6ABCEA;
   }
 
   .menu li{
@@ -185,6 +191,9 @@
   @keyframes fadein {
     from { opacity: 0}
     to   { opacity: 1}
+  }
+  footer a,p{
+    color: white;
   }
 
 </style>
