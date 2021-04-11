@@ -72,62 +72,82 @@
 	{% if not error_message %}
 		<div class="row" id="popularReviews">
 		{% for i in range(0,4) %}
-			<div class="col-md-3 no-gutters" id="popularMoviePosters">
-				<div class="card mx-auto">
-					<div class="well text-center">
-						<img src={{posters[i]}} id="poster">
-		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+			{% if not IDs[i] %}
+					
+			{% else %}
+				<div class="col-md-3 no-gutters" id="popularMoviePosters">
+					<div class="card mx-auto">
+						<div class="well text-center">
+							<img src={{posters[i]}} id="poster">
+					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 		<div class="row" id="popularReviews">
 		{% for i in range(4,8) %}
-			<div class="col-md-3 no-gutters" id="popularMoviePosters">
-				<div class="card mx-auto">
-					<div class="well text-center">
-						<img src={{posters[i]}} id="poster">
-		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+			{% if not IDs[i] %}
+					
+			{% else %}
+				<div class="col-md-3 no-gutters" id="popularMoviePosters">
+					<div class="card mx-auto">
+						<div class="well text-center">
+							<img src={{posters[i]}} id="poster">
+					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 		<div class="row" id="popularReviews">
 		{% for i in range(8,12) %}
-			<div class="col-md-3 no-gutters" id="popularMoviePosters">
-				<div class="card mx-auto">
-					<div class="well text-center">
-						<img src={{posters[i]}} id="poster">
-		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+			{% if not IDs[i] %}
+					
+			{% else %}
+				<div class="col-md-3 no-gutters" id="popularMoviePosters">
+					<div class="card mx-auto">
+						<div class="well text-center">
+							<img src={{posters[i]}} id="poster">
+					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 		<div class="row" id="popularReviews">
 		{% for i in range(12,16) %}
-			<div class="col-md-3 no-gutters" id="popularMoviePosters">
-				<div class="card mx-auto">
-					<div class="well text-center">
-						<img src={{posters[i]}} id="poster">
-		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+			{% if not IDs[i] %}
+					
+			{% else %}
+				<div class="col-md-3 no-gutters" id="popularMoviePosters">
+					<div class="card mx-auto">
+						<div class="well text-center">
+							<img src={{posters[i]}} id="poster">
+					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 		<div class="row" id="popularReviews">
 		{% for i in range(16,20) %}
-			<div class="col-md-3 no-gutters" id="popularMoviePosters">
-				<div class="card mx-auto">
-					<div class="well text-center">
-						<img src={{posters[i]}} id="poster">
-		        <a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+			{% if not IDs[i] %}
+				
+			{% else %}
+				<div class="col-md-3 no-gutters" id="popularMoviePosters">
+					<div class="card mx-auto">
+						<div class="well text-center">
+							<img src={{posters[i]}} id="poster">
+					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+						</div>
 					</div>
 				</div>
-			</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 		<br>
@@ -145,6 +165,14 @@
 		{% endif %}
 	{% else %}
     	<h3>{{ error_message }}</h3>
+		{% if not emptySearchBox and page != 1 %}
+			<nav aria-label="Pagination">
+			  <ul class="pagination pagination-lg justify-content-center">
+				<li class="page-item"><a class="page-link" href="/searchMovies/page={{(page-1)|string}}">Previous</a></li>
+		 		<li class="page-item disabled"><a class="page-link" href="/searchMovies/page={{(page+1)|string}}">Next</a></li>
+			  </ul>
+			</nav>
+		{% endif %}
 	{% endif %}
 
 </div>
