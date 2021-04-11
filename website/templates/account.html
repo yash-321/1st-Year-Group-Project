@@ -222,7 +222,7 @@
                 <div>
         					<div class="row">
         						<div class="col-md-4">
-                      <h4><a href="/detailedReview/ID={{review.movie_id}}">{{review.rating}}</a></h4>
+                      <h4><a href="/detailedReview/ID={{review.movie_id}}" style="text-decoration: underline;">{{review.rating}}</a></h4>
                       <h5>{{review.title}}</h5>
         						</div>
         						<div class="col-md-8">
@@ -231,6 +231,7 @@
         					</div>
                   <br>
         					<p>{{review.data}}</p>
+                  <br>
                   <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
                   <a class="btn btn-secondary btn-sm m-1" href="{{url_for('usersReviews.writeReviews', review_id=review.id)}}">Update</a>
 
