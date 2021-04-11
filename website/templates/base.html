@@ -45,13 +45,24 @@
     border-radius: 20px;
     border: none;
   }
+  .navbar a {
+    color: white;
+  }
+  footer a,p{
+    color: white;
+  }
+  
+  a:hover {
+    color: #6ABCEA;
+  }
+
 
 
 </style>
 
 <body>
       <!-- navbar and shared html elements to be inserted here -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <nav class="navbar navbar-expand-md bg-dark sticky-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="{{ url_for('misc.home') }}"><img src="{{url_for('static', filename='logo_w2.png')}}" alt="FILMFLICK" width="150" height="40"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
@@ -101,13 +112,13 @@
     {% block content %}{% endblock %}
 
     <footer>
-      <div class="container-fluid padding bg-light p-3" id="footer">
+      <div class="container-fluid padding bg-dark p-3" id="footer">
         <div class="col-12 text-center">
           <!-- can add the hyperlink for the terms of use and privacy policy to the respective text below -->
           <!-- placeholder links for t&c and policies -->
           <p>While using FILMFLICK, you agree to have read and accepted our <a href="{{ url_for('misc.termOfUse')}}">Terms of Use</a> and <a href="{{ url_for('misc.privacyPolicy')}}">Privacy Policy</a>.</p>
           <p>Data regarding Movies provided by <a href="http://www.omdbapi.com/">OMDB API</a>. All content licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</p>
-          <h6>&copy; FILMFLICK 2020-2021. All Rights Reserved.</h6>
+          <p>&copy; FILMFLICK 2020-2021. All Rights Reserved.</p>
           <p class="font-weight-light">By Group W2</p>
           <hr class="light">
           <a href="#">Return to Top</a>
