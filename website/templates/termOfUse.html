@@ -5,7 +5,15 @@
         <style>
            
               /* Styles for the content section */
-              
+              body {
+                min-height: 100%
+                height: 100vh;
+                background: #FF8870;
+                background-image: url("../static/background2.png");
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-attachment: fixed
+                 }
               .content {
                 width: 77%;
                 margin: 50px auto;
@@ -13,6 +21,8 @@
                 font-size: 17px;
                 color: #010f35fd;
                 line-height: 1.9;
+                background: rgb(105,105,105,0.8);
+                padding: 50px;
               }
               @media (min-width: 500px) {
                 .content {
@@ -24,15 +34,14 @@
               }
               .content h1 {
                 margin-bottom: -10px;
-                color: rgb(1, 39, 12);
+                color: orange;
                 line-height: 1.5;
 
                 font-size: 60px;
               }
               .content h2 {
-                font-style: italic;
-                color: #e011c5;
-                text-shadow: 3px 3px 5px pink;
+                text-decoration: underline;
+                color: white;
               }
 
               #myBtn {
@@ -43,7 +52,7 @@
                 z-index: 99;
                 border: none;
                 outline: none;
-                background-color: #beca10;
+                background-color: orange;
                 color: white;
                 cursor: pointer;
                 padding: 15px;
@@ -58,10 +67,6 @@
                 color: brown;
               }
 
-              body{
-                min-height: 100%;
-                background: linear-gradient(to bottom right, #FF8870 50%, #F75692 50%); background-repeat: no-repeat; background-size: 100% 100%;
-            }
         </style>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
          <link href="https://fonts.googleapis.com/css?family=Merriweather:400,900,900i" rel="stylesheet">

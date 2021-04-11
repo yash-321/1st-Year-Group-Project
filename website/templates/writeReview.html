@@ -49,6 +49,7 @@
 		border-bottom-left-radius: 10px;
 		border-top-right-radius: 10px;
 		border-bottom-right-radius: 10px;
+		height: 100vh;
 	}
 	.form-row {
 		margin-left: 30px;
@@ -67,11 +68,17 @@
 		font-weight: 100;
 	}
 	.input-field {
-		width: 300px;
+		width: 400px;
 	}
+	#footer {
+    	right: 0px; bottom: 0px; left: 0px;
+	    width: 100%;
+	}
+
+
 </style>
 
-<div class="container-fluid" id="updateReviews">
+<div class="container" id="updateReviews">
 	<div class="row" id="fieldSection" style="overflow-y:auto; height: 500px;">
 		<form class="form-signin" method="POST" action=" ">
 			{{ form.hidden_tag() }}
@@ -90,7 +97,7 @@
 										{% endfor %}
 									</div>
 								{% else %}
-									{{ form.title }}
+									{{ form.title(class="input-field") }}
 								{% endif %}
 							</div>
 						</fieldset>
@@ -106,14 +113,14 @@
 							</div>
 							<div class="row">
 								{% if form.content.errors %}
-									{{ form.content }}
+									{{ form.content(class="input-field") }}
 									<div class="invalid-feedback">
 										{% for error in form.content.errors %}
 												<span> {{ error}} </span>
 										{% endfor %}
 									</div>
 									{% else %}
-										{{ form.content}}
+										{{ form.content(class="input-field")}}
 										{% endif %}
 								</div>
 							</fieldset>
@@ -133,5 +140,6 @@
 		</form>
 	</div>
 </div>
+
 
 {% endblock content %}
