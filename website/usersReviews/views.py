@@ -152,9 +152,9 @@ def removeMovie():
 
 
 #reviews routes
-@usersReviews.route("/writeReview/<int:review_id>/update", methods=['GET', 'POST'])
+@usersReviews.route("/writeReview/<int:review_id>", methods=['GET', 'POST'])
 @login_required
-def writeReviews(review_id):
+def writeReview(review_id):
 	review = Review.query.get_or_404(review_id)
 	form = ReviewForm()
 	if form.validate_on_submit():
