@@ -61,7 +61,6 @@
 
   .row {
     background: rgb(255,255,255,0.7);
-     border-radius: 20px;
 
 
   }
@@ -149,6 +148,9 @@
   .fa-times {
     color: red;
   }
+  .row p{
+    color: black;
+  }
 
   .deleteButton {
     position: absolute;
@@ -196,6 +198,7 @@
     color: white;
   }
 
+
 </style>
 <section>
 
@@ -219,13 +222,14 @@
                 <div>
         					<div class="row">
         						<div class="col-md-4">
-        							<h4>{{review.title}}</h4>
-                      <p><a href="/detailedReview/ID={{review.movie_id}}">{{review.rating}}</a></p>
+                      <h4><a href="/detailedReview/ID={{review.movie_id}}">{{review.rating}}</a></h4>
+                      <h5>{{review.title}}</h5>
         						</div>
         						<div class="col-md-8">
         							<small>{{review.date.date()}}</small>
         						</div>
         					</div>
+                  <br>
         					<p>{{review.data}}</p>
                   <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
                   <a class="btn btn-secondary btn-sm m-1" href="{{url_for('usersReviews.writeReviews', review_id=review.id)}}">Update</a>
