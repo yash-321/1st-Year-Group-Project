@@ -6,11 +6,11 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from website.models import User
 
 class RegistrationForm(FlaskForm):
-	username = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)], render_kw={"placeholder": "Min. 5 characters"})
+	username = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)], render_kw={"placeholder": "Min 5 characters"})
 
-	display_name = StringField('Display Name', validators=[DataRequired(), Length(min=3, max=15)], render_kw={"placeholder": "Min. 3 characters"})
+	display_name = StringField('Display Name', validators=[DataRequired(), Length(min=3, max=15)], render_kw={"placeholder": "Min 3 characters"})
 
-	password= PasswordField('Password', validators=[DataRequired(), Length(min=7, max=30)], render_kw={"placeholder": "Min. 7 characters"})
+	password= PasswordField('Password', validators=[DataRequired(), Length(min=7, max=30)], render_kw={"placeholder": "Min 7 characters"})
 
 	confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
 

@@ -215,8 +215,9 @@
         <div class="row">
             <div class="col-12 pt-3">
                 <h1> My Reviews </h1>
-                {% for review in reviews%}
                 <hr class="linebreak">
+                {% if reviews %}
+                {% for review in reviews%}
                 <div>
         					<div class="row">
         						<div class="col-md-4">
@@ -258,6 +259,13 @@
         				</div>
         			{% endfor %}
                 <hr class="linebreak">
+                {% else %}
+                <h3>There are no reviews</h3>
+                <br>
+                <h5>When you write a review, it will appear here! &#9889;</h5>
+                <br>
+              {% endif %}
+
             </div>
         </div>
     </div>
@@ -311,7 +319,7 @@
                   </div>
                 {% endfor %}
               {% else %}
-                <h3>There are no movies in your Liked list</h3>
+                <h3>There are no movies in your Liked list &#127775;</h3>
               {% endif %}
               <hr class="linebreak">
             </div>
@@ -367,7 +375,7 @@
                   </div>
                 {% endfor %}
               {% else %}
-                <h3>There are no movies in your Disliked List</h3>
+                <h3>There are no movies in your Disliked List &#128164;</h3>
               {% endif %}
               <hr class="linebreak">
             </div>
