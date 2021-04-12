@@ -177,7 +177,6 @@ def writeReview(review_id):
 def detailed_review(movie_id):
 	reviews = Review.query.filter_by(movie_id=movie_id).all()
 
-
 	session.pop('movieID', None)
 	# query the API to get the data about a specific movie
 	respString = 'http://www.omdbapi.com/?i=' + movie_id + '&apikey=b3814b2&plot=full'
@@ -250,6 +249,8 @@ def detailed_review(movie_id):
 			writer = None
 	else:
 		error_message = "The movie was not found! Try again!"
+		return render_template('errors/404.html'), 404
+
 
 	#code for reviews
 
@@ -266,7 +267,7 @@ def detailed_review(movie_id):
 		db.session.add(review)
 		db.session.commit()
 		flash('Your review has been created!', 'success')
-		return redirect(url_for('misc.home'))
+		return redirect(f'/detailedReview/ID={movie_id}')
 
 	if current_user.is_authenticated:
 		user = User.query.filter_by(username=current_user.username).first()
