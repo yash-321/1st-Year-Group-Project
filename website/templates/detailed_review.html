@@ -274,12 +274,13 @@
 
 			<!-- REVIEWS SECTION -->
 			<div class="col-md-9 no-gutters">
-				{% if not error_message %}
+				
 				<div class="container-fluid padding" id="reviewsSection">
 					<br>
 					<h4 class='reviews'>REVIEWS</h4>
 					<!-- loop criteria to be replaced with for review in review
 					where the reviews are returned from the DB -->
+					{% if reviews %}
 					{% for review in reviews%}
 						<div>
 							<div class="row">
@@ -295,6 +296,10 @@
 						</div>
 					{% endfor %}
 				</div>
+				{% else %}
+				<br>
+				<h4 style="text-decoration: none;">There are no reviews yet &#128164;</h4>
+				<br>
 				{% endif %}
 			</div>
 		</div>
