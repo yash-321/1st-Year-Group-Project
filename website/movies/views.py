@@ -95,6 +95,7 @@ def seeMovieReview(page = 1):
 	# initialise the required data
 	search_result = ""
 	number_of_movies = 0
+	number_of_received_movies = 0
 	titles = []
 	years = []
 	IDs = []
@@ -142,8 +143,11 @@ def seeMovieReview(page = 1):
 						years.append(movie['Year'])
 						IDs.append(movie['imdbID'])
 						posters.append(movie['Poster'])
+
+					number_of_received_movies = len(IDs)
 				else:
-					error_message = "Try again! None movies were found..."
+					if not IDs:
+						error_message = "Try again! None movies were found..."
 
 		except Exception as e:
 			print(e)
@@ -198,12 +202,12 @@ def seeMovieReview(page = 1):
 		print(e)
 		error_message = "Try again! Invalid page number was provided!"
 
-
 	return render_template(
 		'seeMovieReview.html',
 	 	title='Search Movies',
 	 	search_result=search_result,
 	 	number_of_movies=number_of_movies,
+		number_of_received_movies=number_of_received_movies,
 	 	titles=titles,
 	 	years=years,
 	 	IDs=IDs,

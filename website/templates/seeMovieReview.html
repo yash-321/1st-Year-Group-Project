@@ -155,7 +155,7 @@
 		{% endfor %}
 		</div>
 		<br>
-	  	{% if not emptySearchBox %}
+	  	{% if not emptySearchBox and number_of_received_movies == 20 %}
 			<nav aria-label="Pagination">
 			  <ul class="pagination pagination-lg justify-content-center">
 			  	{% if page == 1 %}
