@@ -9,11 +9,11 @@
 	}
 	body {
   	min-height: 100%;
-	background-image: url("../static/background2.png");
+		background-image: url("../static/background2.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    
+
 	}
 	#searchPage {
 		margin-top: 20px;
@@ -31,9 +31,13 @@
 	}
 	.card {
 		background: white;
-		height:relative;
+		height:445px;
 		width: 95%;
 		margin-top: 20px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		display: block;
 	}
 	#poster{
 		margin-left: 10px;
@@ -73,13 +77,13 @@
 		<div class="row" id="popularReviews">
 		{% for i in range(0,4) %}
 			{% if not IDs[i] %}
-					
+
 			{% else %}
 				<div class="col-md-3 no-gutters" id="popularMoviePosters">
 					<div class="card mx-auto">
 						<div class="well text-center">
 							<img src={{posters[i]}} id="poster">
-					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+								<a href="/detailedReview/ID={{IDs[i]}}"><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 						</div>
 					</div>
 				</div>
@@ -89,13 +93,13 @@
 		<div class="row" id="popularReviews">
 		{% for i in range(4,8) %}
 			{% if not IDs[i] %}
-					
+
 			{% else %}
 				<div class="col-md-3 no-gutters" id="popularMoviePosters">
 					<div class="card mx-auto">
 						<div class="well text-center">
 							<img src={{posters[i]}} id="poster">
-					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+								<a href="/detailedReview/ID={{IDs[i]}}"><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 						</div>
 					</div>
 				</div>
@@ -105,13 +109,13 @@
 		<div class="row" id="popularReviews">
 		{% for i in range(8,12) %}
 			{% if not IDs[i] %}
-					
+
 			{% else %}
 				<div class="col-md-3 no-gutters" id="popularMoviePosters">
 					<div class="card mx-auto">
 						<div class="well text-center">
 							<img src={{posters[i]}} id="poster">
-					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+								<a href="/detailedReview/ID={{IDs[i]}}"><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 						</div>
 					</div>
 				</div>
@@ -121,13 +125,13 @@
 		<div class="row" id="popularReviews">
 		{% for i in range(12,16) %}
 			{% if not IDs[i] %}
-					
+
 			{% else %}
 				<div class="col-md-3 no-gutters" id="popularMoviePosters">
 					<div class="card mx-auto">
 						<div class="well text-center">
 							<img src={{posters[i]}} id="poster">
-					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+								<a href="/detailedReview/ID={{IDs[i]}}"><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
 						</div>
 					</div>
 				</div>
@@ -137,13 +141,13 @@
 		<div class="row" id="popularReviews">
 		{% for i in range(16,20) %}
 			{% if not IDs[i] %}
-				
+
 			{% else %}
 				<div class="col-md-3 no-gutters" id="popularMoviePosters">
 					<div class="card mx-auto">
 						<div class="well text-center">
 							<img src={{posters[i]}} id="poster">
-					<a href="/detailedReview/ID={{IDs[i]}}" id=title><h5>{{ titles[i] }} ({{ years[i] }})</h5></a>
+								<span><a href="/detailedReview/ID={{IDs[i]}}"><h5>{{ titles[i] }} ({{ years[i] }})</h5></a></span>
 						</div>
 					</div>
 				</div>
