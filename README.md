@@ -1,9 +1,5 @@
+#        W2 Team Project - FilmFlick        
 
------------------| READ ME |-----------------
-
-=============================================
-|        W2 Team Project - FilmFlick        |
-=============================================
 ---------------------------------------------
    Contents:
 ---------------------------------------------
@@ -15,7 +11,7 @@
 
 
 ---------------------------------------------
-   1. What is FilmFlick?
+   ### 1. What is FilmFlick?
 ---------------------------------------------
 FilmFlick is a python 3 (3.8) based film suggestion web application achieved via flask.
 It serves to reduce the amount of time individuals spend looking for films to watch.
@@ -31,7 +27,7 @@ FilmFlick also implements a user review system where users can leave reviews on 
 
 
 ---------------------------------------------
-   2. How to install pip3
+ ###  2. How to install pip3
 ---------------------------------------------
 FilmFlick utilises some non-standard python 3.8 packages which need to be installed using pip3.
 In the instance where you're unsure if your device has pip3 installed, please continue following this section.
@@ -49,7 +45,7 @@ For Linux Package Manager:      https://packaging.python.org/guides/installing-u
 
 
 ---------------------------------------------
-   3. How to install the required libraries
+ ### 3. How to install the required libraries
 ---------------------------------------------
 For your convenience, we have provided a requirement.txt file which details the necessary libraries and their versions.
 In you terminal within the root directory of the application (the one with main.py), please enter the following to install the required libraries: 
@@ -58,7 +54,7 @@ pip install -r ./requirements.txt
 
 
 ---------------------------------------------
-   4. How to run the server
+  ### 4. How to run the server
 ---------------------------------------------
 FilmFlick runs off of a flask server.
 To start up the server please run "main.py" from the terminal located in the root directory of the application with
@@ -72,7 +68,7 @@ When you wish to stop the server, simply press "ctrl + c" on the respective term
 
 
 ---------------------------------------------
-5. FilmFlick's Database
+### 5. FilmFlick's Database
 ---------------------------------------------
 FilmFlick's movie database consists of access to two external APIs and a local cache of films (All content licensed under CC BY-NC 4.0 via the OMDB API).
 Due to this local cache of films, the database must remain intact with the rest of the application for the sake of functionality of the site.
