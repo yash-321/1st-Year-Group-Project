@@ -1,1 +1,0 @@
-#to contain functions related to the user system or the reviews
