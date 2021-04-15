@@ -16,74 +16,7 @@ app.permanent_session_lifetime = timedelta(minutes=10)
 
 @movies.route("/test/", methods=['GET', 'POST'])
 def test():
-	# url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
 	
-	# headers = {
-	#     'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
-	#     'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
-	#     }
-
-	# for i in range(120):
-	# 	page_number = str(random.randint(1, 200))
-	# 	year = str(random.randint(1960, 2021))
-
-	# 	querystring = {"type":"get-popular-movies","page":page_number,"year":year}
-
-	# 	response = requests.request("GET", url, headers=headers, params=querystring)
-	# 	data = response.json()
-
-	# 	for i in range(20):
-	# 		try:
-	# 			id = data["movie_results"][i]["imdb_id"]
-
-	# 			respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=8b30e630&plot=full'
-	# 			# respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=75611eae&plot=full'
-	# 			r = requests.get(respString) 
-	# 			dictionary = r.json()
-	# 			print(dictionary)
-
-	# 			title = dictionary["Title"]
-	# 			imdb_rating = dictionary["imdbRating"]
-	# 			poster_url = dictionary["Poster"].strip()
-	# 			genres = dictionary["Genre"]
-	# 			year = dictionary["Year"]
-	# 			plot = dictionary["Plot"]
-	# 			actors = dictionary["Actors"]
-	# 			directors = dictionary["Director"]
-	# 			runtime = dictionary["Runtime"]
-	# 			language = dictionary["Language"]
-	# 			awards = dictionary["Awards"].strip()
-
-	# 			check_not_in_db = Movies.query.filter_by(movie_id=id).first()
-				
-	# 			if not check_not_in_db:
-	# 				movie = Movies(movie_id=id, title=title, rating=imdb_rating, poster=poster_url, genres=genres,
-	# 							year=year, plot=plot, actors=actors, directors=directors, runtime=runtime,
-	# 							language=language, awards=awards)
-				
-	# 			db.session.add(movie)
-	# 			db.session.commit()
-	# 		except Exception as e:
-	# 			print(e)
-	# 			break
-			
-	movies = Movies.query.all()
-
-	# some statistical analysis which languages are the most common
-	
-	languages = dict()
-	for i in movies:
-		language = i.language.split(", ")
-		for j in language:
-			if j in languages:
-				languages[j] += 1
-			else:
-				languages[j] = 1
-
-	print(languages)
-
-	print(len(movies))
-
 	return render_template(
 		'test.html',
 	 	title='TEST')
@@ -150,7 +83,6 @@ def seeMovieReview(page = 1):
 						error_message = "Try again! None movies were found..."
 
 		except Exception as e:
-			print(e)
 			error_message = "Try again! None movies were found..."
 	else:
 		try:
@@ -186,20 +118,18 @@ def seeMovieReview(page = 1):
 						found_movies = True
 				
 				except Exception as e:
-					print(e)
+					pass
 
 				counter += 1
 
 		except Exception as e:
 			error_message = "Try again! None movies were found..."
-			print(e)
 
 
 	# validate if page data type is not a string
 	try:
 		page = int(page)
 	except Exception as e:
-		print(e)
 		error_message = "Try again! Invalid page number was provided!"
 
 	return render_template(
@@ -415,15 +345,14 @@ def suggestMeMovies():
 	# data required to call the first API
 	url = "https://movies-tvshows-data-imdb.p.rapidapi.com/"
 
-	querystring = {"type": "get-random-movies", "page": "1"}
+	querystring = {"type":"get-random-movies","page":"1"}
 
 	headers = {
-		'x-rapidapi-key': "4cb114e391msh37a075783e37650p16a360jsn2423cdf1eec9",
+		'x-rapidapi-key': "110f5afe37mshd500016af18f7dfp1d8f77jsn203c1360164e",
 		'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	}
 
 	movies = Movies.query.all()
-	print(len(movies))
 
 	number_of_checked_genres_boxes = len(indices_of_checked_genres)
 	number_of_checked_ranges_of_years_boxes = len(indices_of_checked_ranges_of_years)
@@ -431,7 +360,7 @@ def suggestMeMovies():
 	found = False
 
 	# determine how many films should the algorithm check (if times = 1, then 20 are checked)
-	counter, times = 0, 3
+	counter, times = 0, 2
 
 	# set default values if a required movie was not found
 	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = awards = id = None
@@ -493,7 +422,7 @@ def suggestMeMovies():
 				awards = movie.awards
 				break
 		except Exception as e:
-			print(e)
+			pass
 
 
 	# the code which queries the APIs and check if received movies satisfy the criteria
@@ -501,9 +430,8 @@ def suggestMeMovies():
 		# check if the connection with the API was made
 		try:
 			response = requests.request("GET", url, headers=headers, params=querystring) #, timeout=5 )
-			data = response.json()
+			data = response.json() 
 		except Exception as e:
-			print(e)
 			counter += 1
 			continue
 
@@ -518,7 +446,6 @@ def suggestMeMovies():
 				copy_of_indices_of_checked_genres = indices_of_checked_genres.copy()
 				
 				id = movie["imdb_id"]
-				
 				# check if that movie is not in the blacklist
 				# if it is, then skip this movie
 				if blacklisted_movies_ids:
@@ -616,7 +543,6 @@ def suggestMeMovies():
 				i += 1
 
 			except Exception as e:
-				print(e)
 				i += 1
 
 		check_this_number_of_all_movies_in_db = 20
@@ -661,7 +587,7 @@ def suggestMeMovies():
 					awards = movie.awards
 					break
 			except Exception as e:
-				print(e)
+				pass
 
 		counter += 1
     
@@ -711,7 +637,7 @@ def suggestMeMovies():
 					break
 
 		except Exception as e:
-			print(e)
+			pass
 
 	if not found:
 		error_message = "Please try again!"
