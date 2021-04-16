@@ -14,14 +14,6 @@ app.secret_key = "df78sf845s65fsf9sd5f2fg13513sdfsa"
 app.permanent_session_lifetime = timedelta(minutes=10)
 
 
-@movies.route("/test/", methods=['GET', 'POST'])
-def test():
-	
-	return render_template(
-		'test.html',
-	 	title='TEST')
-
-
 @movies.route("/searchMovies/", methods=['GET', 'POST'])
 @movies.route("/searchMovies/page=<page>", methods=['GET', 'POST'])
 def seeMovieReview(page = 1):
