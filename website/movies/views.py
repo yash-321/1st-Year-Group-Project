@@ -352,7 +352,7 @@ def suggestMeMovies():
 	found = False
 
 	# determine how many films should the algorithm check (if times = 1, then 20 are checked)
-	counter, times = 0, 2
+	counter, times = 0, 0
 
 	# set default values if a required movie was not found
 	imdb_rating = poster_url = movie_title = genres = year_of_movie = plot = actors = directors = runtime = trailer = language = awards = id = None
