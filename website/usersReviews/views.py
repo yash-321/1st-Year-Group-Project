@@ -128,11 +128,10 @@ def account():
 @login_required
 def delete_review(review_id):
 	review = Review.query.get_or_404(review_id)
-	if current_user.user_id == review.user_id:
-		db.session.delete(review)
-		db.session.commit()
-		flash('Your review has been deleted!', 'success')
-		return redirect(url_for('usersReviews.account'))
+	db.session.delete(review)
+	db.session.commit()
+	flash('Your review has been deleted!', 'success')
+	return redirect(url_for('usersReviews.account'))
 
 
 @usersReviews.route("/removeMovie", methods=['GET', 'POST'])
