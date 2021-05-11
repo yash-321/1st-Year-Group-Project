@@ -57,8 +57,9 @@ def seeMovieReview(page = 1):
 
 			search_result = session["search"]
 
+			api_key = ""
 			for i in range(2):
-				respString = 'http://www.omdbapi.com/?s=' + search_result + '&apikey=b3814b2&page=' + str(pages[i]) 
+				respString = 'http://www.omdbapi.com/?s=' + search_result + api_key + str(pages[i]) 
 				r = requests.get(respString) 
 				dictionary = r.json()
 				if dictionary['Response'] == 'True':
@@ -340,7 +341,7 @@ def suggestMeMovies():
 	querystring = {"type":"get-random-movies","page":"1"}
 
 	headers = {
-		'x-rapidapi-key': "110f5afe37mshd500016af18f7dfp1d8f77jsn203c1360164e",
+		'x-rapidapi-key': "",
 		'x-rapidapi-host': "movies-tvshows-data-imdb.p.rapidapi.com"
 	}
 
@@ -477,7 +478,8 @@ def suggestMeMovies():
 					trailer = "https://www.youtube.com/embed/" + trailer
 
 				# if genres and years met the criteria, then the rating is checked using the OMDB API
-				respString = 'http://www.omdbapi.com/?i=' + id + '&apikey=b3814b2&plot=full' 
+				api_key = ""
+				respString = 'http://www.omdbapi.com/?i=' + id + api_key
 				r = requests.get(respString) #, timeout=1)
 				dictionary = r.json()
 
